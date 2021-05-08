@@ -1,0 +1,20 @@
+/* Write all your custom styles here */
+
+.btn.btn-themex {
+    height: 54px;
+    min-width: 150px;
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    background: #6422a6;
+    transition: all ease 0.4s;
+}
+
+.btn.btn-themex:focus,
+.btn.btn-themex:hover {
+    color: #fff;
+    background: #122944;
+}
