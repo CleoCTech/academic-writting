@@ -28,11 +28,10 @@
                             @if ($varView=="")
                             @livewire('order.place-order')
                             @elseif($varView=="step2")
-                            @livewire('order.writter-offers')
-                            @elseif($varView=="step3")
-                            @livewire('order.check-order')
-                            @elseif($varView=="step4")
-                            @livewire('order.billing')
+                            @elseif($varView=="auth")
+                            @livewire('order.auth')
+                            @elseif($varView=="success")
+                            @livewire('order.success')
                             @endif
                         </div>
                     </div>

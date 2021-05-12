@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
+Route::post('upload', [App\Http\Controllers\UploadController::class, 'store']);
 Route::get('/', Home::class);
 Route::get('/order', Order::class);
 

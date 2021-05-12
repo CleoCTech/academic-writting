@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaperCategoriesTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreatePaperCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('paper_categories', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('subject');
+            $table->string('email')->unique();
+            $table->string('username');
+            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreatePaperCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paper_categories');
+        Schema::dropIfExists('clients');
     }
 }

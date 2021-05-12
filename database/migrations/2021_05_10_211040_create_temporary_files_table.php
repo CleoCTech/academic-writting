@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaperCategoriesTable extends Migration
+class CreateTemporaryFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePaperCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('paper_categories', function (Blueprint $table) {
+        Schema::create('temporary_files', function (Blueprint $table) {
             $table->id();
-            $table->string('subject');
+            $table->string('folder');
+            $table->string('filename');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreatePaperCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paper_categories');
+        Schema::dropIfExists('temporary_files');
     }
 }
