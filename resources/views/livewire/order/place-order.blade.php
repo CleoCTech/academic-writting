@@ -80,12 +80,12 @@
 
         <p>Add Files</p>
         <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="custom-file">
-                    {{-- <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" /> --}}
-                    <input type="file" ame="paperFile"  id="test">
 
-                </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <input type="file" name="paperFile"  id="test" multiple>
+                {{-- <div class="custom-file">
+                    <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
+                </div> --}}
             </div>
         </div>
         <hr>

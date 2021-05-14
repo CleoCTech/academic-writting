@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Order;
 
+use App\Events\ClientHasRegisteredEvent;
 use App\Models\Client;
 use App\Traits\SendAlerts;
 use Livewire\Component;
@@ -99,6 +100,7 @@ class Auth extends Component
             'password'=>$hash_pass,
         ]);
         $this->storeInSession($client->id);
+        event( new ClientHasRegisteredEvent($client));
         $this->emitUp('update_varView', 'success');
 
       }elseif ($this->option2) {

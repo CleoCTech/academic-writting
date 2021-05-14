@@ -28,6 +28,8 @@ class PlaceOrder extends Component
 
     public function mount()
     {
+        session()->forget('files');
+        // Session::forget('files');
         $this->categories = PaperCategory::all();
     }
     public function store()
