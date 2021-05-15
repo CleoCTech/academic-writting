@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Order;
 
 use App\Events\ClientHasRegisteredEvent;
+use App\Events\ClientHasLoggedInEvent;
 use App\Models\Client;
 use App\Traits\SendAlerts;
 use Livewire\Component;
@@ -66,9 +67,11 @@ class Auth extends Component
     public function AutheniticateExistingUser($email, $password)
     {
         try {
-            $user = Client::with('client', '=', $email)->firstOrFail();
+            $user = Client::where('email', $email)->firstOrFail();
             if (!Hash::check($password, $user->password)) {
                 session()->flash('message', 'Authentication Failed');
+                return false;
+            }else{
                 return true;
             }
         } catch (Exception $th) {
@@ -109,7 +112,10 @@ class Auth extends Component
         if (!$this->AutheniticateExistingUser($this->auth_email, $this->auth_pass)) {
             return;
         }
+        // $this->storeData('AuthClient', 'email', $this->email);
+        // $this->storeData('AuthClient', 'password', $this->password);
         $this->emitUp('update_varView', 'success');
+        event( new ClientHasLoggedInEvent($this->auth_email, $this->auth_pass));
 
       }
 

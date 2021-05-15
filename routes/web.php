@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Client\Dashboard;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
 Route::get('/', Home::class);
 Route::get('/order', Order::class);
+Route::get('/client/dashboard', Dashboard::class);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

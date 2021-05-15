@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ClientHasLoggedInEvent;
 use App\Events\ClientHasRegisteredEvent;
 use App\Events\OrderRegisteredEvent;
+use App\Listeners\AuthClientListener;
 use App\Listeners\CreateOrderListener;
 use App\Listeners\StoreFilesListener;
 use Illuminate\Auth\Events\Registered;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderRegisteredEvent::class => [
             StoreFilesListener::class,
+        ],
+        ClientHasLoggedInEvent::class => [
+            AuthClientListener::class,
         ],
     ];
 
