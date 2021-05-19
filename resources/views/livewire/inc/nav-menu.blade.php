@@ -27,12 +27,12 @@
                                     </a>
                                 </li>
                                 <li class="add-listing dark-bg">
-                                    <a href="#" data-toggle="modal" data-target="#login" >
+                                    <a href="{{route('client-login')}}" >
                                         <i class="ti-user mr-1"></i> Sign in
                                     </a>
                                 </li>
                                 <li class="add-listing dark-bg">
-                                    <a href="/order" data-target="#login" >
+                                    <a href="/order"  >
                                         <i class="ti-user mr-1"></i> Order Now
                                     </a>
                                 </li>

@@ -3,6 +3,7 @@
 use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\Job;
 use App\Http\Livewire\Client\ClientAuthentication;
+use App\Http\Livewire\Client\ClientLogout;
 use App\Http\Livewire\Client\Dashboard;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
@@ -25,14 +26,21 @@ use Illuminate\Support\Facades\Route;
 Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
 Route::get('/', Home::class);
 Route::get('/order', Order::class);
-Route::get('/client/login', ClientAuthentication::class);
 
 
+// Route::middleware(['AuthCheck', 'second'])->group(function () {
 
+// });
+Route::group(['middleware' => ['AuthCheck']], function(){
+    Route::get('/client/login', ClientAuthentication::class);
+    Route::get('/client/logout', ClientLogout::class)->name('client-logout');
+    Route::get('/client/dashboard', Dashboard::class);
+
+});
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return view('dashboard');
 // })->name('dashboard');
-Route::get('/client/dashboard', Dashboard::class);
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     // Route::get('/client/dashboard', Dashboard::class);
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin-dashboard');

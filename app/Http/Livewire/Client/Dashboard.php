@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client;
 
+use App\Models\Client;
 use App\Models\Order;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
@@ -28,6 +29,8 @@ class Dashboard extends Component
     }
     public function render()
     {
+        // $client = Client::where('id', session()->get('LoggedClient'))->first();
+        // dd($client);
         $orders = collect(Order::search($this->searchKeyword)->with('order')->where('client_id', session()->get('LoggedClient'))->get());
         // dd($orders);
         // $orders = collect(Order::with('order')->where('client_id', 14)->get());

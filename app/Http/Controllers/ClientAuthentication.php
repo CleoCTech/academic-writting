@@ -8,8 +8,9 @@ class ClientAuthentication extends Controller
 {
     //
 
-    public function index()
+    public function logout()
     {
-        return view();
+        session()->forget('LoggedClient');
+        return redirect('client/login');
     }
 }
