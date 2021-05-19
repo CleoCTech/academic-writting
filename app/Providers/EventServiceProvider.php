@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\ClientAuthSuccessEvent;
 use App\Events\ClientHasLoggedInEvent;
 use App\Events\ClientHasRegisteredEvent;
 use App\Events\OrderRegisteredEvent;
@@ -32,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ClientHasLoggedInEvent::class => [
             AuthClientListener::class,
+        ],
+        ClientAuthSuccessEvent::class => [
+            CreateOrderListener::class,
         ],
     ];
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Client;
+namespace App\Http\Livewire\Admin;
 
 use App\Models\Order;
+use Livewire\Component;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
-use Livewire\Component;
 
-class Dashboard extends Component
+class AdminDashboard extends Component
 {
     use LayoutTrait;
     use AdminPropertiesTrait;
@@ -20,27 +20,24 @@ class Dashboard extends Component
 
     public function updateVarView($varValue)
     {
+        $this->resetFields();
         $this->varView=$varValue;
     }
     public function mount()
     {
-        $this->varView;
+        $this->varView='home';
     }
     public function render()
     {
-        $orders = collect(Order::search($this->searchKeyword)->with('order')->where('client_id', session()->get('LoggedClient'))->get());
-        // dd($orders);
-        // $orders = collect(Order::with('order')->where('client_id', 14)->get());
-        $pending_orders = $orders->where('status', 'Pending');
-        // dd($pending_orders);
-        $others = $orders->whereNotIn('status', 'Pending');
+        $orders = collect(Order::search($this->searchKeyword)->with('order')->get());
+        $progress_orders = $orders->where('status', 'In progress');
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "order_no",'colCaption' => 'Order ID', 'type' => 'text', 'element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => true, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "client_id",'colCaption' => 'Client', 'type' => 'text', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => false,'isSearch' => true],
             ['colName' => "subject_id",'colCaption' => 'Subject', 'type' => 'text', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => false,'isSearch' => false],
             ['colName' => "subject",'colCaption' => 'Subject', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true, 'isRelationship' => true,'relName' => 'category','isSearch' => true],
-            ['colName' => "topic",'colCaption' => 'Topic', 'type' => 'text', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => true, 'isView' => false,'isSearch' => true],
+            ['colName' => "topic",'colCaption' => 'Topic', 'type' => 'text', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => false,'isSearch' => true],
             ['colName' => "pages",'colCaption' => 'Pages', 'type' => 'text', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => false,'isSearch' => true],
             ['colName' => "deadline_date",'colCaption' => 'Deadline Date', 'type' => 'date', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => true,'isSearch' => true],
             ['colName' => "deadline_time",'colCaption' => 'Deadline Time', 'type' => 'time', 'element' => 'input', 'isEdit' => true,'isCreate' => true, 'isList' => false, 'isView' => true,'isSearch' => true],
@@ -49,20 +46,14 @@ class Dashboard extends Component
             ['colName' => "updated_at",'colCaption' => 'Date Updated', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => false, 'isView' => true,'isSearch' => true],
 
         ];
-        // dd($pending_orders); ->with(['pending_orders'=>$pending_orders, 'others'=>$others])
+
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.client.dashboard')->with(['pending_orders'=>$pending_orders, 'others'=>$others])->layout('layouts.client');
+        return view('livewire.admin.admin-dashboard')->with(['progress_orders'=>$progress_orders, 'orders'=>$orders])->layout('layouts.client');
     }
-    public function home()
+    public function jobs()
     {
         $this->resetFields();
-        $this->varView='home';
-    }
-    public function chat($value)
-    {
-        $this->resetFields();
-        session()->put('orderId', $value);
-        $this->varView='chat';
+        $this->varView='jobs';
     }
     public function resetFields()
     {

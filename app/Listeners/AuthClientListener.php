@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ClientAuthSuccessEvent;
 use App\Models\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,7 +18,8 @@ class AuthClientListener
         $client = Client::where('email', $event->email)->first();
         if ($client) {
             session()->push('LoggedClient', $client->id);
-            return redirect('client/dashboard');
+            event( new ClientAuthSuccessEvent($client));
+            // return redirect('client/dashboard');
         }else{
             dd('not found');
         }

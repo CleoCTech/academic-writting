@@ -6,8 +6,16 @@ use Livewire\Component;
 
 class Aside extends Component
 {
+
+
     public function render()
     {
         return view('livewire.admin.inc.aside');
     }
+    public function jobs()
+    {
+        // dd("jobs");
+        $this->emitUp('update_varView', 'jobs');
+    }
+
 }

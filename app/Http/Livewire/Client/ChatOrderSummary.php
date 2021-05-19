@@ -12,12 +12,11 @@ class ChatOrderSummary extends Component
     public $orderDetails=[];
     public function back()
     {
-        $this->emitUp('update_varView', 'home');
+        $this->emitUp('update_varView', '');
     }
     public function mount()
     {
         $this->orderId = session()->get('orderId');
-        // dd($this->orderId);
         $this->orderDetails = Order::where('order_no', $this->orderId)->first();
     }
     public function render()

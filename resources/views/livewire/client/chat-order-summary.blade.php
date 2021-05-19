@@ -8,10 +8,19 @@
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
+                @auth
+                <h1 class="text-dark fw-bolder my-1 fs-2">
+                    Send Invoice
+                    <small class="text-muted fs-6 fw-normal ms-1"></small>
+                </h1>
+                @endauth
+                @guest
                 <h1 class="text-dark fw-bolder my-1 fs-2">
                     Invoice Inquiry
                     <small class="text-muted fs-6 fw-normal ms-1"></small>
                 </h1>
+                @endguest
+
                 <!--end::Title-->
             </div>
             <!--end::Info-->
@@ -125,7 +134,7 @@
                                     <div class=" flex-column">
                                         <a  class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-3">Order Description</a>
                                     </div>
-                                    <textarea name="" class="form-group" id="" cols="40" rows="10" value="">{{$orderDetails->instructions}}</textarea>
+                                    <textarea class="form-control" rows="3" id="body" {{Auth::user()!=null? 'disabled':''}} >{{$orderDetails->instructions}}</textarea>
                                 </div>
                             </div>
                             <div class="flex-stack mb-9">
@@ -143,7 +152,10 @@
                                         <span aria-hidden="true">&times;</span>
                                       </button>
                                 </div>
+                                @guest
                                 <button class="btn btn-info"> Add Files</button>
+                                @endguest
+
                             </div>
                             <!--end:User-->
 
@@ -175,6 +187,16 @@
                             <!--end::Aside Mobile Toggle-->
                         </div>
                         <div class="flex-grow-1">
+                            @auth
+                            <div class="text-gray-600 fw-bolder fs-6">
+                                {{ Auth::user()->name }}
+                            </div>
+                            <div>
+                                <span class="badge badge-dot badge-primary"></span>
+                                <span class="fw-bold text-muted fs-7">Active</span>
+                            </div>
+                            @endauth
+                            @guest
                             <div class="text-gray-600 fw-bolder fs-6">
                                 Admin
                             </div>
@@ -182,6 +204,8 @@
                                 <span class="badge badge-dot badge-primary"></span>
                                 <span class="fw-bold text-muted fs-7">Active</span>
                             </div>
+                            @endguest
+
                         </div>
                     </div>
                     <!--end::Header-->
@@ -198,7 +222,13 @@
                                     <a href="http://">{{$orderDetails->order_no}}</a>
                                 </div>
                                 <div class="col-md-6 align-items-end text-end">
+                                    @guest
                                     <a href="#" class="btn btn-primary" id="kt_toolbar_primary_button">Confirm Invoice</a>
+                                    @endguest
+                                    @auth
+                                    <x-jet-input></x-jet-input>
+                                    <a href="#" ><x-jet-button>Send Invoice</x-jet-button></a>
+                                    @endauth
                                 </div>
                              </div>
                              <hr>

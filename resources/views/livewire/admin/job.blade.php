@@ -1,6 +1,5 @@
 <div>
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day --}}
-
+    {{-- Nothing in the world is as soft and yielding as water. --}}
     @if ($varView == '')
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Toolbar-->
@@ -17,11 +16,11 @@
                 </div>
                 <!--end::Info-->
                 <!--begin::Actions-->
-                {{-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+                <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                     <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target"
                         id="kt_toolbar_primary_button">Add a
                         Writer</a>
-                </div> --}}
+                </div>
                 <!--end::Actions-->
             </div>
         </div>

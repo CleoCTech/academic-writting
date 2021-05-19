@@ -34,6 +34,7 @@ class StoreFilesListener
 
         }
         session()->forget('files');
+        return redirect('client/dashboard');
         // dd('End');
 
     }

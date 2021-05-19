@@ -22,6 +22,7 @@
         <!--begin::Global Stylesheets Bundle(used by all pages)-->
         <link href="{{ asset('dash-assets/plugins/quill/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('dash-assets/css/main.bundle.css') }}" rel="stylesheet" type="text/css" />
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         <!--end::Global Stylesheets Bundle-->
 
         {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script> --}}
@@ -43,6 +44,7 @@
                 <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                     <!--begin::Header-->
                     @livewire('admin.inc.header')
+                   
                     <!--end::Header-->
                     <!--begin::Content-->
                     <main>
