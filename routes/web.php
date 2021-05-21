@@ -32,7 +32,7 @@ Route::get('/order', Order::class);
 
 // });
 Route::group(['middleware' => ['AuthCheck']], function(){
-    Route::get('/client/login', ClientAuthentication::class);
+    Route::get('/client/login', ClientAuthentication::class)->name('client-login');
     Route::get('/client/logout', ClientLogout::class)->name('client-logout');
     Route::get('/client/dashboard', Dashboard::class);
 

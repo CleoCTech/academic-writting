@@ -35,6 +35,6 @@ class Order extends Model
      */
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class, 'client_id', 'id');
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 }

@@ -134,7 +134,7 @@
                                     <div class=" flex-column">
                                         <a  class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-3">Order Description</a>
                                     </div>
-                                    <textarea class="form-control" rows="3" id="body" {{Auth::user()!=null? 'disabled':''}} >{{$orderDetails->instructions}}</textarea>
+                                    <textarea class="form-control" rows="5" id="body" {{Auth::user()!=null? 'disabled':''}} >{{$orderDetails->instructions}}</textarea>
                                 </div>
                             </div>
                             <div class="flex-stack mb-9">
@@ -211,31 +211,33 @@
                     <!--end::Header-->
                     <!--begin::Body-->
                     <div class="card-body px-9">
+                        <div class="row mt-0" >
+                            <div class="col-md-6 mt-3">
+                                <a href="http://">{{$orderDetails->order_no}}</a>
+                            </div>
+                            <div class="col-md-6 align-items-end text-end">
+                                @guest
+                                <a href="#" ><x-jet-button>Confirm Invoice</x-jet-button></a>
+                                @endguest
+                                @auth
+                                <x-jet-input></x-jet-input>
+                                <a href="#" ><x-jet-button>Send Invoice</x-jet-button></a>
+                                @endauth
+                            </div>
+                         </div>
                         <!--begin::Scroll-->
                         <div class="scroll-y me-lg-n6 pe-lg-5" data-kt-scroll="true"
                             data-kt-scroll-height="{'default' : '400px', 'lg' : 'auto'}"
                             data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_chat_content_header, #kt_chat_content_footer"
                             data-kt-scroll-wrappers="#kt_content, #kt_wrapper"
-                            data-kt-scroll-offset="{'default' : '10px', 'lg' : '52px'}" style="height: 589px">
-                             <div class="row mt-0" >
-                                <div class="col-md-6 mt-3">
-                                    <a href="http://">{{$orderDetails->order_no}}</a>
-                                </div>
-                                <div class="col-md-6 align-items-end text-end">
-                                    @guest
-                                    <a href="#" class="btn btn-primary" id="kt_toolbar_primary_button">Confirm Invoice</a>
-                                    @endguest
-                                    @auth
-                                    <x-jet-input></x-jet-input>
-                                    <a href="#" ><x-jet-button>Send Invoice</x-jet-button></a>
-                                    @endauth
-                                </div>
-                             </div>
+                            data-kt-scroll-offset="{'default' : '10px', 'lg' : '52px'}" style="height: 589px" >
+
                              <hr>
                             <!--begin::Messages-->
-                            <div class="messages">
-                                <!--begin::Message In-->
-                                <div class="d-flex flex-column mb-5 align-items-start">
+                            <div wire:poll class="messages"  wire:model.defer='messages'>
+                                @auth
+                                @foreach ($messages as $message)
+                                <div class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
                                     <div class="d-flex align-items-center">
                                         <!--begin::Symbol-->
                                         <div class="symbol symbol-40px flex-shrink-0 me-4">
@@ -244,60 +246,40 @@
                                             </span>
                                         </div>
                                         <!--end::Symbol-->
-                                        <div class="d-flex flex-column">
-                                            <a href="#" class="text-gray-600 text-hover-primary fw-bolder">Ja Morant</a>
-                                            <span class="text-muted fw-bold fs-7">2 Months ago</span>
+                                        <div class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
+                                            <a href="#" class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == Auth::user()->id) ? 'You' : $orderDetails->order->username }}</a>
+                                            <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
                                         </div>
                                     </div>
-                                    <div class="rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px">
-                                        Outlines keep you honest. They stop you from
-                                        indulging in poorly of your post
+                                    <div class="{{ ($message->from_id == Auth::user()->id) ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
+                                       {{$message->message}}
                                     </div>
                                 </div>
-                                <!--end::Message In-->
-                                <!--begin::Message Out-->
-                                <div class="d-flex flex-column mb-5 align-items-end">
-                                    <div class="d-flex align-items-center">
-                                        <div class="d-flex flex-column text-end">
-                                            <a href="#" class="text-gray-600 text-hover-primary fw-bolder">Grace
-                                                Logan</a>
-                                            <span class="text-muted fw-bold fs-7">Yestarday at 5:06 PM</span>
-                                        </div>
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-40px flex-shrink-0 ms-4">
-                                            <span class="symbol-label bg-light">
-                                                <img src="/start/assets/media/svg/avatars/018-girl-9.svg"
-                                                    class="h-75 align-self-end" alt="" />
-                                            </span>
-                                        </div>
-                                        <!--end::Symbol-->
-                                    </div>
-                                    <div class="rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px">
-                                        Amazing Product developer by the team
-                                    </div>
-                                </div>
-                                <!--end::Message Out-->
-                                <!--begin::Message In-->
-                                <div class="d-flex flex-column mb-5 align-items-start">
+                                @endforeach
+                                @endauth
+
+                                @guest
+                                @foreach ($messages as $message)
+                                <div class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
                                     <div class="d-flex align-items-center">
                                         <!--begin::Symbol-->
                                         <div class="symbol symbol-40px flex-shrink-0 me-4">
                                             <span class="symbol-label bg-light">
-                                                <img src="/start/assets/media/svg/avatars/035-boy-15.svg"
-                                                    class="h-75 align-self-end" alt="" />
+                                                <img src="img/avatar.jpg" class="h-75 align-self-end" alt="" />
                                             </span>
                                         </div>
                                         <!--end::Symbol-->
-                                        <div class="d-flex flex-column">
-                                            <a href="#" class="text-gray-600 text-hover-primary fw-bolder">Ja Morant</a>
-                                            <span class="text-muted fw-bold fs-7">Just Now</span>
+                                        <div class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
+                                            <a href="#" class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'You' : 'Admin' }}</a>
+                                            <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
                                         </div>
                                     </div>
-                                    <div class="rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px">
-                                        They stop you from indulging in your post
+                                    <div class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
+                                       {{$message->message}}
                                     </div>
                                 </div>
-                                <!--end::Message In-->
+                                @endforeach
+                                @endguest
                             </div>
                             <!--end::Messages-->
                         </div>
@@ -307,18 +289,23 @@
                     <!--begin::Footer-->
                     <div class="card-footer align-items-center px-7 py-4" id="kt_chat_content_footer">
                         <!--begin::Compose-->
+                       <form wire:submit.prevent='sendMessage'>
+                           @csrf
                         <div class="position-relative">
-                            <textarea class="form-control border-0 p-2 resize-none overflow-hidden" rows="1"
+                            <textarea  wire:model.defer='messageText' class="form-control border-0 p-2 resize-none overflow-hidden" rows="1"
                                 placeholder="Reply..."></textarea>
                             <div class="position-absolute top-0 end-0 mr-n2">
                                 <span class="btn btn-icon btn-sm btn-active-light-primary">
                                     <i class="fas fa-paperclip fs-4"></i>
                                 </span>
-                                <span class="btn btn-icon btn-sm btn-active-light-primary">
+                                <button type="submit"> <span class="btn btn-icon btn-sm btn-active-light-primary" onclick="scrollToBottomFunc()">
                                     <i class="fas fa-map-marker-alt fs-4"></i>
-                                </span>
+                                    Send
+                                </span></button>
+
                             </div>
                         </div>
+                       </form>
                         <!--begin::Compose-->
                     </div>
                     <!--end::Footer-->
@@ -331,3 +318,19 @@
     </div>
 </div>
 </div>
+<script>
+
+    // $(document).ready(function(){
+
+    //     setInterval(() => {
+    //         scrollToBottomFunc();
+    //         // $('#messages').html(data);
+    //         //     scrollToBottomFunc();
+    //         // },
+    //     }, 4000);
+
+    // });
+    function scrollToBottomFunc() {
+        $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+    }
+</script>
