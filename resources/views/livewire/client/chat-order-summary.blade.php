@@ -44,7 +44,12 @@
                             <label for="">Order Details</label>
                         </div>
                         <div class="text-end flex-grow-1">
+                            @if ($orderDetails->status == "Pending")
                             <label for=""><button class="btn btn-info"><span class="rounded btn-info">Not Confirmed</span></button></label>
+                            @elseif($orderDetails->status == "In progress")
+                            <label for=""><button class="btn btn-success"><span class="rounded btn-success">Confirmed</span></button></label>
+                            @endif
+
                         </div>
                       </div>
                     <!--begin::Body-->
@@ -106,7 +111,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column align-items-end text-end">
+                                    @if ($orderDetails->status ==  "Pending")
                                     <span class="badge badge-danger badge-square">{{$orderDetails->status}}</span>
+                                    @elseif($orderDetails->status =="In progress")
+                                    <span class="badge badge-success badge-square">{{$orderDetails->status}}</span>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="d-flex flex-stack mb-9">
@@ -116,7 +126,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column align-items-end text-end">
-                                    <span class="badge badge-danger badge-square">Pending</span>
+                                    @if ($orderDetails->status=="Pending")
+                                    <span class="badge badge-danger badge-square">${{$total_fee}}</span>
+                                    @elseif($orderDetails->status=="In progress")
+                                    <span class="badge badge-success badge-square">${{$total_fee}}</span>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="d-flex flex-stack mb-9">
@@ -210,18 +225,22 @@
                     </div>
                     <!--end::Header-->
                     <!--begin::Body-->
-                    <div class="card-body px-9">
+                    <div class="card-body px-9" >
                         <div class="row mt-0" >
                             <div class="col-md-6 mt-3">
                                 <a href="http://">{{$orderDetails->order_no}}</a>
                             </div>
-                            <div class="col-md-6 align-items-end text-end">
+                            <div wire:poll class="col-md-6 align-items-end text-end" wire:model.defer='confirm_invoice'>
                                 @guest
-                                <a href="#" ><x-jet-button>Confirm Invoice</x-jet-button></a>
+                                @if ($confirm_invoice)
+
+                                <a ><x-jet-button wire:click='confrimInvoice'>Confirm Invoice</x-jet-button></a>
+
+                                @endif
                                 @endguest
                                 @auth
-                                <x-jet-input></x-jet-input>
-                                <a href="#" ><x-jet-button>Send Invoice</x-jet-button></a>
+                                <x-jet-input wire:model.defer='fee'></x-jet-input>
+                                <a wire:click='sendInvoice'><x-jet-button>Send Invoice</x-jet-button></a>
                                 @endauth
                             </div>
                          </div>
