@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Client;
 
 use App\Models\Activity;
 use App\Models\Client;
+use App\Models\ClientFile;
 use App\Models\Message;
 use App\Models\MessageTo;
 use App\Models\Order;
@@ -11,14 +12,23 @@ use App\Models\OrderBilling;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session ;
 use Livewire\Component;
+use App\Traits\LayoutTrait;
+use App\Traits\AdminPropertiesTrait;
+use App\Traits\SearchFilterTrait;
+use App\Traits\SearchTrait;
 
 class ChatOrderSummary extends Component
 {
 
-    public $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id;
+    use LayoutTrait;
+    use AdminPropertiesTrait;
+    use SearchFilterTrait;
+    use SearchTrait;
+
+    public $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id, $file_id;
     public $confirm_invoice=false;
     public $total_fee='Pending';
-    public $orderDetails, $messages_sent, $messages_received, $messages, $activities=[];
+    public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles=[];
     public function back()
     {
         $this->emitUp('update_varView', '');
@@ -74,46 +84,7 @@ class ChatOrderSummary extends Component
                 ->update(['status' => 'In progress']);
 
     }
-    public function mount(){
-    //     //check which user that need this component
-    //     if (session()->get('LoggedClient')) {
 
-    //         $this->orderId = session()->get('orderId');
-    //         $this->orderDetails = Order::with('order')
-    //                                     ->where('order_no', $this->orderId)
-    //                                     ->first();
-    //         $user_id = 'Client';
-    //         $my_id = session()->get('LoggedClient');
-    //         $this->client = session()->pull('LoggedClient');
-    //         // Message::where(['from_id' => $user_id, 'to_id' => $my_id])->update(['is_read' => 1]);
-    //         // Get all message from selected user
-    //         $this->messages = Message::where(function ($query) use ($user_id, $my_id) {
-    //             $query->where('type', 'Admin')->where('to_id', $my_id );
-    //         })->oRwhere(function ($query) use ($user_id, $my_id) {
-    //             $query->where('from_id', $my_id)->where('type', 'Client');
-    //         })->get();
-    //         // d();
-
-    //     }
-
-    //     if (auth()->user()!=null) {
-
-    //         $this->orderId = session()->get('orderId');
-    //         $this->orderDetails = Order::with('order')
-    //                                     ->where('order_no', $this->orderId)
-    //                                     ->first();
-    //         $user_id =$this->orderDetails->client_id;
-    //         $my_id = auth()->user()->id;
-    //         // Message::where(['from_id' => $user_id, 'to_id' => $my_id])->update(['is_read' => 1]);
-    //         // Get all message from selected user
-    //         $this->messages = Message::where(function ($query) use ($user_id, $my_id) {
-    //             $query->where('from_id', $user_id)->where('to_id', $my_id);
-    //         })->oRwhere(function ($query) use ($user_id, $my_id) {
-    //             $query->where('from_id', $my_id)->where('to_id', $user_id);
-    //         })->get();
-    //     }
-
-    }
     public function sendMessage()
     {
         if (session()->get('LoggedClient')!=null) {
@@ -178,6 +149,9 @@ class ChatOrderSummary extends Component
                     $this->confirm_invoice =false;
                 }
             }
+            $this->clientFiles = ClientFile::where('client_id', $my_id)
+                                            ->where('order_id',  $this->orderDetails->id)
+                                            ->get();
 
         }
 
@@ -203,8 +177,36 @@ class ChatOrderSummary extends Component
             // ->latest()
             // ->take(10)
             // ->get()
+
+            $this->clientFiles = ClientFile::where('client_id', $user_id)
+                                            ->where('order_id',  $this->orderDetails->id)
+                                            ->get();
         }
 
         return view('livewire.client.chat-order-summary');
+    }
+
+    public function getDownload($value, $value2)
+    {
+        dd($value, $value2);
+         //PDF file is stored under project/public/download/info.pdf
+
+        // $file= public_path(). "/download/info.pdf";
+        // $file= $this->file_id->getFirstMediaUrl();
+        // $ClientFile = ClientFile::where('id', 9)->first();
+        $file= 'app/public/client_files/' .$value;
+        return response()->download($file);
+        // $cFiles = ClientFile::all();
+        // foreach ($cFiles as $key => $cFile) {
+        //     $file= $cFile->getFirstMediaPath();
+        //     return response()->download($file);
+        // }
+        // dd('end');
+        // $headers = array(
+        //         'Content-Type: application/pdf',
+        //         );
+
+        // return response()->download($file);
+        // return Response::download($file);
     }
 }

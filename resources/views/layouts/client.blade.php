@@ -13,6 +13,7 @@
         <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <!--end::Fonts-->
 
         <!--begin::Page Vendor Stylesheets(used by this page)-->
@@ -44,7 +45,7 @@
                 <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                     <!--begin::Header-->
                     @livewire('admin.inc.header')
-                   
+
                     <!--end::Header-->
                     <!--begin::Content-->
                     <main>
@@ -266,7 +267,7 @@
         <script src="{{ asset('dash-assets/js/custom/widgets.js') }}" ></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <!--end::Page Custom Javascript-->
-
+        @yield('scripts')
         <!--end::Javascript-->
     </body>
     <!--end::Body-->

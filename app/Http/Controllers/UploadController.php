@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class UploadController extends Controller
 {
@@ -35,5 +36,6 @@ class UploadController extends Controller
         }
 
         return '';
+
     }
 }
