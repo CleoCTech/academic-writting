@@ -16,6 +16,7 @@ use App\Traits\LayoutTrait;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
+use Illuminate\Support\Facades\Storage;
 
 class ChatOrderSummary extends Component
 {
@@ -186,27 +187,16 @@ class ChatOrderSummary extends Component
         return view('livewire.client.chat-order-summary');
     }
 
-    public function getDownload($value, $value2)
+    public function getDownload($value)
     {
-        dd($value, $value2);
-         //PDF file is stored under project/public/download/info.pdf
-
-        // $file= public_path(). "/download/info.pdf";
-        // $file= $this->file_id->getFirstMediaUrl();
-        // $ClientFile = ClientFile::where('id', 9)->first();
-        $file= 'app/public/client_files/' .$value;
+       
+        $file= 'storage/client_files/' .$value;
         return response()->download($file);
-        // $cFiles = ClientFile::all();
-        // foreach ($cFiles as $key => $cFile) {
-        //     $file= $cFile->getFirstMediaPath();
+        // if (Storage::exists(public_path($file))) {
         //     return response()->download($file);
-        // }
-        // dd('end');
-        // $headers = array(
-        //         'Content-Type: application/pdf',
-        //         );
-
-        // return response()->download($file);
-        // return Response::download($file);
+        // }else{
+        //     session()->flash('message', 'File Does Not Exist!');
+        // }    
+       
     }
 }

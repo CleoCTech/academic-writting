@@ -17,7 +17,7 @@
         <!--end::Fonts-->
 
         <!--begin::Page Vendor Stylesheets(used by this page)-->
-        <link href="{{ asset('dash-assets/"plugins/leaflet/leaflet.bundle.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('dash-assets/plugins/leaflet/leaflet.bundle.css') }}" rel="stylesheet" type="text/css" />
         <!--end::Page Vendor Stylesheets-->
 
         <!--begin::Global Stylesheets Bundle(used by all pages)-->
@@ -32,7 +32,8 @@
 
     <!--begin::Body-->
 
-    <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
+    <body id="kt_body"
+        class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
         <!--begin::Main-->
         <!--begin::Root-->
         <div class="d-flex flex-column flex-root">
@@ -248,26 +249,32 @@
 
 
 
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <!--begin::Global Javascript Bundle(used by all pages)-->
-        <script src="{{ asset('dash-assets/js/main.bundles.js') }}" ></script>
+        <script src="{{ asset('dash-assets/js/main.bundles.js') }}"></script>
         <!--end::Global Javascript Bundle-->
 
         <!--begin::Page Vendors Javascript(used by this page)-->
-        <script src="{{ asset('dash-assets/plugins/leaflet/leaflet.bundle.js') }}" ></script>
-        <script src="{{ asset('dash-assets/plugins/quill/plugins.bundle.js') }}" ></script>
+        <script src="{{ asset('dash-assets/plugins/leaflet/leaflet.bundle.js') }}"></script>
+        <script src="{{ asset('dash-assets/plugins/quill/plugins.bundle.js') }}"></script>
         <!--end::Page Vendors Javascript-->
 
         <!--begin::Page Custom Javascript(used by this page)-->
-        <script src="{{ asset('dash-assets/js/custom/modals/create-app.js') }}" ></script>
-        <script src="{{ asset('dash-assets/js/custom/modals/select-location.js') }}" ></script>
-        <script src="{{ asset('dash-assets/js/custom/modals/create-project.bundle.js') }}" ></script>
-        <script src="{{ asset('dash-assets/js/custom/modals/upgrade-plan.js') }}" ></script>
-        <script src="{{ asset('dash-assets/js/custom/intro.js') }}" ></script>
-        <script src="{{ asset('dash-assets/js/custom/widgets.js') }}" ></script>
+        <script src="{{ asset('dash-assets/js/custom/modals/create-app.js') }}"></script>
+        <script src="{{ asset('dash-assets/js/custom/modals/select-location.js') }}"></script>
+        <script src="{{ asset('dash-assets/js/custom/modals/create-project.bundle.js') }}"></script>
+        <script src="{{ asset('dash-assets/js/custom/modals/upgrade-plan.js') }}"></script>
+        <script src="{{ asset('dash-assets/js/custom/intro.js') }}"></script>
+        <script src="{{ asset('dash-assets/js/custom/widgets.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <!--end::Page Custom Javascript-->
         @yield('scripts')
+        <script type="text/javascript">
+            function scrollToBottomFunc() {
+                $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+            }
+        </script>
+
         <!--end::Javascript-->
     </body>
     <!--end::Body-->
