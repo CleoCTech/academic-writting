@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-8 col-sm-8">
+            <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="form-group">
                     <label>Deadline</label>
                     <div class="input-group">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-4">
+            <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="form-group">
                     <label>Time</label>
                     <div class="input-group">

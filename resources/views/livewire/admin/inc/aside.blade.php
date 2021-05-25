@@ -54,7 +54,7 @@
                     </div> --}}
 
                     <div class="menu-item">
-                        <a class="menu-link active" href="#">
+                        <a class="menu-link active" href="client/dashboard">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-arrange.svg-->
                                 <span class="svg-icon svg-icon-3">

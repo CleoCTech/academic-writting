@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
         <!--end::Fonts-->
 
         <!--begin::Page Vendor Stylesheets(used by this page)-->
@@ -267,6 +268,7 @@
         <script src="{{ asset('dash-assets/js/custom/intro.js') }}"></script>
         <script src="{{ asset('dash-assets/js/custom/widgets.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+        <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
         <!--end::Page Custom Javascript-->
         @yield('scripts')
         <script type="text/javascript">
@@ -274,7 +276,6 @@
                 $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
             }
         </script>
-
         <!--end::Javascript-->
     </body>
     <!--end::Body-->

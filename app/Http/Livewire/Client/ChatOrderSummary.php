@@ -191,12 +191,13 @@ class ChatOrderSummary extends Component
     {
        
         $file= 'storage/client_files/' .$value;
-        return response()->download($file);
-        // if (Storage::exists(public_path($file))) {
-        //     return response()->download($file);
-        // }else{
-        //     session()->flash('message', 'File Does Not Exist!');
-        // }    
+        return response()->download($file);    
+       
+    }
+    public function edit()
+    {
+       
+        $this->emit('update_varView', 'edit');
        
     }
 }

@@ -834,6 +834,8 @@
     </div>
     @elseif($varView == 'chat')
     @livewire('client.chat-order-summary')
+    @elseif($varView == 'edit')
+    @livewire('client.edit-order')
     @endif
 
 </div>

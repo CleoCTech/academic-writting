@@ -192,7 +192,7 @@
                                         @endforeach
                                     </div>
                                     @guest
-                                    <button class="btn btn-info"> Edit Record</button> @endguest
+                                    <button wire:click='edit' class="btn btn-info"> Edit Record</button> @endguest
                                 </div>
                                 <!--end:User-->
 
