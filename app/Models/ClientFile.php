@@ -13,6 +13,6 @@ class ClientFile extends Model implements HasMedia
     use HasMediaTrait;
 
     protected $fillable =[
-        'client_id', 'order_id', 'folder', 'filename'
+        'client_id', 'order_id', 'folder', 'filename', 'from'
     ];
 }

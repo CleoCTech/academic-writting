@@ -6,6 +6,7 @@ use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class Order extends Model
@@ -36,5 +37,14 @@ class Order extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
+    /**
+     * Get all of the revisions for the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function revisions(): HasMany
+    {
+        return $this->hasMany(RejectedOrder::class, 'order_id', 'id');
     }
 }

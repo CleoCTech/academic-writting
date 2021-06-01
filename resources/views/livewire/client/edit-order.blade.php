@@ -1,7 +1,7 @@
 <div>
     {{-- The Master doesn't talk, he acts. --}}
 
-<div  class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">  
+<div  class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
      <!--begin::Toolbar-->
      <div class="toolbar" id="kt_toolbar">
         <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>Deadline</label>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-group">
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
@@ -119,36 +119,31 @@
                     </div>
                 </div>
                 @foreach ($clientFiles as $clientFile)
-                {{-- @php
-                    $path = $clientFile->folder.'/'.$clientFile->filename;
-                    // getDownload( {{$clientFile->folder'/'$clientFile->filename}} )
-                // dd($path);
-                @endphp --}}
                 <div class="row">
-                    
+
                     <div class="col-md-4">
-                        <a class="text-gray-600 text-hover-primary fw-bold fs-6 mb-3 ">{{$clientFile->filename}} 
+                        <a class="text-gray-600 text-hover-primary fw-bold fs-6 mb-3 ">{{$clientFile->filename}}
                             <span>
                                 <a  wire:click="dropFile('{{$clientFile->folder}}')"
                                     type="button" class="btn-floating btn-small "> <span
                                         class="svg-icon svg-icon-3">
                                         <a href="#" wire:click="dropFile('{{$clientFile->folder}}', '{{$clientFile->filename}}')" class="text-gray-600 text-hover-danger fw-bold fs-6 mb-3" ><i class="bi bi-x-circle"></i></a>
-                                        
+
                                 </span></a>
                             </span>
                         </a>
                     </div>
                 </div>
                 @endforeach
-                <p>Add Files</p>
-                <div class="row">
-            
-                    
+                <h4 class="text-blue-400 " style="margin-top: 1rem;">Add Files (Optional)
+                    <span
+                        class="svg-icon svg-icon-4 ">
+                        <i class="bi bi-paperclip text-blue-400"></i>
+                    </span>
+                  </h4>
+                <div wire:ignore class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <input type="file" name="paperFile" id="test" multiple>
-                        {{-- <div class="custom-file">
-                                <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
-                            </div> --}}
                     </div>
                     <script type="text/javascript">
                         const inputElement = document.querySelector('input[id="test"]');
@@ -168,16 +163,16 @@
                 <div class="btn-group text-center" role="group" aria-label="Basic example" style='display: block;'>
                     <a class="btn btn-primary" id="kt_toolbar_primary_button" wire:click='store'><span
                         class="svg-icon svg-icon-2 rotate-180"> </span>Submit <i class="bi bi-arrow-bar-right"></i></a>
-            
+
                 </div>
             </fieldset>
         </div>
     </div>
-    
+
 </div>
 </div>
 <style>
-   
+
 
     .btn-floating i:hover{
        color: #84a8f0;

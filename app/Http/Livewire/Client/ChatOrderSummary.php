@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Client;
 
+use App\Events\OrderAnswerUploadEvent;
+use App\Models\AcceptedOrder;
 use App\Models\Activity;
 use App\Models\Client;
 use App\Models\ClientFile;
@@ -9,6 +11,7 @@ use App\Models\Message;
 use App\Models\MessageTo;
 use App\Models\Order;
 use App\Models\OrderBilling;
+use App\Models\RejectedOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session ;
 use Livewire\Component;
@@ -26,10 +29,11 @@ class ChatOrderSummary extends Component
     use SearchFilterTrait;
     use SearchTrait;
 
-    public $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id, $file_id;
-    public $confirm_invoice=false;
+    public $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id, $file_id, $companyFile, $comment;
+    public $confirm_invoice, $reject_section, $accept_section, $saved=false;
     public $total_fee='Pending';
-    public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles=[];
+    public $orderStatus=false;
+    public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions=[];
     public function back()
     {
         $this->emitUp('update_varView', '');
@@ -119,6 +123,9 @@ class ChatOrderSummary extends Component
             $this->orderDetails = Order::with('order')
                                         ->where('order_no', $this->orderId)
                                         ->first();
+            if ($this->orderDetails->status == 'Pending') {
+                $this->orderStatus =true;
+            }
             $order_bill = OrderBilling::where('order_id',  $this->orderDetails->id)->first();
             if ($order_bill) {
                 $this->total_fee = $order_bill->total_amount;
@@ -152,8 +159,13 @@ class ChatOrderSummary extends Component
             }
             $this->clientFiles = ClientFile::where('client_id', $my_id)
                                             ->where('order_id',  $this->orderDetails->id)
+                                            ->where('from',  'client')
                                             ->get();
-
+            $this->companyFiles = ClientFile::where('client_id', $my_id)
+                                            ->where('order_id',  $this->orderDetails->id)
+                                            ->where('from',  'company')
+                                            ->get();
+            $this->revisions = RejectedOrder::where('order_id', $this->orderDetails->id)->get();
         }
 
         if (auth()->user()!=null) {
@@ -162,6 +174,9 @@ class ChatOrderSummary extends Component
             $this->orderDetails = Order::with('order')
                                         ->where('order_no', $this->orderId)
                                         ->first();
+            if ($this->orderDetails->status == 'Pending') {
+                $this->orderStatus =true;
+            }
             $order_bill = OrderBilling::where('order_id',  $this->orderDetails->id)->first();
             if ($order_bill) {
                $this->total_fee = $order_bill->total_amount;
@@ -181,7 +196,13 @@ class ChatOrderSummary extends Component
 
             $this->clientFiles = ClientFile::where('client_id', $user_id)
                                             ->where('order_id',  $this->orderDetails->id)
+                                            ->where('from',  'client')
                                             ->get();
+            $this->companyFiles = ClientFile::where('client_id', $user_id)
+                                            ->where('order_id',  $this->orderDetails->id)
+                                            ->where('from',  'company')
+                                            ->get();
+            $this->revisions = RejectedOrder::where('order_id', $this->orderDetails->id)->get();
         }
 
         return view('livewire.client.chat-order-summary');
@@ -189,15 +210,112 @@ class ChatOrderSummary extends Component
 
     public function getDownload($value)
     {
-       
+
         $file= 'storage/client_files/' .$value;
-        return response()->download($file);    
-       
+        return response()->download($file);
+
     }
     public function edit()
     {
-       
+
         $this->emit('update_varView', 'edit');
-       
+
+    }
+    public function dropFile($id, $folder, $filename)
+    {
+
+        Storage::delete('client_files/'.$folder . '/' .$filename);
+        rmdir('storage/client_files/' .$folder );
+        DB::beginTransaction();
+        try {
+            ClientFile::where('id', $id)->delete();
+            DB::Commit();
+            session()->flash('success', 'File Deleted Successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            session()->flash('error',$e);
+        }
+    }
+    public function store()
+    {
+        $this->emit('saved');
+        Order::where('id', $this->orderDetails->id)
+                ->update(['status' => 'Complete']);
+        event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+        $this->reset('companyFile');
+        session()->flash('success', 'Order Submited Successfully.');
+
+    }
+
+    public function activateRejectSection()
+    {
+        if ($this->reject_section) {
+            $this->reject_section=false;
+        }else{
+            $this->reject_section=true;
+        }
+        $this->reject_section=true;
+    }
+    public function activateAcceptSection()
+    {
+        if ( $this->accept_section) {
+            $this->accept_section=false;
+        }else{
+            $this->accept_section=true;
+        }
+
+    }
+    public function reject($value)
+    {
+        $order = Order::where('order_no', $value)->first();
+        $orderId = $order->id;
+        if (session()->get('LoggedClient')) {
+            RejectedOrder::create([
+                'order_id'=>$orderId,
+                'comment'=>$this->comment,
+                'from'=>'client',
+                'from_id'=>$this->orderDetails->client_id,
+            ]);
+            event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+        }
+        if (auth()->user()!=null) {
+            RejectedOrder::create([
+                'order_id'=>$orderId,
+                'comment'=>$this->comment,
+                'from'=>'editor',
+                'from_id'=>auth()->user()->id,
+            ]);
+        }
+        // dd($value);
+    }
+    public function accept($value)
+    {
+        $order = Order::where('order_no', $value)->first();
+        $orderId = $order->id;
+        if ($this->comment == '') {
+            $this->comment = 'Accepted';
+        }
+        if (session()->get('LoggedClient')) {
+            AcceptedOrder::create([
+                'order_id'=>$orderId,
+                'comment'=>$this->comment,
+                'from'=>'client',
+                'from_id'=>$this->orderDetails->client_id,
+            ]);
+            $this->accept_section=false;
+            session()->flash('success', 'Order Accepted Successfully.');
+            // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+        }
+        if (auth()->user()!=null) {
+            AcceptedOrder::create([
+                'order_id'=>$orderId,
+                'comment'=>$this->comment,
+                'from'=>'editor',
+                'from_id'=>auth()->user()->id,
+            ]);
+            $this->accept_section=false;
+            session()->flash('success', 'Order Accepted Successfully.');
+        }
+        // dd($value);
     }
 }

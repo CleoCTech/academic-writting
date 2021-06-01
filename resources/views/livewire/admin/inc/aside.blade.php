@@ -54,7 +54,7 @@
                     </div> --}}
 
                     <div class="menu-item">
-                        <a class="menu-link active" href="client/dashboard">
+                        <a class="menu-link active" href="{{ route('dashboard')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-arrange.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -66,7 +66,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="chat.html">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -78,7 +78,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="invoices.html">
+                        <a wire:click='invoice' class="menu-link" href="{{ route('client-invoice')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -176,7 +176,7 @@
                     @endif
 
                     <div class="menu-item">
-                        <a class="menu-link" href="users.html">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -188,7 +188,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="chat.html">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -200,7 +200,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="invoices.html">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                 <span class="svg-icon svg-icon-3">

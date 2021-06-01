@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Order;
+use App\Models\RejectedOrder;
 use Livewire\Component;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
+use Carbon\Carbon;
 
 class AdminDashboard extends Component
 {
@@ -17,7 +19,7 @@ class AdminDashboard extends Component
 
     protected $listeners = ['update_varView'=> 'updateVarView' ];
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
-
+    public $centerView='';
     public function updateVarView($varValue)
     {
         $this->resetFields();
@@ -25,11 +27,16 @@ class AdminDashboard extends Component
     }
     public function mount()
     {
-        $this->varView='home';
+        // $this->varView='home';
     }
+
     public function render()
     {
         $orders = collect(Order::search($this->searchKeyword)->with('order')->get());
+        $pending_orders = $orders->where('status', 'Pending');
+        $cancelled = $orders->whereIn('status', 'Cancelled');
+        $complete = $orders->whereIn('status', 'Complete');
+        $revisions = RejectedOrder::where('from', 'client')->get();
         $progress_orders = $orders->where('status', 'In progress');
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
@@ -48,7 +55,57 @@ class AdminDashboard extends Component
         ];
 
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.admin.admin-dashboard')->with(['progress_orders'=>$progress_orders, 'orders'=>$orders])->layout('layouts.client');
+        return view('livewire.admin.admin-dashboard')->with(['pending_orders'=>$pending_orders, 'progress_orders'=>$progress_orders,  'complete'=>$complete, 'orders'=>$orders, 'revisions'=>$revisions, 'cancelled'=>$cancelled])->layout('layouts.client');
+    }
+    public function chat($orderId)
+    {
+        $this->resetFields();
+        session()->put('orderId', $orderId);
+        $this->varView='chat';
+    }
+    public function revisions()
+    {
+        session()->put('view', 'revisions');
+        $this->resetCenterView();
+        $this->centerView = 'revisions';
+    }
+    public function doneRevisions()
+    {
+        session()->put('view', 'done revisions');
+        $this->resetCenterView();
+        $this->centerView = 'done revisions';
+    }
+    public function ongoingRevisions()
+    {
+        session()->put('view', 'ongoing revisions');
+        $this->resetCenterView();
+        $this->centerView = 'ongoing revisions';
+    }
+    public function pending()
+    {
+        $this->resetCenterView();
+        $this->centerView = 'pending';
+    }
+    public function progress()
+    {
+        $this->resetCenterView();
+        $this->centerView = 'In Progress';
+    }
+    public function completed()
+    {
+        $this->resetCenterView();
+        $this->centerView = 'Completed';
+    }
+    public function cancelled()
+    {
+        $this->resetCenterView();
+        $this->centerView = 'cancelled';
+    }
+    public function default()
+    {
+        // session()->put('view', 'revisions');
+        // $this->resetCenterView();
+        $this->centerView = '';
     }
     public function jobs()
     {
@@ -58,5 +115,9 @@ class AdminDashboard extends Component
     public function resetFields()
     {
         $this->varView='';
+    }
+    public function resetCenterView()
+    {
+        $this->centerView='';
     }
 }

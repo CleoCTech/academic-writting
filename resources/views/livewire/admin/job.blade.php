@@ -242,7 +242,7 @@
                                             <div class="table-responsive">
                                                 <table
                                                     class="table align-middle table-row-bordered table-row-dashed gy-5"
-                                                    id="kt_table_widget_1">
+                                                    id="kt_table_widget_1" x-data=''>
                                                     <thead
                                                         class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                                         <tr>
@@ -319,8 +319,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="pe-0 text-end">
-                                                                <a href="#"
-                                                                    class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5">View</a>
+                                                                <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$other->order_no}}')">View</a>
                                                             </td>
                                                         </tr>
                                                         @endforeach

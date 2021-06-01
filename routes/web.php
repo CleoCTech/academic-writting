@@ -5,6 +5,7 @@ use App\Http\Livewire\Admin\Job;
 use App\Http\Livewire\Client\ClientAuthentication;
 use App\Http\Livewire\Client\ClientLogout;
 use App\Http\Livewire\Client\Dashboard;
+use App\Http\Livewire\Client\Invoice;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
 Route::get('/', Home::class);
-Route::get('/order', Order::class);
+Route::get('/order', Order::class)->name('create-order');
 
 
 // Route::middleware(['AuthCheck', 'second'])->group(function () {
@@ -34,7 +35,8 @@ Route::get('/order', Order::class);
 Route::group(['middleware' => ['AuthCheck']], function(){
     Route::get('/client/login', ClientAuthentication::class)->name('client-login');
     Route::get('/client/logout', ClientLogout::class)->name('client-logout');
-    Route::get('/client/dashboard', Dashboard::class);
+    Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/client/invoice', Invoice::class)->name('client-invoice');
 
 });
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

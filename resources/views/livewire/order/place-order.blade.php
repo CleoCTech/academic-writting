@@ -79,7 +79,7 @@
         </div>
 
         <p>Add Files</p>
-        <div class="row">
+        <div wire:ignore class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <input type="file" name="paperFile"  id="test" multiple>

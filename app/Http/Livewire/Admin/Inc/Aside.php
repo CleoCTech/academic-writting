@@ -17,5 +17,9 @@ class Aside extends Component
         // dd("jobs");
         $this->emitUp('update_varView', 'jobs');
     }
+    public function invoice()
+    {
+        $this->emitUp('update_varView', 'invoice');
+    }
 
 }

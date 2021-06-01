@@ -25,4 +25,13 @@ class Client extends Model
         return $this->hasMany(Order::class, 'client_id', 'id');
     }
 
+    // /**
+    //  * Get all of the revisions for the Client
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    //  */
+    // public function revisions(): HasMany
+    // {
+    //     return $this->hasMany(RejectedOrder::class, 'from_id', 'id');
+    // }
 }

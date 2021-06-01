@@ -21,10 +21,11 @@ class EditOrder extends Component
         'pages' => ['required'],
         'deadline_date' => ['required'],
         'deadline_time' => ['required'],
+        'category_id' => ['required'],
         'topic' => ['required'],
         'instructions' => ['required']
     ];
-    
+
     public function mount()
     {
         $this->categories = PaperCategory::all();
@@ -39,17 +40,18 @@ class EditOrder extends Component
         $orderDetails = Order::with('order')
                                     ->where('order_no',  $this->orderId)
                                     ->first();
-        $this->pages = $orderDetails->pages;                            
-        $this->deadline_date = $orderDetails->deadline_date;                            
-        $this->deadline_time = $orderDetails->deadline_time;                            
-        $this->category_id = $orderDetails->category_id;                            
-        $this->topic = $orderDetails->topic;                            
+        $this->pages = $orderDetails->pages;
+        $this->deadline_date = $orderDetails->deadline_date;
+        $this->deadline_time = $orderDetails->deadline_time;
+        $this->category_id = $orderDetails->category_id;
+        $this->topic = $orderDetails->topic;
         $this->instructions = $orderDetails->instructions;
-        
+
         $this->user_id =$orderDetails->client_id;
         $this->order_id =$orderDetails->id;
         $this->clientFiles = ClientFile::where('client_id', $this->user_id)
                                             ->where('order_id',  $orderDetails->id)
+                                            ->where('from',  'client')
                                             ->get();
         return view('livewire.client.edit-order')->with('orderDetails', $orderDetails);
     }
@@ -67,33 +69,33 @@ class EditOrder extends Component
                 'deadline_time' => $this->deadline_time,
                 'instructions' => $this->instructions,
                 ]);
-                
+
             $order = Order::where('order_no',  $this->orderId)->first();
-            DB::Commit();   
-            event( new OrderRegisteredEvent($order, $this->user_id)); 
-            session()->flash('success', 'Updated Successfully.');    
+            DB::Commit();
+            event( new OrderRegisteredEvent($order, $this->user_id));
+            session()->flash('success', 'Updated Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
             session()->flash('error',$e);
         }
-       
+
     }
-    
+
     public function dropFile($folder, $filename)
     {
-        
+
         Storage::delete('client_files/'.$folder . '/' .$filename);
         rmdir('storage/client_files/' .$folder );
         DB::beginTransaction();
         try {
             ClientFile::where('order_id', $this->order_id)->delete();
-            DB::Commit();    
-            session()->flash('success', 'File Deleted Successfully.');    
+            DB::Commit();
+            session()->flash('success', 'File Deleted Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
             session()->flash('error',$e);
-        }   
+        }
     }
-    
+
 
 }

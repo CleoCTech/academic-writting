@@ -15,12 +15,17 @@ class StoreFilesListener
         if (session()->has('files')) {
             foreach (session('files') as $i => $values) {
 
+                if (auth()->user()!=null) {
+                    $from = 'company';
+                }elseif(session()->get('LoggedClient')){
+                    $from = 'client';
+                }
                 $file = ClientFile::Create([
                     'client_id' => $event->client_id,
                     'order_id' => $event->order->id,
                     'folder' => $values['folder'],
                     'filename' => $values['filename'],
-
+                    'from' => $from,
                 ]);
                 // dump($values['folder']);
                 // dump($values['filename']);
@@ -38,7 +43,12 @@ class StoreFilesListener
 
         }
         session()->forget('files');
-        return redirect('client/dashboard');
+
+        if (auth()->user()!=null) {
+
+        }elseif(session()->get('LoggedClient')){
+            return redirect('client/dashboard');
+        }
         // dd('End');
 
     }
