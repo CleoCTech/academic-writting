@@ -66,7 +66,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link" href="{{ route('client-chat')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -188,7 +188,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link" href="{{ route('admin-chat')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
                                 <span class="svg-icon svg-icon-3">

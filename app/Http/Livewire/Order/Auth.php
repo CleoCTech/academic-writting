@@ -120,6 +120,10 @@ class Auth extends Component
       }
 
     }
+    public function previousStep()
+    {
+        $this->emitUp('update_varView', '');
+    }
     public function storeInSession($client_id)
     {
         Session::forget('NewClient');

@@ -19,6 +19,8 @@ class StoreFilesListener
                     $from = 'company';
                 }elseif(session()->get('LoggedClient')){
                     $from = 'client';
+                }else{
+                    $from = 'client';
                 }
                 $file = ClientFile::Create([
                     'client_id' => $event->client_id,
