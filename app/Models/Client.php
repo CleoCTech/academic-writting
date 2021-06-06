@@ -25,6 +25,15 @@ class Client extends Model
         return $this->hasMany(Order::class, 'client_id', 'id');
     }
 
+    /**
+     * Get all of the invoices for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(OrderBilling::class, 'client_id', 'id');
+    }
     // /**
     //  * Get all of the revisions for the Client
     //  *

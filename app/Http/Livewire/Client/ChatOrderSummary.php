@@ -34,10 +34,8 @@ class ChatOrderSummary extends Component
     public $total_fee='Pending';
     public $orderStatus=false;
     public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions=[];
-    public function back()
-    {
-        $this->emitUp('update_varView', '');
-    }
+
+
     public function sendInvoice()
     {
         // if (session()->get('LoggedClient')!=null) {
@@ -77,6 +75,7 @@ class ChatOrderSummary extends Component
                                     ->first();
         OrderBilling::create([
             'order_id' => $order->id,
+            'client_id' => $this->orderDetails->client_id,
             'amount' => $this->fee,
             'total_amount' => ($order->pages * $this->fee),
             'prepared_by' => $this->to_id,

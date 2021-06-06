@@ -20,6 +20,8 @@ class Dashboard extends Component
     protected $listeners = ['update_varView'=> 'updateVarView' ];
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
+    public $quickStats = true;
+    public $menuButtons = true;
     public function updateVarView($varValue)
     {
         $this->varView=$varValue;
@@ -77,45 +79,61 @@ class Dashboard extends Component
     public function revisions()
     {
         session()->put('view', 'revisions');
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->resetCenterView();
         $this->centerView = 'revisions';
     }
     public function doneRevisions()
     {
         session()->put('view', 'done revisions');
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->resetCenterView();
         $this->centerView = 'done revisions';
     }
     public function ongoingRevisions()
     {
         session()->put('view', 'ongoing revisions');
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->resetCenterView();
         $this->centerView = 'ongoing revisions';
     }
     public function pending()
     {
         $this->resetCenterView();
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->centerView = 'pending';
     }
     public function progress()
     {
         $this->resetCenterView();
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->centerView = 'In Progress';
     }
     public function completed()
     {
         $this->resetCenterView();
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->centerView = 'Completed';
     }
     public function cancelled()
     {
         $this->resetCenterView();
+        $this->quickStats=false;
+        $this->menuButtons=false;
         $this->centerView = 'cancelled';
     }
     public function default()
     {
         // session()->put('view', 'revisions');
         // $this->resetCenterView();
+        $this->quickStats=true;
+        $this->menuButtons=true;
         $this->centerView = '';
     }
     public function resetFields()

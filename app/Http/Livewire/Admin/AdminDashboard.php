@@ -20,6 +20,8 @@ class AdminDashboard extends Component
     protected $listeners = ['update_varView'=> 'updateVarView' ];
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
+    public $quickStats = true;
+    public $menuButtons = true;
     public function updateVarView($varValue)
     {
         $this->resetFields();
@@ -67,44 +69,52 @@ class AdminDashboard extends Component
     {
         session()->put('view', 'revisions');
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'revisions';
     }
     public function doneRevisions()
     {
         session()->put('view', 'done revisions');
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'done revisions';
     }
     public function ongoingRevisions()
     {
         session()->put('view', 'ongoing revisions');
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'ongoing revisions';
     }
     public function pending()
     {
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'pending';
     }
     public function progress()
     {
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'In Progress';
     }
     public function completed()
     {
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'Completed';
     }
     public function cancelled()
     {
         $this->resetCenterView();
+        $this->menuButtons=false;
         $this->centerView = 'cancelled';
     }
     public function default()
     {
         // session()->put('view', 'revisions');
         // $this->resetCenterView();
+        $this->menuButtons=true;
         $this->centerView = '';
     }
     public function jobs()

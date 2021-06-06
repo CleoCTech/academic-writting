@@ -249,7 +249,7 @@
         @livewireScripts
 
 
-
+        <script src="https://js.stripe.com/v3/"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <!--begin::Global Javascript Bundle(used by all pages)-->
         <script src="{{ asset('dash-assets/js/main.bundles.js') }}"></script>
@@ -267,6 +267,8 @@
         <script src="{{ asset('dash-assets/js/custom/modals/upgrade-plan.js') }}"></script>
         <script src="{{ asset('dash-assets/js/custom/intro.js') }}"></script>
         <script src="{{ asset('dash-assets/js/custom/widgets.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}" defer></script>
+        <script src="{{ asset('assets/js/custom.js') }}" defer></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
         <!--end::Page Custom Javascript-->

@@ -20,25 +20,107 @@
                 </div>
                 <!--end::Info-->
                 <!--begin::Actions-->
-                <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+                {{-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                     <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target"
                         id="kt_toolbar_primary_button">Add a Writer</a>
-                </div>
+                </div> --}}
                 <!--end::Actions-->
             </div>
         </div>
         <!--end::Toolbar-->
+        <!--How it Works-->
+        <div class="w-full py-6">
+            <div class="flex">
+              <div class="w-1/4">
+                <div class="relative mb-2">
+                  <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                    <span class="text-center text-white w-full">
+                      1
+                    </span>
+                  </div>
+                </div>
 
+                <div class="text-xs text-center md:text-base">Newly Created Orders Are Under Pending Orders</div>
+              </div>
+
+              <div class="w-1/4">
+                <div class="relative mb-2">
+                  <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+                    <div class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                      <div class="w-0 bg-green-300 py-1 rounded" style="width: 100%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                    <span class="text-center text-white w-full">
+                      3
+                    </span>
+                  </div>
+                </div>
+
+                <div class="text-xs text-center md:text-base">Confirm Order By Clicking "View" Button</div>
+              </div>
+
+              <div class="w-1/4">
+                <div class="relative mb-2">
+                  <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+                    <div class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                      <div class="w-0 bg-green-300 py-1 rounded" style="width: 100%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                    <span class="text-center text-white w-full">
+                      4
+                    </span>
+                  </div>
+                </div>
+
+                <div class="text-xs text-center md:text-base">Negotiate Price Under Chat Section</div>
+              </div>
+
+              <div class="w-1/4">
+                <div class="relative mb-2">
+                  <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+                    <div class="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                      <div class="w-0 bg-green-300 py-1 rounded" style="width: 100%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                    <span class="text-center text-white w-full">
+                      5
+                    </span>
+                  </div>
+                </div>
+
+                <div class="text-xs text-center md:text-base">Send Invoice For Client To Confirm</div>
+              </div>
+            </div>
+        </div>
+        <!--End How it Works-->
         <!--begin::Post-->
         <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
             <!--begin::Container-->
             <div class="container">
                 <!--begin::Row-->
+                @if ($centerView != '')
+                <button wire:click='default'
+                    class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                    <span class="text-white svg-icon svg-icon-2 rotate-180">
+                        <i class="bi bi-arrow-bar-left"></i>
+                    </span>
+                    Back
+                </button>
+                @endif
+
+                <br>
                 <div class="row g-xl-8">
 
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div wire:click='pending' class="col-xl-3 col-md-6 mb-4">
+                    @if ($menuButtons)
+                         <!-- Earnings (Monthly) Card Example -->
+                         <div wire:click='pending' class="col-xl-3 col-md-6 mb-4">
                             <div class=" border-l-2 border-gray-600 shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md" >
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -179,6 +261,9 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
+
+
 
                         @if ($centerView == '')
                              <!--begin::Col-->

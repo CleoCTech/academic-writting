@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
 class Order extends Model
@@ -46,5 +47,15 @@ class Order extends Model
     public function revisions(): HasMany
     {
         return $this->hasMany(RejectedOrder::class, 'order_id', 'id');
+    }
+
+    /**
+     * Get the bill associated with the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bill(): HasOne
+    {
+        return $this->hasOne(OrderBilling::class, 'order_id', 'id');
     }
 }

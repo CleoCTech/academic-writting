@@ -39,6 +39,7 @@ Route::group(['middleware' => ['AuthCheck']], function(){
     Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/client/invoice', Invoice::class)->name('client-invoice');
     Route::get('/client/chat', Chat::class)->name('client-chat');
+    Route::post('/confirm-payment',[\App\Http\Controllers\StripePaymentController::class, 'store'])->name('confirm-payment');
 
 });
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -50,4 +51,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin-dashboard');
     Route::get('/admin/orders', Job::class)->name('view-orders');
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
+    Route::get('/admin/invoice', Invoice::class)->name('invoices');
 });

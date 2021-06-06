@@ -176,18 +176,6 @@
                     @endif
 
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
-                                <span class="svg-icon svg-icon-3">
-                                    <i class="bi bi-people"></i>
-                                </span>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-title">Users</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
                         <a class="menu-link" href="{{ route('admin-chat')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
@@ -201,6 +189,18 @@
                     </div>
                     <div class="menu-item">
                         <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Users</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('invoices')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                 <span class="svg-icon svg-icon-3">
