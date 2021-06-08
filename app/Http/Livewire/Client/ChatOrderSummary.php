@@ -36,6 +36,10 @@ class ChatOrderSummary extends Component
     public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions=[];
 
 
+    public function back()
+    {
+        $this->emit('update_varView', '');
+    }
     public function sendInvoice()
     {
         // if (session()->get('LoggedClient')!=null) {

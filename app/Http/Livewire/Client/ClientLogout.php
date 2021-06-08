@@ -12,7 +12,7 @@ class ClientLogout extends Component
     public function mount()
     {
         session()->forget('LoggedClient');
-        return redirect('client/login');
+        return redirect('/');
     }
 
 }

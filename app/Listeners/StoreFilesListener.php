@@ -45,13 +45,7 @@ class StoreFilesListener
 
         }
         session()->forget('files');
-
-        if (auth()->user()!=null) {
-
-        }elseif(session()->get('LoggedClient')){
-            return redirect('client/dashboard');
-        }
-        // dd('End');
+        return redirect('client/dashboard');
 
     }
 }

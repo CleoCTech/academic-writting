@@ -16,7 +16,7 @@ class Auth extends Component
 {
     use SendAlerts;
 
-    public $option1=true, $option2=false;
+    public $option1=false, $option2=false;
     public $email,$full_name, $password, $auth_pass,  $confirm_password, $auth_email='';
 
     protected $rules = [
@@ -42,7 +42,23 @@ class Auth extends Component
 
     public function mount()
     {
-        $this->option1;
+        if (session()->has('Initial-Mail')) {
+            foreach (session()->get('Initial-Mail') as $key => $value)
+            {
+                if($value['type']=='email'){
+                    $this->email = $value['message'];
+                    $this->auth_email = $value['message'];
+                }
+            }
+        }
+        if (session()->get('Email-Check')!=null) {
+            $this->resetProps();
+            $this->option2();
+        }else{
+            $this->resetProps();
+            $this->option1();
+        }
+       
     }
     public function render()
     {
@@ -50,8 +66,8 @@ class Auth extends Component
     }
     public function resetProps()
     {
-        $this->option1='';
-        $this->option2='';
+        $this->option1=false;
+        $this->option2=false;
     }
     public function option1()
     {

@@ -345,7 +345,7 @@
 
                                 <hr>
                                 <!--begin::Messages-->
-                                <div wire:poll class="messages" wire:model.defer='messages'>
+                                <div wire:poll class="messages" wire:model.defer='messages' id="messages">
                                     @auth @foreach ($messages as $message)
                                     <div
                                         class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
@@ -413,10 +413,9 @@
                                         <span class="btn btn-icon btn-active-light-primary">
                                             <i class="bi bi-paperclip"></i>
                                         </span>
-                                        <button type="submit">
+                                        <button type="submit"  onclick="scrollToBottomFunc()" id="sendmsg">
                                             <span
-                                                class="btn btn-icon btn-active-light-primary"
-                                                onclick="scrollToBottomFunc()">
+                                                class="btn btn-icon btn-active-light-primary">
                                                 <i class="bi bi-telegram"></i>
                                                 Send
                                             </span>
@@ -867,7 +866,38 @@
             @endauth
         </div>
     </div>
+    <script>
+        window.checkScroll = false;
+        setInterval(() => {
+            if (window.checkScroll) {
+                // console.log("do nothing");
+                window.checkScroll = false;
+            }else{
+                scrollToBottomFunc();
+            }
 
+        }, 4000);
+        $('.scroll-y').scroll( function(evt) {
+            window.checkScroll = true;
+            // console.log("scroll true1");
+        });
+
+        // $('.scroll-y').onscroll
+        // object.onscroll = function() { /*...*/ }
+        document.addEventListener("keyup", function(event) {
+            var sendmsg = document.getElementById('sendmsg');
+            if (event.keyCode === 13) {
+                sendmsg.click();
+            }
+        });
+        function scrollToBottomFunc() {
+            $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+        }
+        function resetPond(){
+            var pond = document.getElementById("test");
+            pond.removeFiles();
+        }
+    </script>
 </div>
 <style>
     .btn-floating {
@@ -922,14 +952,3 @@
         box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1, 0 -6px 4px #fefefe, inset 0 0 3px 3px #cecfd1;
     }
 </style>
-{{--  @section('scripts')  --}}
-<script type="text/javascript">
-    function scrollToBottomFunc() {
-        $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
-    }
-    function resetPond(){
-        var pond = document.getElementById("test");
-        pond.removeFiles();
-    }
-</script>
-{{--  @endsection  --}}

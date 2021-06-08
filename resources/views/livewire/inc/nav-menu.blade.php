@@ -15,9 +15,9 @@
                         <div class="nav-menus-wrapper">
                             <ul class="nav-menu">
                                 <li class="active"><a href="#">How it works</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li class="active"><a href="#">Blog</a></li>
+                                <li class="active"><a href="#">About Us</a></li>
+                                <li class="active"><a href="#">Contact Us</a></li>
                             </ul>
 
                             <ul class="nav-menu nav-menu-social align-to-right">
@@ -27,12 +27,12 @@
                                     </a>
                                 </li>
                                 <li class="add-listing dark-bg">
-                                    <a href="{{route('client-login')}}" >
+                                    <a href="{{route('dashboard')}}" >
                                         <i class="ti-user mr-1"></i> Sign in
                                     </a>
                                 </li>
-                                <li class="add-listing dark-bg">
-                                    <a href="/order"  >
+                                <li class="order add-listing dark-bg">
+                                    <a href="{{route('create-order')}}" >
                                         <i class="ti-user mr-1"></i> Order Now
                                     </a>
                                 </li>
@@ -42,6 +42,19 @@
                 </div>
             </div>
         </div>
+        <div wire:loading>
+            @livewire('general.loader')
+        </div>
     </div>
     <!-- End Navigation -->
+    <style>
+        @media(max-width :800px){
+            .order{
+                margin-top: 1rem;
+            }
+            .add-listing:hover a{
+                color:white !important;
+            }
+        }
+    </style>
 </div>

@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\CheckClientEmailEvent;
 use App\Events\ClientAuthSuccessEvent;
 use App\Events\ClientHasLoggedInEvent;
 use App\Events\ClientHasRegisteredEvent;
 use App\Events\OrderAnswerUploadEvent;
 use App\Events\OrderRegisteredEvent;
 use App\Listeners\AuthClientListener;
+use App\Listeners\CheckClientEmailListener;
 use App\Listeners\CreateOrderListener;
 use App\Listeners\StoreFilesListener;
 use Illuminate\Auth\Events\Registered;
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderAnswerUploadEvent::class => [
             StoreFilesListener::class,
+        ],
+        CheckClientEmailEvent::class =>[
+            CheckClientEmailListener::class,
         ],
     ];
 

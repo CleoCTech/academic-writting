@@ -28,6 +28,23 @@ class PlaceOrder extends Component
 
     public function mount()
     {
+        if (session()->has('Order')) {
+            foreach (session('Order') as $key => $value)
+            {
+                if($value['type']=='subject_id'){
+                    $this->category_id = $value['message'];
+                }
+                if($value['type']=='pages'){
+                    $this->pages = $value['message'];
+                }
+                if($value['type']=='deadline_date'){
+                    $this->deadline_date = $value['message'];
+                }
+                if($value['type']=='deadline_time'){
+                    $this->deadline_time = $value['message'];
+                }
+            }
+        }
         session()->forget('files');
         // Session::forget('files');
         $this->categories = PaperCategory::all();
@@ -37,7 +54,6 @@ class PlaceOrder extends Component
         Session::forget('Order');
         $this->validate();
         $this->storeInSession();
-        // dd(session()->get('Order'));
         //go to next view
         if (Auth::check()) {
             $this->emitUp('update_varView', 'step4');

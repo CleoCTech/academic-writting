@@ -27,7 +27,10 @@
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         <!--end::Global Stylesheets Bundle-->
         <script src="https://kit.fontawesome.com/e1b0575b51.js" crossorigin="anonymous"></script>
-        {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script> --}}
+        {{-- <script src="https://cdn.jsdelivr.net/gh/alpinej
+        s/alpine@v2.8.2/dist/alpine.min.js" defer></script> --}}
+        <script src="{{ mix('js/app.js') }}" defer></script>
+        @livewireStyles
     </head>
     <!--end::Head-->
 
@@ -269,15 +272,25 @@
         <script src="{{ asset('dash-assets/js/custom/widgets.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/custom.js') }}" defer></script>
+        <script src="{{ asset('assets/js/jquery.min.js') }}" ></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
         <!--end::Page Custom Javascript-->
+        <script>
+
+            $(document).ready(function(){
+                console.log('Ready');
+            });
+        </script>
         @yield('scripts')
-        <script type="text/javascript">
+        {{-- <script>
+           setInterval(() => {
+            scrollToBottomFunc();
+           }, 4000);
             function scrollToBottomFunc() {
                 $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
             }
-        </script>
+        </script> --}}
         <!--end::Javascript-->
     </body>
     <!--end::Body-->

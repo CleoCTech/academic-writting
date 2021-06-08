@@ -1,7 +1,9 @@
 <div>
     {{-- Because she competes with no one, no one can compete with her. --}}
     <!--begin::Content-->
-
+    <div wire:loading>
+        @livewire('general.loader')
+    </div>
     @if ($varView=='')
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Toolbar-->
@@ -15,16 +17,8 @@
                         <small class="text-muted fs-6 fw-normal ms-1"></small>
                     </h1>
                     {{-- <a href="#"><x-jet-button>Test Jobs List</x-jet-button></a> --}}
-
                     <!--end::Title-->
                 </div>
-                <!--end::Info-->
-                <!--begin::Actions-->
-                {{-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target"
-                        id="kt_toolbar_primary_button">Add a Writer</a>
-                </div> --}}
-                <!--end::Actions-->
             </div>
         </div>
         <!--end::Toolbar-->

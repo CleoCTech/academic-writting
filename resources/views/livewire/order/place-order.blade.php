@@ -78,7 +78,12 @@
             </div>
         </div>
 
-        <p>Add Files</p>
+        <h4 class="text-blue-400 " style="margin-top: 1rem;">Add Files (Optional)
+            <span
+                class="svg-icon svg-icon-4 ">
+                <i class="bi bi-paperclip text-blue-400"></i>
+            </span>
+        </h4>
         <div wire:ignore class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -92,18 +97,19 @@
         <div class="btn-group text-center" role="group" aria-label="Basic example" style='display: block;'>
             {{-- <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2">Previous</a></button> --}}
             @guest
-                <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2" wire:click='store'>Next</a></button>
-
+                <button type="button"
+                    wire:click='store'
+                    wire:loading.class.remove="btn-themex dark"
+                    wire:loading.class="bg-gray-300"
+                    class="btn mr-2"><a class="btn btn-themex dark mr-2">Next</a></button>
             @endguest
-            @auth
-                <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2" wire:click='store'>Submit</a></button>
-            @endauth
 
+        </div>
+        <div wire:loading>
+            @livewire('general.loader')
         </div>
 </fieldset>
 </div>
-
-
 
 @section('scripts')
 <script type="text/javascript">

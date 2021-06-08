@@ -33,9 +33,9 @@
         <div id="main-wrapper">
 
             @livewire('inc.nav-menu')
-            @livewire('inc.hero-banner')
+            
                 <!-- Page Content -->
-                <main>
+                <main style="margin-top: 5rem;">
                     {{ $slot }}
                 </main>
 
@@ -64,13 +64,40 @@
 
             $(document).ready(function(){
                 console.log('Ready');
-                $("#q").click(function(){
-                    alert('clicked');
-                    $(this).hide();
-                });
             });
         </script>
-
+        <script type="text/javascript">
+          function showAuthPass (element) {
+               var x = document.getElementById('auth_pass');
+               if (x.type === "password") {
+                   element.innerHTML= 'Hide';
+                   x.type = "text";
+               } else {
+                   element.innerHTML= 'Show';
+                   x.type = "password";
+               }
+           }
+         function showPass (element) {
+               var x = document.getElementById("password");
+               if (x.type === "password") {
+                   element.innerHTML= 'Hide';
+                   x.type = "text";
+               } else {
+                   element.innerHTML= 'Show';
+                   x.type = "password";
+               }
+           }
+        function showConfirmPass(element) {
+               var x = document.getElementById("confirm_password");
+               if (x.type === "password") {
+                   element.innerHTML= 'Hide';
+                   x.type = "text";
+               } else {
+                   element.innerHTML= 'Show';
+                   x.type = "password";
+               }
+           }
+        </script>
         @yield('scripts')
     </body>
 </html>

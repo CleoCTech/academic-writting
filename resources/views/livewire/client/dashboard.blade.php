@@ -1,6 +1,8 @@
 <div>
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day --}}
-
+    <div wire:loading>
+        @livewire('general.loader')
+    </div>
     @if ($varView == '')
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Toolbar-->

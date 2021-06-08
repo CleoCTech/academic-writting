@@ -84,24 +84,6 @@
                             </div>
                             <!--/row -->
                         </div>
-
-                        <!-- Col-lg 4 -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="product-wrap">
-                                        <h5>Summary</h5>
-                                        <ul>
-                                            <li><strong>Total</strong>$319</li>
-                                            <li><strong>Subtotal</strong>$319</li>
-                                            <li><strong>Tax</strong>$10</li>
-                                            <li><strong>Total</strong>$329</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /col-lg-4 -->
                     </div>
                 </div>
             </section>
@@ -141,7 +123,7 @@
                                                 <div class="input-group">
                                                     <input type="password" id="auth_pass" class="form-control with-light" wire:model.defer='auth_pass' />
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary custom-btn" type="button"  onclick="showAuthPass(this)"> Show</button>
+                                                        <button class="btn btn-outline-secondary custom-btn" type="button"  onClick="showAuthPass(this)"> Show</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,23 +134,6 @@
                             <!--/row -->
                         </div>
 
-                        <!-- Col-lg 4 -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="product-wrap">
-                                        <h5>Summary</h5>
-                                        <ul>
-                                            <li><strong>Total</strong>$319</li>
-                                            <li><strong>Subtotal</strong>$319</li>
-                                            <li><strong>Tax</strong>$10</li>
-                                            <li><strong>Total</strong>$329</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /col-lg-4 -->
                     </div>
                 </div>
             </section>
@@ -178,12 +143,22 @@
     </div>
     <div class="btn-group text-center" role="group" aria-label="Basic example" style='display: block;'>
         <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2"
-                wire:click='previousStep'>Previous</a></button>
+                wire:click='previousStep'
+                wire:loading.class.remove="btn-themex dark"
+                wire:loading.class="bg-gray-300"
+                >Previous</a></button>
         <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2"
-                wire:click='store'>Submit</a></button>
+                wire:click='store'
+                wire:loading.class.remove="btn-themex dark"
+                wire:loading.class="bg-gray-300"
+                >Submit</a></button>
+    </div>
+    <div wire:loading>
+        @livewire('general.loader')
     </div>
 </div>
-<style scoped>
+
+<style>
     .custom-checkbox {
         margin-top: 3rem !important;
         margin-left: -8.25rem !important;
@@ -219,35 +194,8 @@
         padding: 0px 5px 0px 5px !important;
     }
 </style>
-<script>
-    function showAuthPass(element) {
-        var x = document.getElementById("auth_pass");
-        if (x.type === "password") {
-            element.innerHTML= 'Hide';
-            x.type = "text";
-        } else {
-            element.innerHTML= 'Show';
-            x.type = "password";
-        }
-    }
-    function showPass(element) {
-        var x = document.getElementById("password");
-        if (x.type === "password") {
-            element.innerHTML= 'Hide';
-            x.type = "text";
-        } else {
-            element.innerHTML= 'Show';
-            x.type = "password";
-        }
-    }
-    function showConfirmPass(element) {
-        var x = document.getElementById("confirm_password");
-        if (x.type === "password") {
-            element.innerHTML= 'Hide';
-            x.type = "text";
-        } else {
-            element.innerHTML= 'Show';
-            x.type = "password";
-        }
-    }
-</script>
+@section('scripts')
+
+@endsection
+
+
