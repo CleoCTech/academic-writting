@@ -15,6 +15,14 @@ class Billing extends Component
     {
         $this->clientId = session()->get('client_id');
     }
+    public function pay()
+    {
+        session()->forget('payment');
+        $value = session()->get('payment');
+        while ($value == null) {
+            $value = session()->get('payment');
+        }
+    }
     public function render()
     {
         return view('livewire.order.billing');

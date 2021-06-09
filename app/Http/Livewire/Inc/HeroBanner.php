@@ -10,7 +10,7 @@ use Livewire\Component;
 class HeroBanner extends Component
 {
     use SendAlerts;
-    
+
     public $categories=[];
     public $email, $categoryId, $pages, $dDate, $dTime;
 
@@ -24,6 +24,7 @@ class HeroBanner extends Component
     protected $messages = [
         'email.required' => 'Email address cannot be empty.',
         'dDate.required' => 'Provide Deadline Date.',
+        'categoryId.required' => 'Select Paper Category.',
         'dTime.required' => 'Provide Deadline Time.',
         'email.email' => 'The Email Address format is not valid.',
     ];

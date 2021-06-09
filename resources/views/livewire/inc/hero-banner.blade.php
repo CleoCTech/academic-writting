@@ -97,7 +97,7 @@
                                                         @endforeach
                                                         @endif
                                                     </select>
-                                                    @error('pages') <p class="error" style="color:red">{{ $message }}</p> @enderror
+                                                    @error('categoryId') <p class="error" style="color:red">{{ $message }}</p> @enderror
                                             </div>
                                             <div class="relative w-full mb-3">
                                                 <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="pages">Pages</label>

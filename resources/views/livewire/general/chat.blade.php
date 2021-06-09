@@ -240,7 +240,7 @@
                                         <span class="btn btn-icon btn-active-light-primary">
                                             <i class="bi bi-paperclip"></i>
                                         </span>
-                                        <button  onclick="scrollToBottomFunc()" type="submit">
+                                        <button  onclick="scrollToBottomFunc()" type="submit" id="sendmsg">
 
                                             <span class="btn btn-icon btn-sm btn-active-light-primary" onclick="scrollToBottomFunc()">
                                                 <i class="fas fa-paper-plane fs-4"></i>
@@ -263,14 +263,38 @@
         <!--end::Container-->
     </div>
     <!--end::Content-->
+    <script type="text/javascript">
+        window.checkScroll = false;
+            setInterval(() => {
+                if (window.checkScroll) {
+                    // console.log("do nothing");
+                    window.checkScroll = false;
+                }else{
+                    scrollToBottomFunc();
+                }
+    
+            }, 4000);
+            $('.scroll-y').scroll( function(evt) {
+                window.checkScroll = true;
+                // console.log("scroll true1");
+            });
+
+            // $('.scroll-y').onscroll
+            // object.onscroll = function() { /*...*/ }
+            document.addEventListener("keyup", function(event) {
+                var sendmsg = document.getElementById('sendmsg');
+                if (event.keyCode === 13) {
+                    sendmsg.click();
+                }
+        });
+        function scrollToBottomFunc() {
+            $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+        }
+        function resetPond(){
+            var pond = document.getElementById("test");
+            pond.removeFiles();
+        }
+    </script>
 
 </div>
-<script type="text/javascript">
-    function scrollToBottomFunc() {
-        $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
-    }
-    function resetPond(){
-        var pond = document.getElementById("test");
-        pond.removeFiles();
-    }
-</script>
+

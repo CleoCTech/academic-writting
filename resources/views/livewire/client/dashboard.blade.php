@@ -17,6 +17,16 @@
                     </h1>
                     <!--end::Title-->
                 </div>
+
+                @if (session()->has('Invoice-Confirmed'))
+                <div class="alert alert-success">
+                    {{ session('Invoice-Confirmed') }}
+                </div>
+                @elseif(session()->has('Invoice-Rejected'))
+                <div class="alert alert-danger">
+                    {{ session('Invoice-Rejected') }}
+                </div>
+                @endif
                 <!--end::Info-->
                 <!--begin::Actions-->
                 {{-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">

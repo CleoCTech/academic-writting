@@ -25,7 +25,9 @@ class EditOrder extends Component
         'topic' => ['required'],
         'instructions' => ['required']
     ];
-
+    protected $messages = [
+        'category_id.required' => 'Select Paper Category.',
+    ];
     public function mount()
     {
         $this->categories = PaperCategory::all();

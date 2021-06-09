@@ -3,10 +3,13 @@
      <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
      <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" />
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day --}}
+    <div wire:loading>
+        @livewire('general.loader')
+    </div>
     <h3 class="my-4">
         Check your order and add funds to your balance
     </h3>
-    <button wire:click='back' class="btn btn-sm btn-light btn-active-light-primary">
+    <button wire:click='back' class="btn btn-sm btn-primary btn-active-light-text-primary">
        Back
     </button>
     <div class="row">
@@ -21,7 +24,7 @@
                 </div>
                 <div>
                     <p class="muted text-primary">Pages</p>
-                    <p class="lead fw-bold">{{$orderDetails->pages}} pages /__words</p>
+                    <p class="lead fw-bold">{{$orderDetails->pages}} pages /{{$orderDetails->pages*275}} words</p>
                 </div>
                 <div>
                     <p class="muted text-primary">Deadline</p>

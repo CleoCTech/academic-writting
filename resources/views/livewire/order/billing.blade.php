@@ -3,8 +3,11 @@
     <!-- Custom CSS -->
     <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" />
+    <div wire:loading wire:target='pay'>
+        @livewire('general.loader')
+    </div>
     <div class="row">
-        <button wire:click='back' class="btn btn-sm btn-light btn-active-light-primary">
+        <button wire:click='back' class="btn btn-sm btn-primary btn-active-light-text-primary">
             Back
          </button>
         <section class="gray-light min-sec">
@@ -90,8 +93,8 @@
 
                                                 <input type="button" class="previous action-button-previous btn btn-dark"
                                                     style="margin-left: -11rem; margin-top:15px;" value="Previous" wire:click='previousStep' />
-                                                <input type="submit" class="next action-button btn btn-primary"
-                                                    style="float:right; margin-top:15px;" value="Confirm" />
+                                                <input wire:click='pay' type="submit" class="next action-button btn btn-primary"
+                                                    style="float:right; margin-top:15px;" value="Submit Payment"  />
 
                                             </form>
                                         </div>

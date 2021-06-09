@@ -90,6 +90,8 @@ class ChatOrderSummary extends Component
 
         Order::where('id',  $order->id)
                 ->update(['status' => 'In progress']);
+        session()->flash('Invoice-Confirmed', 'Invoice Confirmed Succesfully, Your Order Is In Progress.');
+        return redirect()->route('dashboard');
 
     }
 

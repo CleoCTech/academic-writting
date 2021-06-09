@@ -1,6 +1,8 @@
 <div>
     {{-- The Master doesn't talk, he acts. --}}
-
+    <div wire:loading wire:target='store'>
+        @livewire('general.loader')
+    </div>
 <div  class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
      <!--begin::Toolbar-->
      <div class="toolbar" id="kt_toolbar">
@@ -48,10 +50,10 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label>Number of Pages</label>
+                            <label class="muted text-primary">Number of Pages</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">@</span>
+                                    <span class="input-group-text text-primary">@</span>
                                 </div>
                                 <input type="number" class="form-control" wire:model.defer="pages" value=''/>@error('pages') <span
                                     class="error" style="color:red">{{ $message }}</span> @enderror
@@ -61,10 +63,10 @@
 
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="form-group">
-                            <label>Deadline</label>
+                            <label class="muted text-primary">Deadline</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Date</span>
+                                    <span class="input-group-text text-primary">Date</span>
                                 </div>
                                 <input type="date" class="form-control" wire:model.defer='deadline_date' />@error('deadline_date')
                                 <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -73,10 +75,10 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="form-group">
-                            <label>Time</label>
+                            <label class="muted text-primary">Time</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Time</span>
+                                    <span class="input-group-text text-primary">Time</span>
                                 </div>
                                 <input type="time" class="form-control" wire:model.defer='deadline_time' />@error('deadline_time')
                                 <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -88,11 +90,16 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label>Select your Subject</label>
+                            <label class="muted text-primary">Select your Subject</label>
                             <select class="form-control" wire:model.defer="category_id">
-                                <option disabled selected>Select Category</option>
+                                @php $index = 0; @endphp
                                 @foreach ($categories as $category)
+                                @if ($index == 0)
+                                <option  selected value="{{$category->id}}">{{$category->subject}}</option>
+                                @else
                                 <option value="{{$category->id}}">{{$category->subject}}</option>
+                                @endif
+                                @php $index++; @endphp
                                 @endforeach
                             </select>
                             @error('category_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -100,7 +107,7 @@
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label>What is your topic?</label>
+                            <label class="muted text-primary">What is your topic?</label>
                             <input type="text" class="form-control" wire:model.defer="topic" />@error('topic') <span class="error"
                                 style="color:red">{{ $message }}</span> @enderror
                         </div>
@@ -111,8 +118,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                             {{-- <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script> --}}
-                            <label>Paper Instructions</label>
-                            <textarea class="form-control" rows="3" id="body"
+                            <label class="muted text-primary">Paper Instructions</label>
+                            <textarea class="form-control" rows="6" id="body"
                                 wire:model.defer="instructions"></textarea>@error('instructions') <span class="error"
                                 style="color:red">{{ $message }}</span> @enderror
                         </div>
