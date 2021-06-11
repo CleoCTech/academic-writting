@@ -64,6 +64,12 @@ class ChatOrderSummary extends Component
         $this->reset('fee');
 
     }
+    public function rejectInvoice()
+    {
+        Activity::where('id', $this->activity_id)
+                ->update(['status' => 'responded']);
+        session()->flash('Invoice-Rejected', 'Invoice has been declined. Create a new one');
+    }
     public function confrimInvoice()
     {
         if (session()->get('LoggedClient')!=null) {
