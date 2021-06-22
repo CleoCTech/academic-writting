@@ -80,7 +80,7 @@ class Invoice extends Component
             ['colName' => "updated_at",'colCaption' => 'Date Updated', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => false, 'isView' => true,'isSearch' => true],
 
         ];
-                                                                                                                                    
+
         $this->keyCol = $this->getKeyCol();
         return view('livewire.client.invoice')->with('data',$data)->layout('layouts.client');;
     }
@@ -98,7 +98,8 @@ class Invoice extends Component
     {
         $bill = OrderBilling::where('id', $orderId)->first();
 
-        return ($bill->total_amount - $bill->paid_amount);    }
+        return ($bill->total_amount - $bill->paid_amount);
+     }
     public function checkOrder($billId)
     {
         session()->put('billId', $billId);

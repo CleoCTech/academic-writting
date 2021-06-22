@@ -67,7 +67,7 @@ class ChatOrderSummary extends Component
     public function rejectInvoice()
     {
         Activity::where('id', $this->activity_id)
-                ->update(['status' => 'responded']);
+                ->update(['status' => 'rejected']);
         session()->flash('Invoice-Rejected', 'Invoice has been declined. Create a new one');
     }
     public function confrimInvoice()
@@ -164,7 +164,7 @@ class ChatOrderSummary extends Component
                     $this->confirm_invoice =true;
                     $this->activity_id = $this->activity->id;
                     $this->fee = $this->activity->value;
-                }elseif($this->activity->name == "Sent Invoice" && $this->activity->status == "responded"){
+                }elseif($this->activity->name == "Sent Invoice" && $this->activity->status == "responded" || $this->activity->status == "rejected"){
                     $this->confirm_invoice =false;
                 }
             }
@@ -204,7 +204,17 @@ class ChatOrderSummary extends Component
             // ->latest()
             // ->take(10)
             // ->get()
+            $this->activity = Activity::where(function ($query) use ($user_id, $my_id) {
+                $query->where('type', 'Admin')->where('to_id', $user_id );
+            })->latest('created_at')->first();
 
+            if ($this->activity) {
+                if ($this->activity->name == "Sent Invoice" && $this->activity->status == "responded") {
+                    session()->flash('success', 'Invoice Accepted.');
+                }elseif($this->activity->name == "Sent Invoice" &&  $this->activity->status == "rejected"){
+                    session()->flash('error', 'Invoice Rejected.');
+                }
+            }
             $this->clientFiles = ClientFile::where('client_id', $user_id)
                                             ->where('order_id',  $this->orderDetails->id)
                                             ->where('from',  'client')

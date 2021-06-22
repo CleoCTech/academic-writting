@@ -275,6 +275,7 @@
         <script src="{{ asset('assets/js/jquery.min.js') }}" ></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
+        <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
         <!--end::Page Custom Javascript-->
         <script>
 

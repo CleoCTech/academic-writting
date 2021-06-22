@@ -298,6 +298,20 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
+                        <div>
+                            @if (session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+                        </div>
+                        <div>
+                            @if (session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                            @endif
+                        </div>
                         <div class="card-body px-9">
                             <div class="row mt-0">
                                 <div class="col-md-6 mt-3">

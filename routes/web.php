@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VerifyWriterEmailController;
 use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\Job;
 use App\Http\Livewire\Client\ClientAuthentication;
@@ -9,7 +10,14 @@ use App\Http\Livewire\Client\Invoice;
 use App\Http\Livewire\General\Chat;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
+use App\Http\Livewire\Writer\Dashboard as WriterDashboard;
+use App\Http\Livewire\Writer\Settings;
+use App\Http\Livewire\Writer\Writer;
+use App\Http\Livewire\Writer\WriterAuthentication;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Route;
+use App\Mail\VerifyAccountMail;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +30,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+Route::get('/email', function () {
+    Mail::to('cleoctech@gmail.com')->send(new VerifyAccountMail('cleoctech@gmail.com'));
+    return new VerifyAccountMail('cleoctech@gmail.com');
+});
+// Route::get('/verify-email', function () {
+//     //check-email-token
+//     //verify-email
+//     //auth
+//     return new WriterDashboard();
 // });
+// Route::post('/confirm-payment',[\App\Http\Controllers\PaymentController::class, 'store'])->name('confirm-payment');
+Route::get('/verify-email/{mail}', [\App\Http\Controllers\VerifyWriterEmailController::class, 'verifyMail'])->name('verify-email');
+// Route::get('/verify-email/{mail}', VerifyEmailController::class, 'verifyMail')->name('verify-email');
 Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
 Route::get('/', Home::class);
 Route::get('/order', Order::class)->name('create-order');
+Route::get('/writer/get-started', Writer::class)->name('writer-get-started');
 
 
 // Route::middleware(['AuthCheck', 'second'])->group(function () {
@@ -40,6 +59,13 @@ Route::group(['middleware' => ['AuthCheck']], function(){
     Route::get('/client/invoice', Invoice::class)->name('client-invoice');
     Route::get('/client/chat', Chat::class)->name('client-chat');
     Route::post('/confirm-payment',[\App\Http\Controllers\StripePaymentController::class, 'store'])->name('confirm-payment');
+
+});
+Route::group(['middleware' => ['AuthWriter']], function(){
+
+    Route::get('/writer/login', WriterAuthentication::class)->name('writer-login');
+    Route::get('/writer/dashboard', WriterDashboard::class)->name('writer-dashboard');
+    Route::get('/writer/settings', Settings::class)->name('writer-settings');
 
 });
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

@@ -296,7 +296,96 @@
                     {{-- <a href="{{route('login')}}" rel="noopener noreferrer" class="mt-5">
                         <x-jet-button>Login</x-jet-button>
                     </a> --}}
+                    @elseif(session()->get('AuthWriter') !=null)
+                    <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+                        <!--begin::Menu-->
+                        <div class="cursor-pointer symbol symbol-40px" data-kt-menu-trigger="click"
+                            data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
+                            <img alt="Pic" src="/dash-assets/img/avatar.jpg" />
+                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
 
+                        <!--begin::Menu-->
+                        <div class="menu menu-sub menu-sub-dropdown menu-column w-300px" data-kt-menu="true">
+                            <!--begin::Heading-->
+                            <div class="menu-content fw-bold d-flex align-items-center bgi-no-repeat rounded-top"
+                                style="background-image: url('/dash-assets/img/pattern-2.jpg')">
+                                <!--begin::Avatar-->
+                                <div class="symbol symbol-40px mx-5 py-5">
+                                    {{-- <img alt="Logo" src="img/avatar.jpg" /> --}}
+                                    <img class="h-8 w-8 rounded-full object-cover"
+                                        src="/dash-assets/img/avatar.jpg" alt="Avatar" />
+                                </div>
+                                <!--end::Avatar-->
+                                <!--begin::Info-->
+                                <div>
+                                    <span class="text-white fw-bolder fs-4">Hello, {{$client->username}}</span>
+                                    <a href="#" class="link-white fw-bold fs-6 d-block opacity-75 opacity-100-hover">
+                                        {{$client->email}}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                            <!--end::Heading-->
+                            <!--begin::Row-->
+                            <div class="row row-cols-2 g-0">
+                                <!--begin::Col-->
+                                <a href="{{ route('profile.show') }}"
+                                    class="border-bottom border-end text-center py-10 btn btn-text-dark btn-icon-gray-400 btn-active-color-primary rounded-0">
+                                    <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-4-blocks-2.svg-->
+                                    <span class="svg-icon svg-icon-3x me-0">
+                                        <i class="bi bi-grid"></i>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    <span class="fw-bolder fs-6 d-block pt-3">My Profile</span>
+                                </a>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <a href="#"
+                                    class="col border-bottom text-center py-10 btn btn-text-dark btn-icon-gray-400 btn-active-color-primary rounded-0">
+                                    <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                    <span class="svg-icon svg-icon-3x me-0">
+                                        <i class="bi bi-sliders"></i>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    <span class="fw-bolder fs-6 d-block pt-3">Settings</span>
+                                </a>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col text-center border-end py-10 btn btn-text-dark btn-icon-gray-400 btn-active-color-primary rounded-0"
+                                    data-kt-menu-trigger="hover" data-kt-menu-placement="left-start"
+                                    data-kt-menu-flip="center, top">
+                                    <!--begin::Svg Icon | path: icons/stockholm/Shopping/Euro.svg-->
+                                    <span class="svg-icon svg-icon-3x me-0">
+                                        <i class="bi bi-cash"></i>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    <span class="fw-bolder fs-6 d-block pt-3">Subscriptions...</span>
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <!-- Authentication -->
+
+                                    <a href="{{ route('client-logout') }}"
+                                        class="col text-center py-10 btn btn-text-dark btn-icon-gray-400 btn-active-color-primary rounded-0">
+                                        <!--begin::Svg Icon | path: icons/stockholm/Navigation/Sign-out.svg-->
+                                        <span class="svg-icon svg-icon-3x me-0">
+                                            <i class="bi bi-box-arrow-right"></i>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                        <span class="fw-bolder fs-6 d-block pt-3">Sign Out</span>
+                                    </a>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+                        </div>
+                        <!--end::Menu-->
+                        <!--end::Menu-->
+                    </div>
                     @endif
 
                     <!--end::User -->
