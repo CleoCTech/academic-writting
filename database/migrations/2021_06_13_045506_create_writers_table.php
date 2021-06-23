@@ -21,8 +21,8 @@ class CreateWritersTable extends Migration
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('about-short')->nullable();
-            $table->mediumText('about-long')->nullable();
+            $table->string('about_short')->nullable();
+            $table->mediumText('about_long')->nullable();
             $table->string('status')->default('Pending');
             $table->timestamps();
         });

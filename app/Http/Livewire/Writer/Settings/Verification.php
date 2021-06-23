@@ -10,8 +10,8 @@ class Verification extends Component
     {
         return view('livewire.writer.settings.verification');
     }
-    public function settings($component)
+    public function settings()
     {
-        $this->emit('component', $component);
+        $this->emit('component', '');
     }
 }

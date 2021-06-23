@@ -1,6 +1,6 @@
 <div>
     {{-- The whole world belongs to you --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto">
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
         <div class="bg-white shadow rounded-lg p-6">
             <div class="flex justify-between items-center">
                 <span class="">
@@ -11,12 +11,17 @@
             </div>
             <div class="border-t mt-6 pt-3"></div>
 
-            <div class="grid lg:grid-cols-1 gap-1">
+            <div class="grid lg:grid-cols-1 gap-1" wire:click="settings('contacts')">
               <div class=" focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
-                    <div class="lg:flex md:flex items-center" wire:click="settings('contacts')" >
-                        <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                    <div class="lg:flex md:flex items-center" >
+                        @if ($contacts)
+                            <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @else
+                            <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
+
 
                     <div class="flex flex-col">
 
@@ -38,7 +43,11 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                    <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($profile)
+                            <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @else
+                            <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -55,13 +64,21 @@
                 </div>
               </div>
             </div>
-            <div class="grid lg:grid-cols-1 gap-1" wire:click="settings('id-verify')">
-              <div class=" focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
-                <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
+            <div class=" grid lg:grid-cols-1 gap-1" wire:click="settings('id-verify')"  >
+              <div class="focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1" >
+                <div class=" flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                        <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($first_section)
+                            @if ($id_verification)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
 
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
                     <div class="flex flex-col">
 
                         <div class="text-sm leading-3 text-gray-700 font-bold w-full">ID Verification</div>
@@ -82,7 +99,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                        <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($first_section)
+                            @if ($education)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                            @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -104,7 +129,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                    <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($first_section)
+                            @if ($work)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -126,7 +159,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                    <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($first_section)
+                            @if ($test)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -148,7 +189,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                    <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($second_section)
+                            @if ($payment)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -170,7 +219,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                        <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($second_section)
+                            @if ($depo)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -192,7 +249,15 @@
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">
 
                     <div class="lg:flex md:flex items-center">
-                        <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @if ($second_section)
+                            @if ($review)
+                                <i class="bi bi-check-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @else
+                                <i class="bi bi-exclamation-circle fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                            @endif
+                        @else
+                            <i class="bi bi-file-lock fa-3x h-12 w-12 mb-2 lg:mb-0 border md:mb-0 rounded-full mr-3"></i>
+                        @endif
 
                     <div class="flex flex-col">
 
@@ -214,4 +279,15 @@
         </div>
 
     </div>
+
+    <style>
+        /* .disabled:hover {
+            cursor: not-allowed !important;
+        } */
+
+        /* .disabled{
+            pointer-events: none;
+            cursor: not-allowed;
+        } */
+    </style>
 </div>
