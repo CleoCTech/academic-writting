@@ -22,7 +22,7 @@
 
                             <ul class="nav-menu nav-menu-social align-to-right">
                                 <li>
-                                    <a href="#">
+                                    <a href="{{route('writer-login')}}" style="color: black !important;">
                                         <i class="fa fa-upload mr-1"></i>For Writers
                                     </a>
                                 </li>

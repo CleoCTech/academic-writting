@@ -324,7 +324,11 @@
                                 <!--end::Avatar-->
                                 <!--begin::Info-->
                                 <div>
-                                    <span class="text-white fw-bolder fs-4">Hello, {{$client->username}}</span>
+                                    <span class="text-white fw-bolder fs-4">Hello, @if ($client->username != null)
+                                        {{$client->username}}
+                                        @else
+                                        {{$client->firstname ." ".$client->lastname }}
+                                    @endif </span>
                                     <a href="#" class="link-white fw-bold fs-6 d-block opacity-75 opacity-100-hover">
                                         {{$client->email}}</a>
                                 </div>
@@ -370,7 +374,7 @@
                                 <!--begin::Col-->
                                 <!-- Authentication -->
 
-                                    <a href="{{ route('client-logout') }}"
+                                    <a href="{{ route('writer-logout') }}"
                                         class="col text-center py-10 btn btn-text-dark btn-icon-gray-400 btn-active-color-primary rounded-0">
                                         <!--begin::Svg Icon | path: icons/stockholm/Navigation/Sign-out.svg-->
                                         <span class="svg-icon svg-icon-3x me-0">

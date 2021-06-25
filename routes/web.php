@@ -14,6 +14,7 @@ use App\Http\Livewire\Writer\Dashboard as WriterDashboard;
 use App\Http\Livewire\Writer\Settings;
 use App\Http\Livewire\Writer\Writer;
 use App\Http\Livewire\Writer\WriterAuthentication;
+use App\Http\Livewire\Writer\WriterLogout;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Mail\VerifyAccountMail;
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['AuthCheck']], function(){
 Route::group(['middleware' => ['AuthWriter']], function(){
 
     Route::get('/writer/login', WriterAuthentication::class)->name('writer-login');
+    Route::get('/writer/logout', WriterLogout::class)->name('writer-logout');
     Route::get('/writer/dashboard', WriterDashboard::class)->name('writer-dashboard');
     Route::get('/writer/settings', Settings::class)->name('writer-settings');
 
