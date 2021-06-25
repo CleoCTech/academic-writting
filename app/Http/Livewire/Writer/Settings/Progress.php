@@ -15,8 +15,8 @@ use Livewire\Component;
 class Progress extends Component
 {
 
-    public $contacts, $profile , $first_section, $second_section, $third_section, $id_verification, $education, $work, $test, $payment, $depo, $review = false;
-
+    public  $contacts, $profile , $first_section, $second_section, $third_section, $id_verification, $education, $work, $test, $payment, $depo, $review = false;
+    public $stage = 0;
     public function mount()
     {
         if (session()->has('AuthWriter')) {
@@ -25,6 +25,7 @@ class Progress extends Component
         $writer = Writer::where('id', session()->get('AuthWriter'))->first();
         if ($writer->firstname != null && $writer->lastname != null && $writer->dob != null) {
             $this->contacts = true;
+            $this->stage = 1;
         }
         if ($writer->avatar != null && $writer->about_long != null && $writer->about_short != null && $writer->degree != null ) {
             $services = Service::where('writer_id', $writer->id)->get();
@@ -33,25 +34,31 @@ class Progress extends Component
             if ($services !=null && $subjects !=null && $assignmentType !=null) {
                 $this->profile = true;
                 $this->first_section = true;
+                $this->stage = 2;
 
                 $ID_verification = IdVerification::where('writer_id', $writer->id)->first();
                 if ($ID_verification) {
                     $this->id_verification = true;
+                    $this->stage = 3;
                 }
                 $edu = EducationCert::where('writer_id', $writer->id)->first();
                 if ($edu) {
                     $this->education = true;
+                    $this->stage = 4;
                 }
                 $work = WorkExperience::where('writer_id', $writer->id)->first();
                 if ($work) {
                     $this->work = true;
+                    $this->stage = 5;
                 }
                 $test = Test::where('writer_id', $writer->id)->first();
                 if ($test) {
                     $this->test = true;
+                    $this->stage = 6;
                 }
                 if ($this->id_verification && $this->education && $this->work && $this->test) {
                     $this->second_section = true;
+                    $this->stage = 6;
                 }
             }
         }

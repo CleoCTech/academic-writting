@@ -1,16 +1,18 @@
 <div>
     {{-- The whole world belongs to you --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto">
         <div class="bg-white shadow rounded-lg p-6">
             <div class="flex justify-between items-center">
                 <span class="">
-                    <a class="text-lg text-gray-700 font-bold hover:text-gray-600" href="#">
-                        Completed 2 of 9
-                    </a>
+                    <p class="text-lg text-gray-700 font-bold hover:text-gray-600">
+                        Completed {{$stage}} of 9
+                    </p>
                 </span>
             </div>
             <div class="border-t mt-6 pt-3"></div>
-
+            <div wire:loading>
+                @livewire('general.please-wait')
+            </div>
             <div class="grid lg:grid-cols-1 gap-1" wire:click="settings('contacts')">
               <div class=" focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
                 <div class="flex items-center justify-between w-full p-2 lg:rounded-full md:rounded-full hover:bg-gray-100 cursor-pointer border-2 rounded-lg">

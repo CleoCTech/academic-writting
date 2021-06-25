@@ -1,8 +1,9 @@
 <div>
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' class="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300">
-            Back
+        <button wire:click='settings' type="button" class="rounded btn btn-primary">
+            <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
+           Back
         </button>
         <div class="grid  gap-8 grid-cols-1">
             <div class="flex flex-col ">
@@ -13,10 +14,10 @@
                 <div class="mt-5">
                     <div class="form">
                         <div class="md:space-y-2 mb-3">
-                            <div class="flex items-center py-6">
+                            {{-- <div class="flex items-center py-6">
                                 <div class="w-12 h-12 mr-4 flex-none rounded-xl border overflow-hidden">
                                     <img class="w-12 h-12 mr-4 object-cover"
-                                        src="https://images.unsplash.com/photo-1611867967135-0faab97d1530?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1352&amp;q=80"
+                                        src=""
                                         alt="Avatar Upload">
                                 </div>
                                 <label class="cursor-pointer ">
@@ -24,6 +25,24 @@
                                         class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-blue-400 hover:bg-blue-500 hover:shadow-lg">Browse</span>
                                     <input type="file" class="hidden" :multiple="multiple" :accept="accept">
                                 </label>
+                            </div> --}}
+                            <div class="w-20 h-auto mr-4 flex-none rounded-xl border overflow-hidden bg-gray-500 ">
+                                <div class="" x-data="imageData()">
+                                  <div x-show="previewUrl == ''">
+                                    <p class="text-center uppercase text-bold text-white">
+                                      <label for="thumbnail" class="text-sm cursor-pointer">
+                                        Upload image
+                                      </label>
+                                      <input type="file" name="thumbnail" id="thumbnail" class="hidden" @change="updatePreview()">
+                                    </p>
+                                  </div>
+                                  <div x-show="previewUrl !== ''">
+                                    <img :src="previewUrl" alt="" class="w-21 h-20 mr-4 object-cover rounded">
+                                    <div class="">
+                                      <button type="button" class="mb-5 text-white uppercase" @click="clearPreview()">change</button>
+                                    </div>
+                                  </div>
+                                </div>
                             </div>
                         </div>
                         <div class="md:flex flex-row md:space-x-4 w-full text-md">
@@ -183,4 +202,29 @@
             display: block;
         }
     </style>
+    <script>
+        window.imageData = function () {
+            // https://github.com/alpinejs/alpine/issues/152#issuecomment-595454553 =>import separate script
+            return {
+                previewUrl: "",
+                updatePreview() {
+                var reader,
+                    files = document.getElementById("thumbnail").files;
+
+                reader = new FileReader();
+
+                reader.onload = e => {
+                    this.previewUrl = e.target.result;
+                };
+
+                reader.readAsDataURL(files[0]);
+                },
+                clearPreview() {
+                document.getElementById("thumbnail").value = null;
+                this.previewUrl = "";
+                }
+            };
+            }
+
+    </script>
 </div>
