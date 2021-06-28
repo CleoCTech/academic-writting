@@ -210,8 +210,9 @@
 
                                         <ul x-show="isHamburgerOpen" x-cloak @click.away="isHamburgerOpen = false"
                                             class="absolute border bg-white shadow-md text-left -mt-10 -ml-12">
+                                            <input type="hidden" name="" wire:model.defer='id' value={{$phoneNumber->id}}>
                                             <li class="p-2 hover:bg-gray-200">✏ Edit</li>
-                                            <li class="p-2 hover:bg-gray-200"  x-data="{}" x-on:click="$dispatch('dlg-modal');$wire.deleteModal()">❌ Delete</li>
+                                            <li class="p-2 hover:bg-gray-200"  x-data="{}" x-on:click="$dispatch('dlg-modal');$wire.deleteModal({{$phoneNumber->id}}, 'PhoneNumber')">❌ Delete</li>
                                             <li class="p-2 hover:bg-gray-200">🦄 Other action</li>
                                         </ul>
                                     </td>

@@ -4,19 +4,24 @@ namespace App\Http\Livewire\Writer\Settings;
 
 use App\Models\PhoneNumber;
 use App\Models\Writer;
+use App\Traits\DeleteTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ProfileSetup extends Component
 {
-    public $first_name, $last_name, $dob, $email, $phone, $type,$modal;
+
+    use DeleteTrait;
+
+    public $phoneId, $first_name, $last_name, $dob, $email, $phone, $type,$modal;
     public $phoneNumbers = [];
     public $verified =false;
-    protected $listeners = ['mount'];
+    // protected $listeners = ['mount'];
+    public $listeners = ['phoneNumbersRefresh' => 'mount'];
     protected $rules = [
         'phone' => ['required', 'unique:phone_numbers', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
-        'type' => ['required', 'exists:phone_numbers,type'],
+        'type' => ['required'],
     ];
 
     public function MoreUserRules()
@@ -38,8 +43,9 @@ class ProfileSetup extends Component
     {
         $this->modal= "livewire.writer.components.add-contact-modal";
     }
-    public function deleteModal()
+    public function deleteModal($id, $model)
     {
+        $this->sendId($id, $model);
         $this->modal= "livewire.writer.components.delete-modal";
     }
     public function mount()
@@ -100,7 +106,7 @@ class ProfileSetup extends Component
             if ($save) {
                     session()->flash('success-modal', 'Saved Successfully');
                     $this->emit('alert_remove');
-                    $this->emit('mount');
+                    $this->emit('phoneNumbersRefresh');
             }else{
                     session()->flash('error-modal', 'Something went wrong');
                     $this->emit('alert_remove');
@@ -111,16 +117,10 @@ class ProfileSetup extends Component
        }
 
     }
-    public function DeletePhone($id)
+    public function DeletePhone()
     {
-        DB::beginTransaction();
-        try {
-            PhoneNumber::where('id', $id)->delete();
-            DB::Commit();
-            session()->flash('succes-modal', 'Record Deleted Successfully.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            session()->flash('error-modal',$e->getMessage());
-        }
+        $this->Destroy();
+        $this->emit('phoneNumbersRefresh');
+        $this->emit('alert_remove');
     }
 }

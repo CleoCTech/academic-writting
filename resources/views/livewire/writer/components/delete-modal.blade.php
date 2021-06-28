@@ -1,8 +1,8 @@
 <div>
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day --}}
-    <div class="flex justify-between items-center pb-3">
+    <div class="flex justify-between items-center pb-3" x-data ="{}">
         <p class="text-2xl font-bold">Delete</p>
-        <div class="cursor-pointer z-50" >
+        <div class="cursor-pointer z-50" x-on:click="$dispatch('dlg-modal');">
             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
                 height="18" viewBox="0 0 18 18">
                 <path
@@ -14,11 +14,11 @@
     <!-- content -->
     <p class="">Are you sure you want to delete this record?</p>
 
-    <!--Footer  click="alert('Additional Action');"-->
+    <!--Footer  click="alert('Additional Action') wire:click='DeletePhone';"-->
     <div class="flex justify-end pt-2">
-        <button wire:click="DeletePhone({{ $todo->id }})"
+        <button wire:click='DeletePhone'  x-on:click="$dispatch('dlg-modal');"
             class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Delete</button>
         <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400"
-           >No</button>
+        x-on:click="$dispatch('dlg-modal');" >No</button>
     </div>
 </div>
