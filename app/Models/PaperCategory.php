@@ -19,4 +19,13 @@ class PaperCategory extends Model
     {
         return $this->hasMany(Order::class, 'subject_id', 'id');
     }
+    /**
+     * Get all of the writerSubjects for the PaperCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(SubjectHandle::class, 'subject_id', 'id');
+    }
 }

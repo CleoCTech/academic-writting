@@ -33,11 +33,7 @@ class StoreFilesListener
                 // dump($values['filename']);
                 $temporaryFile = TemporaryFile::where('folder', $values['folder'])->first();
                 if ($temporaryFile) {
-                    // $file = storage_path('app/public/clients/tmp/' .$values['folder']. '/' . $values['filename'] );
                     Storage::move('clients/tmp/' .$values['folder']. '/' . $values['filename'], 'client_files/' .$values['folder']. '/' . $values['filename']);
-                    // $file->storeAs('client_files/' .$values['folder']. '/' . $values['filename']);
-                    // $file->addMedia(storage_path('app/public/clients/tmp/' .$values['folder']. '/' . $values['filename'] ))
-                    //     ->toMediaCollection('client_files');
                         rmdir(storage_path('app/public/clients/tmp/' .$values['folder'] ));
                         $temporaryFile->delete();
                 }
