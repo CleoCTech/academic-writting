@@ -1,7 +1,7 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" >
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -35,12 +35,14 @@
 
         <div class="flex justify-between items-center mt-4">
             <div class=" mt-6">
-                <button wire:click="settings('upload-cert')" type="button" class="btn btn-primary">
+                <button wire:click="store" type="button" class="btn btn-primary">
                     Submit
                 </button>
             </div>
         </div>
-
+        <div wire:loading>
+            @livewire('general.please-wait')
+        </div>
     </div>
     <style>
         ol{
@@ -52,7 +54,7 @@
         const pond = FilePond.create( inputElement );
         FilePond.setOptions({
             server:{
-                url: '/upload',
+                url: '/upload-cv',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }

@@ -1,7 +1,29 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+        @if (session()->has('success'))
+        <div class="alert float-right grid grid-cols-3 gap-4" style="margin-top: -3rem;">
+            <div class="col-span-2 ..."></div>
+            <div class="m-auto">
+                <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+                    <div class="flex flex-row">
+                        <div class="px-2">
+                            <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M1299 813l-422 422q-19 19-45 19t-45-19l-294-294q-19-19-19-45t19-45l102-102q19-19 45-19t45 19l147 147 275-275q19-19 45-19t45 19l102 102q19 19 19 45t-19 45zm141 83q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
+                            </svg>
+                        </div>
+                        <div class="">
+                            <span class="font-semibold"> {{ session('success') }}</span>
+                            {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -46,11 +68,13 @@
     </div>
 
     <script type="text/javascript">
+
+        // sessionStorage.setItem("path", "writers/tmp");
         const inputElement = document.querySelector('input[id="test"]');
         const pond = FilePond.create( inputElement );
         FilePond.setOptions({
             server:{
-                url: '/upload',
+                url: '/upload-id-front',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }

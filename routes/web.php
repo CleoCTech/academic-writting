@@ -68,7 +68,12 @@ Route::group(['middleware' => ['AuthWriter']], function(){
     Route::get('/writer/logout', WriterLogout::class)->name('writer-logout');
     Route::get('/writer/dashboard', WriterDashboard::class)->name('writer-dashboard');
     Route::get('/writer/settings', Settings::class)->name('writer-settings');
-
+    Route::post('upload-id-front', [\App\Http\Controllers\UploadController::class, 'storeIdFront']);
+    Route::post('upload-id-back', [\App\Http\Controllers\UploadController::class, 'storeIdBack']);
+    Route::post('upload-selfie', [\App\Http\Controllers\UploadController::class, 'selfie']);
+    Route::post('upload-cert', [\App\Http\Controllers\UploadController::class, 'certificate']);
+    Route::post('upload-cert-selfie', [\App\Http\Controllers\UploadController::class, 'certSelfie']);
+    Route::post('upload-cv', [\App\Http\Controllers\UploadController::class, 'cv']);
 });
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return view('dashboard');

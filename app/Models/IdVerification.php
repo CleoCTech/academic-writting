@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class IdVerification extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['writer_id', 'type'];
 }

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class VerificationDetails extends Model
 {
     use HasFactory;
+    protected $fillable = ['verify_id', 'side', 'folder', 'filename'];
 }

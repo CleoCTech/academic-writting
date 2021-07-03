@@ -6,12 +6,15 @@ use Livewire\Component;
 
 class Verification extends Component
 {
+    public $identityId;
     public function render()
     {
         return view('livewire.writer.settings.verification');
     }
-    public function settings()
+    public function settings($target)
     {
-        $this->emit('component', '');
+        session()->forget('files');
+        session()->put('identityId', $this->identityId);
+        $this->emit('component', $target);
     }
 }

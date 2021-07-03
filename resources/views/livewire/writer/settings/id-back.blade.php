@@ -1,7 +1,7 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -50,7 +50,7 @@
         const pond = FilePond.create( inputElement );
         FilePond.setOptions({
             server:{
-                url: '/upload',
+                url: '/upload-id-back',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }

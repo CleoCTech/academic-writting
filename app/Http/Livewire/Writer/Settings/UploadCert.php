@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class UploadCert extends Component
 {
+
     public function render()
     {
         return view('livewire.writer.settings.upload-cert');

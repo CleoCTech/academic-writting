@@ -12,6 +12,7 @@ class EducationVerify extends Component
     }
     public function settings($component)
     {
+        session()->forget('files');
         $this->emit('component', $component);
     }
 }

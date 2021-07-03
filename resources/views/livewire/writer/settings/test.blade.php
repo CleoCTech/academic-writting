@@ -1,7 +1,7 @@
 <div>
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto">
+        <button  wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -52,7 +52,9 @@
             {{-- <input type="button" name="next" id="next" value="Next" class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
             <span class="float-right"><i class="fas fa-arrow-right fa-3x"></i></span> --}}
         </div>
-
+        <div wire:loading>
+            @livewire('general.please-wait')
+        </div>
     </div>
     <style>
         ol{

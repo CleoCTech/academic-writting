@@ -1,12 +1,12 @@
 <div>
     {{-- Because she competes with no one, no one can compete with her. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
         <h2 class="text-2xl text-gray-700 font-bold hover:text-gray-600">
-            Upload your certificate in PDF fomart
+            Upload your certificate in PDF format
         </h2>
         <hr>
         <div class="mt-2 max-w-md w-full text-center items-center">
@@ -50,7 +50,7 @@
         const pond = FilePond.create( inputElement );
         FilePond.setOptions({
             server:{
-                url: '/upload',
+                url: '/upload-cert',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }

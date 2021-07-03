@@ -58,7 +58,7 @@ class Auth extends Component
             $this->resetProps();
             $this->option1();
         }
-       
+
     }
     public function render()
     {

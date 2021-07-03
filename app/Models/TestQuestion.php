@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkExperience extends Model
+class TestQuestion extends Model
 {
     use HasFactory;
-    protected $fillable =['writer_id', 'folder', 'filename', 'type'];
+    protected $fillable = ['question', 'instructions'];
 }

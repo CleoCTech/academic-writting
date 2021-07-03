@@ -1,7 +1,7 @@
 <div>
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click='settings' type="button" class="btn btn-primary">
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -33,20 +33,20 @@
                     <div class="">
                         <div class="flex flex-wrap items-center -mx-3">
                             <label for="variant---"
-                                class="flex items-center px-3 py-2 "><input id="variant---" type="radio" name="variant"
+                                class="flex items-center px-3 py-2 "><input wire:model.defer='identityId' id="variant---" type="radio" name="variant"
                                     class="text-gray-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed"
-                                    value="" checked="checked">
+                                    value="National ID" checked="checked">
                                     <span class="block ml-3 text-sm font-medium leading-5 text-gray-700 capitalize">
                                     National ID
                                 </span>
                             </label>
-                            <label for="variant-danger" class="flex items-center px-3 py-2 "><input
-                                    value="danger" id="variant-danger" type="radio" name="variant"
+                            <label for="variant-danger" class="flex items-center px-3 py-2 "><input wire:model.defer='identityId'
+                                    value="Passport" id="variant-danger" type="radio" name="variant"
                                     class="text-gray-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed">
                                 <span class="block ml-3 text-sm font-medium leading-5 text-gray-700 capitalize">
                                     Passport
-                                </span></label><label for="variant-buttons" class="flex items-center px-3 py-2 "><input
-                                    value="buttons" id="variant-buttons" type="radio" name="variant"
+                                </span></label><label for="variant-buttons" class="flex items-center px-3 py-2 "><input wire:model.defer='identityId'
+                                    value="Licence" id="variant-buttons" type="radio" name="variant"
                                     class="text-gray-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed">
                                 <span class=" block ml-3 text-sm font-medium leading-5 text-gray-700 capitalize">
                                     Licence

@@ -1,7 +1,7 @@
 <div>
     {{-- In work, do what you enjoy. --}}
     <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" wire:poll>
-        <button wire:click="settings('settings')" type="button" class="btn btn-primary">
+        <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
            Back
         </button>
@@ -32,7 +32,7 @@
         <hr>
         <div class="flex justify-between items-center mt-4">
             <div class=" mt-6">
-                <button wire:click="settings('settings')" type="button" class="btn btn-primary">
+                <button wire:click="store" type="button" class="btn btn-primary">
                    Submit
                 </button>
                 {{-- <input type="button" name="next" id="next" value="Next" class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
@@ -50,7 +50,7 @@
         const pond = FilePond.create( inputElement );
         FilePond.setOptions({
             server:{
-                url: '/upload',
+                url: '/upload-selfie',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
