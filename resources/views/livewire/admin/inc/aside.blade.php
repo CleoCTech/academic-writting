@@ -149,8 +149,11 @@
                     </div>
                 </div> --}}
 
+
+                    @if ($account_status)
+
                     <div class="menu-item">
-                        <a class="menu-link active" href="{{ route('dashboard')}}">
+                        <a class="menu-link active" href="{{ route('writer-dashboard')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-arrange.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -161,8 +164,6 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </div>
-                    @if ($account_status)
-
 
                     <div class="menu-item">
                         <a class="menu-link" href="{{ route('client-chat')}}">
@@ -201,7 +202,19 @@
                             <span class="menu-title">Emails</span>
                         </a>
                     </div>
-
+                    @else 
+                    <div class="menu-item">
+                        <a class="menu-link active" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-arrange.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-grid"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </div>
                     @endif
                     <div class="menu-item">
                         <a wire:click='invoice' class="menu-link" href="{{ route('writer-settings')}}">

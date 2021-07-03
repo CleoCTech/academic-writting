@@ -15,7 +15,7 @@ class Aside extends Component
     {
         if (session()->get('AuthWriter') !=null) {
             $this->client = Writer::where('id', session()->get('AuthWriter'))->first();
-            if (!$this->client->status == "Pending") {
+            if ($this->client->status != "Pending") {
                 $this->account_status = true;
             }
         } elseif(session()->get('LoggedClient') !=null) {
