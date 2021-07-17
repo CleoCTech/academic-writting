@@ -82,6 +82,5 @@ class Progress extends Component
             $this->emit('component', $component);
         }
 
-
     }
 }

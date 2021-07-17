@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\VerifyWriterEmailController;
 use App\Http\Livewire\Admin\AdminDashboard;
+use App\Http\Livewire\Admin\Applications;
 use App\Http\Livewire\Admin\Job;
 use App\Http\Livewire\Client\ClientAuthentication;
 use App\Http\Livewire\Client\ClientLogout;
@@ -85,4 +86,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/admin/orders', Job::class)->name('view-orders');
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
     Route::get('/admin/invoice', Invoice::class)->name('invoices');
+    Route::get('/admin/chat', Chat::class)->name('admin-chat');
+    Route::get('/admin/applications', Applications::class)->name('applications');
 });

@@ -17,7 +17,9 @@ class AdminDashboard extends Component
     use SearchFilterTrait;
     use SearchFilterTrait;
 
-    protected $listeners = ['update_varView'=> 'updateVarView' ];
+    protected $listeners = [
+        'update_varView'=> 'updateVarView'
+     ];
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
     public $quickStats = true;
@@ -109,6 +111,12 @@ class AdminDashboard extends Component
         $this->resetCenterView();
         $this->menuButtons=false;
         $this->centerView = 'cancelled';
+    }
+    public function applications()
+    {
+        $this->resetCenterView();
+        $this->menuButtons=false;
+        $this->centerView = 'applications';
     }
     public function default()
     {

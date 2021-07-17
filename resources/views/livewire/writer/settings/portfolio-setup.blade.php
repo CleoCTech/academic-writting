@@ -83,6 +83,7 @@
                                     class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                                     required="required" type="text" name="integration[shop_name]"
                                     id="integration_shop_name">
+                                    @error('aboutMeShort') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 <p class="text-red text-xs hidden">Please fill out this field.</p>
                             </div>
                         </div>
@@ -91,6 +92,7 @@
                             <textarea required="" name="message" id="" wire:model.defer='aboutMeDetail'
                                 class="w-full min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4"
                                 placeholder="Enter more details about you" spellcheck="false"></textarea>
+                                @error('aboutMeDetail') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             <p class="text-xs text-gray-400 text-left my-3">You inserted 0 characters</p>
                         </div>
 
@@ -100,11 +102,12 @@
                                 <select wire:model.defer='degree'
                                     class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "
                                     required="required" name="integration[city_id]" id="integration_city_id">
-                                    <option value="">Bachelor</option>
-                                    <option value="">Master</option>
-                                    <option value="">Phd</option>
-                                    <option value="">Associate</option>
+                                    <option value="Bachelor">Bachelor</option>
+                                    <option value="Master">Master</option>
+                                    <option value="Phd">Phd</option>
+                                    <option value="Associate">Associate</option>
                                 </select>
+                                @error('degree') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 <p class="text-sm text-red-500 hidden mt-3" id="error">Please fill out this field.</p>
                             </div>
                         </div>

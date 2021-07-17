@@ -37,7 +37,6 @@ class PortfolioSetup extends Component
         'aboutMeShort' => ['required'],
         'aboutMeDetail' => ['required'],
         'degree' => ['required'],
-        'services' => ['required'],
         'avatar' => ['image', 'max:1024'],
     ];
     public function mount()
@@ -110,9 +109,7 @@ class PortfolioSetup extends Component
     public function updatePortfolio()
     {
         $this->validate();
-
         $storedImage=  $this->avatar->store('writer_avatar');
-
         $this->postServices();
 
         try {

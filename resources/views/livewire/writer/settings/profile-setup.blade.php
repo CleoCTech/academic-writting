@@ -220,7 +220,7 @@
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td class="italic text-center" colspan="{{count($cols)}}">
+                                    <td class="italic text-center" >
                                         <br>*** No records
                                         found ***</td>
                                 </tr>

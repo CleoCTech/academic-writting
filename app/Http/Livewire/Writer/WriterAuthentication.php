@@ -78,7 +78,7 @@ class WriterAuthentication extends Component
     }
     public function signup()
     {
-        $this->validate($this->NewUserRules());
+        $this->validate($this->MoreUserRules());
 
         $email = Writer::where('email', $this->email)->first();
         if ($email) {

@@ -202,7 +202,7 @@
                             <span class="menu-title">Emails</span>
                         </a>
                     </div>
-                    @else 
+                    @else
                     <div class="menu-item">
                         <a class="menu-link active" href="#">
                             <span class="menu-icon">
@@ -315,18 +315,6 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
-                                <span class="svg-icon svg-icon-3">
-                                    <i class="bi bi-people"></i>
-                                </span>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-title">Users</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
                         <a class="menu-link" href="{{ route('invoices')}}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
@@ -354,6 +342,54 @@
                         <div class="menu-content">
                             <div class="separator mx-1 my-4"></div>
                         </div>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Staff</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Clients</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Writers</span>
+                        </a>
+                    </div>
+                    <div class="menu-item" >
+                        <a class="menu-link" href="{{route('applications')}}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Apllications</span>
+                        </a>
                     </div>
                 </div>
             </div>

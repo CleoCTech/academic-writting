@@ -411,5 +411,9 @@
         </div>
         <!--end::Col-->
     </div>
+    @elseif ($currentView=='applications')
+        <div class="">
+            <h2>Applications</h2>
+        </div>
     @endif
 </div>
