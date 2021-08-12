@@ -4,21 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ClientFile extends Model implements HasMedia
+class WriterBid extends Model
 {
     use HasFactory;
-    use HasMediaTrait;
 
     protected $fillable =[
-        'client_id', 'order_id', 'folder', 'filename', 'from'
+        'writer_id', 'order_id', 'bid', 'price', 'status'
     ];
 
     /**
-     * Get the Order that owns the ClientFile
+     * Get the writer associated with the WriterBid
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function writer(): HasOne
+    {
+        return $this->hasOne(Writer::class, 'id', 'writer_id');
+    }
+    /**
+     * Get the order that owns the WriterBid
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

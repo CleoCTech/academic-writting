@@ -147,6 +147,10 @@
                                                         x-on:click="$wire.viewApplication('{{$record[$keyCol]}}')">
                                                             View
                                                         </button>
+                                                        <button class="btn btn-sm btn-light btn-active-light-primary" {{$Accountstatus? 'disabled':''}}
+                                                        x-on:click="$wire.approve('{{$record[$keyCol]}}')">
+                                                            Approve
+                                                        </button>
                                                         <span>
                                                         <button class="btn btn-sm btn-light btn-active-light-danger">
                                                             Delete

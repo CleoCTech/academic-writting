@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\EducationCert;
+use App\Models\IdVerification;
+use App\Models\Test;
+use App\Models\WorkExperience;
 use App\Models\Writer;
 use Livewire\Component;
 use App\Traits\SearchTrait;
@@ -86,5 +90,42 @@ class Applications extends Component
     {
         $this->varView = $view;
     }
+    public function approve($id)
+    {
+
+        if ($this->checkOtherVerifications($id)) {
+            Writer::where('id', $id)
+                    ->update([
+                        'status' => 'Active',
+                    ]);
+            session()->flash('success', 'Verified Successfully.');
+            $this->emit('alert_remove');
+            redirect()->route('applications');
+        }else{
+            session()->flash('success', 'Verification Failed.');
+            $this->emit('alert_remove');
+        }
+
+    }
+   public function checkOtherVerifications($id)
+   {
+        $idVerification = IdVerification::where('writer_id', $id)
+                                        ->where('status', 'verified')->first();
+
+        $education = EducationCert::where('writer_id', $id)
+                                 ->where('status', 'verified')->first();
+        $cv = WorkExperience::where('writer_id', $id)
+                            ->where('status', 'verified')->first();
+
+        $test = Test::where('writer_id', $id)
+                    ->where('status', 'verified')->first();
+
+        if (! $idVerification || $education || $cv || $test) {
+            return true;
+        }else{
+            return false;
+        }
+
+   }
 
 }

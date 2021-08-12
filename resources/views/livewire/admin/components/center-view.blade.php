@@ -335,7 +335,7 @@
                                     <th class="min-w-180px">Order ID</th>
                                     <th class="min-w-125px">Details</th>
                                     <th class="min-w-120px">Progress</th>
-                                    <th class="text-end pe-2 min-w-70px">Action</th>
+                                    <th class="text-start pe-2 min-w-120px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -387,7 +387,8 @@
                                                 </div>
                                         </div>
                                     </td>
-                                    <td class="pe-0 text-end">
+                                    <td class="pe-0 text-start">
+                                        <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
                                         <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
                                     </td>
                                 </tr>

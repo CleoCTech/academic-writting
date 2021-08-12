@@ -3,12 +3,14 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Order;
+use App\Models\OrderBilling;
 use App\Models\RejectedOrder;
 use Livewire\Component;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboard extends Component
 {
@@ -18,12 +20,18 @@ class AdminDashboard extends Component
     use SearchFilterTrait;
 
     protected $listeners = [
-        'update_varView'=> 'updateVarView'
-     ];
-    public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
+        'update_varView'=> 'updateVarView',
+        'update_CenterView'=> 'updateCenterView',
+    ];
+
+    public $varView, $modal, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
+    public $clientPrice;
+    public $newPrice;
+    public $order_publishId;
     public $quickStats = true;
     public $menuButtons = true;
+
     public function updateVarView($varValue)
     {
         $this->resetFields();
@@ -42,6 +50,9 @@ class AdminDashboard extends Component
         $complete = $orders->whereIn('status', 'Complete');
         $revisions = RejectedOrder::where('from', 'client')->get();
         $progress_orders = $orders->where('status', 'In progress');
+
+        $active =  DB::select('SELECT * FROM `order_billings`  INNER JOIN `orders`
+                                            ON (`order_billings`.`order_id` = `orders`.`id`);');
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "order_no",'colCaption' => 'Order ID', 'type' => 'text', 'element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => true, 'isList' => true, 'isView' => true,'isSearch' => true],
@@ -59,13 +70,38 @@ class AdminDashboard extends Component
         ];
 
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.admin.admin-dashboard')->with(['pending_orders'=>$pending_orders, 'progress_orders'=>$progress_orders,  'complete'=>$complete, 'orders'=>$orders, 'revisions'=>$revisions, 'cancelled'=>$cancelled])->layout('layouts.client');
+        return view('livewire.admin.admin-dashboard')->with(['pending_orders'=>$pending_orders, 'progress_orders'=>$progress_orders,  'complete'=>$complete, 'orders'=>$orders, 'revisions'=>$revisions, 'cancelled'=>$cancelled, 'active'=>$active])->layout('layouts.client');
+    }
+    public function publishOrder($id, $clientPrice)
+    {
+        // dd($clientPrice);
+        $this->order_publishId = $id;
+        // dd($clientPrice);
+        $this->emit('clientPrice', $clientPrice);
+        $this->clientPrice = $clientPrice;
+        $this->modal= "livewire.admin.components.publish-order-modal";
     }
     public function chat($orderId)
     {
         $this->resetFields();
         session()->put('orderId', $orderId);
         $this->varView='chat';
+    }
+    public function bids($id)
+    {
+        session()->put('orderId', $id);
+        $this->centerView = 'bidders';
+    }
+    public function updateCenterView($value)
+    {
+        // dd($value);
+        // session()->put('orderId', $id);
+        $this->centerView = $value;
+    }
+    public function award($id)
+    {
+        session()->put('orderId', $id);
+        $this->centerView = 'bid-details';
     }
     public function revisions()
     {
@@ -128,14 +164,53 @@ class AdminDashboard extends Component
     public function jobs()
     {
         $this->resetFields();
-        $this->varView='jobs';
+        $this->varView ='jobs';
     }
     public function resetFields()
     {
-        $this->varView='';
+        $this->varView ='';
     }
     public function resetCenterView()
     {
-        $this->centerView='';
+        $this->centerView ='';
+    }
+
+    //modal
+    public function setNewPrice(){
+
+        // $this->validate();
+
+
+        try {
+            // dd($this->order_publishId);
+            // dd($this->newPrice);
+            DB::transaction(function() {
+
+                $update = OrderBilling::where('order_id', $this->order_publishId)
+                                        ->update([
+                                            'proposed_resell_price' => $this->newPrice,
+                                        ]);
+                if ($update) {
+                    // dd('yes');
+                    $published = Order::where('id', $this->order_publishId)
+                    ->update([
+                        'publish' => 1,
+                    ]);
+
+                    if ($published) {
+                        session()->flash('success-modal', 'Published Successfully');
+                        $this->emit('alert_remove');
+                    }
+
+                    // $this->emit('phoneNumbersRefresh');
+                }
+            });
+            // DB::update('update order_billinga set votes = 100 where name = ?', ['John']);
+
+        } catch (\Exception $e) {
+            session()->flash('error-modal',  $e->getMessage());
+            $this->emit('alert_remove');
+        }
+
     }
 }

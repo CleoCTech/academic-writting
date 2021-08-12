@@ -114,7 +114,7 @@
 
                     @if ($menuButtons)
                          <!-- Earnings (Monthly) Card Example -->
-                         <div wire:click='pending' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='pending' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-gray-600 shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md" >
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -139,7 +139,7 @@
                             </div>
                         </div>
 
-                        <div wire:click='cancelled' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='cancelled' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -156,7 +156,7 @@
                             </div>
                         </div>
 
-                        <div wire:click='progress' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='progress' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -181,7 +181,7 @@
                             </div>
                         </div>
 
-                        <div wire:click='completed' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='completed' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -206,7 +206,7 @@
                             </div>
                         </div>
 
-                        <div wire:click='revisions' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='revisions' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -231,7 +231,7 @@
                             </div>
                         </div>
 
-                        <div wire:click='doneRevisions' class="col-xl-3 col-md-6 mb-4">
+                        <div wire:click='doneRevisions' class="col-xl-3 col-md-6 mb-4 cursor-pointer">
                             <div class=" border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -1001,7 +1001,7 @@
                             </div>
                             <!--end::Col-->
                         </div>
-                        @elseif($centerView=='In Progress')
+                        @elseif($centerView == 'In Progress')
                         <div class="row g-5 gx-xxl-8 mb-xxl-3">
                             <!--begin::Col-->
                             <div class="col-xxl-12">
@@ -1054,16 +1054,17 @@
                                                                     value="1" />
                                                             </div>
                                                         </th>
-                                                        <th class="min-w-125px">Date</th>
+                                                        <th class="min-w-125px">Deadline</th>
                                                         <th class="min-w-180px">Order ID</th>
                                                         <th class="min-w-125px">Details</th>
+                                                        <th class="min-w-125px">Price</th>
                                                         <th class="min-w-120px">Progress</th>
-                                                        <th class="text-end pe-2 min-w-70px">Action</th>
+                                                        <th class="text-start pe-2 min-w-70px">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (count($progress_orders) > 0)
-                                                    @foreach ($progress_orders as $progress_order)
+                                                    @if (count($active) > 0)
+                                                    @foreach ($active as $progress_order)
                                                     <tr>
                                                         <td class="p-0">
                                                             <div
@@ -1104,6 +1105,17 @@
                                                             {{-- <span class="text-gray-400 fw-bold">
                                                                 Darknight transparency 36 Icons Pack</span> --}}
                                                         </td>
+                                                        <td class="p-0">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ps-3">
+                                                                    <a href="#"
+                                                                        class="text-gray-400 mb-1">$ {{$progress_order->amount}}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            {{-- <span class="text-gray-400 fw-bold">
+                                                                Darknight transparency 36 Icons Pack</span> --}}
+                                                        </td>
                                                         <td>
                                                             <div class="d-flex flex-column w-100 me-2 mt-2">
 
@@ -1118,9 +1130,13 @@
                                                                 @endif
                                                             </div>
                                                         </td>
-                                                        <td class="pe-0 text-end">
+                                                        <td class="pe-0 text-start">
                                                             <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
                                                                 x-on:click="$wire.chat('{{$progress_order->order_no}}')">View</a>
+                                                            <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                                            x-data="{}" x-on:click="$dispatch('dlg-modal');$wire.publishOrder({{$progress_order->id}}, '{{$progress_order->amount}}')">Publish Order</a>
+                                                            <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                                                x-on:click="$wire.bids('{{$progress_order->id}}')">View Bids</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -1133,6 +1149,11 @@
                                                     @endif
                                                 </tbody>
                                             </table>
+                                            <div x-data="{isDlgModal:false}" :class="{ 'block': isDlgModal, 'hidden': !isDlgModal }"
+                                            class="hidden" x-on:dlg-modal.window="isDlgModal = !isDlgModal"
+                                            @click.away="isDlgModal = false">
+                                            @include('livewire.general.global-modal')
+                                        </div>
                                         </div>
                                         <!--end::Table-->
                                     </div>
@@ -1142,7 +1163,7 @@
                             </div>
                             <!--end::Col-->
                         </div>
-                        @elseif($centerView=='Completed')
+                        @elseif($centerView == 'Completed')
                         <div class="row g-5 gx-xxl-8 mb-xxl-3">
                             <!--begin::Col-->
                             <div class="col-xxl-12">
@@ -1284,10 +1305,14 @@
                             </div>
                             <!--end::Col-->
                         </div>
-                        @elseif($centerView=='ongoing revisions')
+                        @elseif($centerView == 'ongoing revisions')
                         @livewire('admin.components.center-view')
-                        @elseif($centerView=='done revisions')
+                        @elseif($centerView == 'done revisions')
                         @livewire('admin.components.center-view')
+                        @elseif($centerView == 'bidders')
+                        @livewire('admin.order.order-bids')
+                        @elseif($centerView == 'bid-details')
+                        @livewire('admin.order.bid-details')
                         @endif
 
                 </div>

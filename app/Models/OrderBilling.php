@@ -12,7 +12,8 @@ class OrderBilling extends Model
     use HasFactory;
     use SearchTrait;
 
-    protected $fillable = ['order_id', 'client_id', 'amount', 'total_amount', 'paid_amount', 'prepared_by'];
+    protected $fillable = ['order_id', 'client_id', 'amount', 'total_amount',
+    'paid_amount', 'proposed_resell_price', 'sale_price', 'prepared_by'];
 
     /**
      * Get the client that owns the OrderBilling

@@ -159,7 +159,7 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verified Successfully');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }               
+        }
     }
     public function revertIdentity()
     {
@@ -172,7 +172,7 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verification Reversed');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }               
+        }
     }
     public function verifyEducation()
     {
@@ -185,7 +185,7 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verified Successfully');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }   
+        }
     }
     public function revertEducation()
     {
@@ -198,7 +198,7 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verification Reversed');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }   
+        }
     }
     public function verifyCV()
     {
@@ -211,7 +211,7 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verified Successfully');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }   
+        }
     }
     public function revertCV()
     {
@@ -224,6 +224,6 @@ class ApplicationDetails extends Component
             session()->flash('success', 'Verification Reversed');
             $this->emit('alert_remove');
             $this->emit('Refresh');
-        }   
+        }
     }
 }
