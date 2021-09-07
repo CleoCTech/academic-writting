@@ -60,24 +60,26 @@ class ViewOrderDetails extends Component
     public function bid()
     {
 
-        try {
             DB::transaction(function () {
-                WriterBid::create([
-                    'writer_id'=>$this->writerId[0],
-                    'order_id'=>$this->orderId[0],
-                    'bid'=>$this->message,
-                    'price'=>$this->bidPricex
-                ]);
+                try {
+                    WriterBid::create([
+                        'writer_id'=>$this->writerId,
+                        'order_id'=>$this->orderId[0],
+                        'bid'=>$this->message,
+                        'price'=>$this->bidPrice
+                    ]);
+                    session()->flash('success', 'Bid Made Successfully');
+                    // $this->emitUp('centerView', '');
+                } catch (\Exception $th) {
+                    // session()->flash('error', $th->getMessage());
+                    session()->flash('error', 'Oops! Something went wrong');
+
+                    // $this->emitUp('centerView', '');
+                    // return $th->getMessage();
+                }
+
             });
 
-            session()->flash('success', 'Bid Made Successfully');
-            $this->emitUp('centerView', '');
-        } catch (\Throwable $th) {
-            // dd("error");✅
-            session()->flash('error', $th->getMessage());
-            $this->emitUp('centerView', '');
-            return $th->getMessage();
-        }
 
     }
 }

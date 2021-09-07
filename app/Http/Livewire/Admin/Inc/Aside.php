@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Inc;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
 use App\Models\Writer;
 use Livewire\Component;
@@ -10,6 +11,10 @@ class Aside extends Component
 {
 
     public $account_status=false;
+    public $AuthWriter = '';
+    public $AuthClient = '';
+    public $client = '';
+    public $showAdminUtils = false;
 
     public function mount()
     {
@@ -21,6 +26,10 @@ class Aside extends Component
         } elseif(session()->get('LoggedClient') !=null) {
             $this->client = Client::where('id', session()->get('LoggedClient'))->first();
         }
+
+        // if (Auth::check()) {
+        //     $this->showAdminUtils = true;
+        // }
 
     }
     public function render()

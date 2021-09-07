@@ -12,6 +12,7 @@ use App\Http\Livewire\General\Chat;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
 use App\Http\Livewire\Writer\Dashboard as WriterDashboard;
+use App\Http\Livewire\Writer\Order\OrdersList;
 use App\Http\Livewire\Writer\Settings;
 use App\Http\Livewire\Writer\Writer;
 use App\Http\Livewire\Writer\WriterAuthentication;
@@ -75,6 +76,8 @@ Route::group(['middleware' => ['AuthWriter']], function(){
     Route::post('upload-cert', [\App\Http\Controllers\UploadController::class, 'certificate']);
     Route::post('upload-cert-selfie', [\App\Http\Controllers\UploadController::class, 'certSelfie']);
     Route::post('upload-cv', [\App\Http\Controllers\UploadController::class, 'cv']);
+
+    Route::get('/writer/my-orders', OrdersList::class)->name('my-orders');
 });
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return view('dashboard');

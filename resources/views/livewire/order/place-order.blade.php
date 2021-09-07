@@ -84,7 +84,7 @@
                 <i class="bi bi-paperclip text-blue-400"></i>
             </span>
         </h4>
-        <div wire:ignore class="row">
+        <div  class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <input type="file" name="paperFile"  id="test" multiple>
@@ -92,6 +92,7 @@
                     <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
                 </div> --}}
             </div>
+           
         </div>
         <hr>
         <div class="btn-group text-center" role="group" aria-label="Basic example" style='display: block;'>

@@ -10,15 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderRegisteredEvent
+class WriterCommitsOrderFilesEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $order, $client_id='';
-    public function __construct($order, $client_id)
+    public $orderId, $writer_id='';
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct($orderId, $writer_id)
     {
-        $this->order=$order;
-        $this->client_id=$client_id;
+        $this->orderId = $orderId;
+        $this->writer_id = $writer_id;
     }
 
 }

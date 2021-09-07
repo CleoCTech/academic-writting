@@ -8,10 +8,12 @@ use App\Events\ClientHasLoggedInEvent;
 use App\Events\ClientHasRegisteredEvent;
 use App\Events\OrderAnswerUploadEvent;
 use App\Events\OrderRegisteredEvent;
+use App\Events\WriterCommitsOrderFilesEvent;
 use App\Listeners\AuthClientListener;
 use App\Listeners\CheckClientEmailListener;
 use App\Listeners\CreateOrderListener;
 use App\Listeners\StoreFilesListener;
+use App\Listeners\WriterOrderFilesListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -45,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CheckClientEmailEvent::class =>[
             CheckClientEmailListener::class,
+        ],
+        WriterCommitsOrderFilesEvent::class =>[
+            WriterOrderFilesListener::class,
         ],
     ];
 

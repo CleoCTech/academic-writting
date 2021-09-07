@@ -121,7 +121,7 @@ class WriterAuthentication extends Component
                 session()->flash('message', 'Authentication Failed');
                 return false;
             }else{
-                session()->push('AuthWriter', $writer->id);
+                session()->put('AuthWriter', $writer->id);
                 return true;
             }
         } catch (Exception $th) {

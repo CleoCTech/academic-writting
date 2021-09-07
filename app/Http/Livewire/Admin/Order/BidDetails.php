@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Order;
 use App\Events\AwardOrderEvent;
 use App\Models\Order;
 use App\Models\OrderBilling;
+use App\Models\OrderStatus;
 use App\Models\WriterBid;
 use App\Models\WriterOrder;
 use Illuminate\Support\Facades\DB;
@@ -53,15 +54,43 @@ class BidDetails extends Component
                         ->update([
                             'status'=>'Expired'
                         ]);
-
+                OrderStatus::create(['order_id'=>$this->oderId, 'current_position' =>'Writer']);
                 Order::where('id', $this->oderId)
                         ->update([
-                            'publishs'=>0
+                            'publish'=>0
                         ]);
+
                 event( new AwardOrderEvent);
-                session()->flash('success', 'Order Awarded Successfully');
+                // session()->flash('success', 'Order Awarded Successfully');
+                $this->dispatchBrowserEvent('swal', [
+                    'title' => 'Order Awarded Successfully',
+                    'timer'=>3000,
+                    'icon'=>'success',
+                    'toast'=>true,
+                    'position'=>'top-right',
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+
+                ]);
             } catch (\Exception $th) {
-                session()->flash('error', 'Oops! Something went wrong');
+                //'Oops! Something went wrong'
+                // session()->flash('error', 'Oops! Something went wrong');
+                $this->dispatchBrowserEvent('swal', [
+                    'title' => 'Oops! Something went wrong',
+                    'timer'=>3000,
+                    'icon'=>'error',
+                    'toast'=>true,
+                    'position'=>'top-right',
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+
+                ]);
             }
 
         });

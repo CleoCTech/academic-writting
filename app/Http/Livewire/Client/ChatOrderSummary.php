@@ -11,7 +11,10 @@ use App\Models\Message;
 use App\Models\MessageTo;
 use App\Models\Order;
 use App\Models\OrderBilling;
+use App\Models\OrderStatus;
 use App\Models\RejectedOrder;
+use App\Models\WriterFile;
+use App\Models\WriterOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session ;
 use Livewire\Component;
@@ -20,6 +23,7 @@ use App\Traits\AdminPropertiesTrait;
 use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
 use Illuminate\Support\Facades\Storage;
+use Psy\Command\WhereamiCommand;
 
 class ChatOrderSummary extends Component
 {
@@ -29,11 +33,15 @@ class ChatOrderSummary extends Component
     use SearchFilterTrait;
     use SearchTrait;
 
-    public $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id, $file_id, $companyFile, $comment;
+    public $orderPK, $orderId, $client, $admin, $messageText, $from_id, $to_id, $type, $fee, $activity, $activity_id, $file_id, $companyFile, $comment;
     public $confirm_invoice, $reject_section, $accept_section, $saved=false;
+    public $rejectBtn = true;
+    public $acceptBtn = true;
     public $total_fee='Pending';
     public $orderStatus=false;
-    public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions=[];
+    public $showOperationSection = false;
+    public $orderNextLevel = false;
+    public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions, $writerFiles=[];
 
 
     public function back()
@@ -44,7 +52,7 @@ class ChatOrderSummary extends Component
     {
         // if (session()->get('LoggedClient')!=null) {
         //     $id = session()->get('LoggedClient');
-        //     $this->from_id= $id[0];
+        //     $this->from_id= $id;
         //     $this->to_id=1 ;
         //     $this->type= 'Client';
         // }
@@ -74,7 +82,7 @@ class ChatOrderSummary extends Component
     {
         if (session()->get('LoggedClient')!=null) {
             $id = session()->get('LoggedClient');
-            $this->from_id= $id[0];
+            $this->from_id= $id;
             $this->to_id=1 ;
             $this->type= 'Client';
         }
@@ -105,7 +113,7 @@ class ChatOrderSummary extends Component
     {
         if (session()->get('LoggedClient')!=null) {
             $id = session()->get('LoggedClient');
-            $this->from_id= $id[0];
+            $this->from_id= $id;
             $this->to_id=1 ;
             $this->type= 'Client';
         }
@@ -147,16 +155,16 @@ class ChatOrderSummary extends Component
             // Message::where(['from_id' => $user_id, 'to_id' => $my_id])->update(['is_read' => 1]);
             // Get all message from selected user
             $this->messages = Message::where(function ($query) use ($user_id, $my_id) {
-                $query->where('type', 'Admin')->where('to_id', $my_id[0] );
+                $query->where('type', 'Admin')->where('to_id', $my_id );
             })->oRwhere(function ($query) use ($user_id, $my_id) {
-                $query->where('from_id', $my_id[0])->where('type', 'Client');
+                $query->where('from_id', $my_id)->where('type', 'Client');
             })->get();
             // ->latest()
             // ->take(10)
             // ->get()
 
             $this->activity = Activity::where(function ($query) use ($user_id, $my_id) {
-                $query->where('type', 'Admin')->where('to_id', $my_id[0] );
+                $query->where('type', 'Admin')->where('to_id', $my_id);
             })->latest('created_at')->first();
 
             if ($this->activity) {
@@ -175,6 +183,9 @@ class ChatOrderSummary extends Component
             $this->companyFiles = ClientFile::where('client_id', $my_id)
                                             ->where('order_id',  $this->orderDetails->id)
                                             ->where('from',  'company')
+                                            ->get();
+            $this->writerFiles = WriterFile::where('order_id',  $this->orderDetails->id)
+                                            ->where('status', 'Accepted')
                                             ->get();
             $this->revisions = RejectedOrder::where('order_id', $this->orderDetails->id)->get();
         }
@@ -223,6 +234,9 @@ class ChatOrderSummary extends Component
                                             ->where('order_id',  $this->orderDetails->id)
                                             ->where('from',  'company')
                                             ->get();
+            $this->writerFiles = WriterFile::where('order_id',  $this->orderDetails->id)
+                                            ->get();
+            $this->grantOrderOperation($this->orderDetails->id, auth()->user()->role);
             $this->revisions = RejectedOrder::where('order_id', $this->orderDetails->id)->get();
         }
 
@@ -231,9 +245,63 @@ class ChatOrderSummary extends Component
 
     public function getDownload($value)
     {
+        if (session()->has('LoggedClient')) {
+            $file= 'storage/writer_files/' .$value;
+            if (file_exists($file)) {
+                return response()->download($file);
+            } else {
+                session()->flash('message', 'File Does Not Exist.');
+            }
+        } else {
+            $file= 'storage/client_files/' .$value;
 
-        $file= 'storage/client_files/' .$value;
-        return response()->download($file);
+            if (file_exists($file)) {
+                return response()->download($file);
+            } else {
+                session()->flash('message', 'File Does Not Exist.');
+            }
+        }
+    }
+    public function orderCurrentStatus($orderId)
+    {
+        $orderstaus = OrderStatus::where('order_id', $orderId)->first();
+        if ($orderstaus) {
+            return $orderstaus->current_position;
+        } else {
+            return 0;
+        }
+    }
+    public function grantOrderOperation($orderId, $role)
+    {
+        $orderstaus = OrderStatus::where('order_id', $orderId)->first();
+        if ($orderstaus) {
+            if ($orderstaus->current_position === $role ) {
+                $this->showOperationSection = true;
+            }else{
+                $this->showOperationSection = false;
+            }
+        }
+
+    }
+    public function checkIfOrderPassedStage($orderId, $stage)
+    {
+        //stages = ['Admin', 'Client', 'Editor'];
+        $orderRoute = AcceptedOrder::where('order_id', $orderId)
+                                    ->where('from', $stage)
+                                    ->first();
+        if ($orderRoute) {
+            $this->orderNextLevel =true;
+            if (session()->has('LoggedClient')) {
+                return "You Already took the order";
+            } else {
+                return "Order Already Submitted to the next Level";
+            }
+
+
+        } else {
+            $this->orderNextLevel =false;
+            return "No files uploaded";
+        }
 
     }
     public function edit()
@@ -272,71 +340,172 @@ class ChatOrderSummary extends Component
     {
         if ($this->reject_section) {
             $this->reject_section=false;
+            $this->rejectBtn=true;
         }else{
             $this->reject_section=true;
+            $this->rejectBtn=false;
+            $this->accept_section =false;
+            $this->acceptBtn = true;
         }
-        $this->reject_section=true;
+        // $this->reject_section=true;
     }
     public function activateAcceptSection()
     {
         if ( $this->accept_section) {
             $this->accept_section=false;
+            $this->acceptBtn=true;
         }else{
             $this->accept_section=true;
+            $this->acceptBtn=false;
+            $this->reject_section = false;
+            $this->rejectBtn = true;
         }
 
     }
     public function reject($value)
     {
         $order = Order::where('order_no', $value)->first();
-        $orderId = $order->id;
+        $this->orderPK = $order->id;
+        if ($this->comment == '') {
+            $this->comment = 'Rejected';
+        }
         if (session()->get('LoggedClient')) {
             RejectedOrder::create([
-                'order_id'=>$orderId,
+                'order_id'=>$this->orderPK,
                 'comment'=>$this->comment,
-                'from'=>'client',
+                'from'=>'Client',
                 'from_id'=>$this->orderDetails->client_id,
             ]);
-            event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+           // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
         }
-        if (auth()->user()!=null) {
-            RejectedOrder::create([
-                'order_id'=>$orderId,
-                'comment'=>$this->comment,
-                'from'=>'editor',
-                'from_id'=>auth()->user()->id,
-            ]);
+        if (auth()->user()!=null && auth()->user()->role == 'Editor') {
+            DB::transaction(function () {
+                try {
+                    RejectedOrder::create([
+                        'order_id'=>$this->orderPK,
+                        'comment'=>$this->comment,
+                        'from'=>auth()->user()->role,
+                        'from_id'=>auth()->user()->id,
+                    ]);
+                    $orderStatus = OrderStatus::updateOrCreate(
+                        ['order_id' =>  $this->orderPK],
+                        ['current_position' => 'Writer']
+                    );
+                    WriterOrder::where('order_id', $this->orderPK)
+                                ->update(['status'=>'Revision']);
+                    $this->accept_section=false;
+                    session()->flash('success', 'Order Rejected.');
+                    //notify writer
+                } catch (\Throwable $th) {
+                    session()->flash('success', $th->getMessage());
+                }
+            });
+
+        }elseif (auth()->user()!=null && auth()->user()->is_admin == 1 && auth()->user()->role == 'Admin') {
+            DB::transaction(function () {
+                try {
+                    RejectedOrder::create([
+                        'order_id'=>$this->orderPK,
+                        'comment'=>$this->comment,
+                        'from'=>auth()->user()->role,
+                        'from_id'=>auth()->user()->id,
+                    ]);
+                    $orderStatus = OrderStatus::updateOrCreate(
+                        ['order_id' =>  $this->orderPK],
+                        ['current_position' => 'Writer']
+                    );
+                    WriterOrder::where('order_id', $this->orderPK)
+                                ->update(['status'=>'Revision']);
+                    $this->accept_section=false;
+                    session()->flash('success', 'Order Rejected.');
+                    //notify writer
+                } catch (\Throwable $th) {
+                    session()->flash('success', $th->getMessage());
+                }
+            });
         }
-        // dd($value);
     }
     public function accept($value)
     {
         $order = Order::where('order_no', $value)->first();
-        $orderId = $order->id;
+        $this->orderPK = $order->id;
         if ($this->comment == '') {
             $this->comment = 'Accepted';
         }
-        if (session()->get('LoggedClient')) {
-            AcceptedOrder::create([
-                'order_id'=>$orderId,
-                'comment'=>$this->comment,
-                'from'=>'client',
-                'from_id'=>$this->orderDetails->client_id,
-            ]);
-            $this->accept_section=false;
-            session()->flash('success', 'Order Accepted Successfully.');
-            // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+        if (session()->has('LoggedClient')) {
+            DB::transaction(function () {
+                try {
+                    AcceptedOrder::create([
+                        'order_id'=>$this->orderPK,
+                        'comment'=>$this->comment,
+                        'from'=>'Client',
+                        'from_id'=>$this->orderDetails->client_id,
+                    ]);
+
+                    WriterOrder::where('order_id', $this->orderPK)
+                                ->update([
+                                    'status' => 'Completed'
+                                ]);
+                    Order::where('id', $this->orderPK)
+                         ->update([
+                             'status'=>'Complete'
+                         ]);
+                    $this->accept_section=false;
+                    session()->flash('success', 'Order Accepted Successfully.');
+                    // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+                } catch (\Throwable $th) {
+                    session()->flash('success', $th->getMessage());
+                }
+
+            });
+
         }
-        if (auth()->user()!=null) {
-            AcceptedOrder::create([
-                'order_id'=>$orderId,
-                'comment'=>$this->comment,
-                'from'=>'editor',
-                'from_id'=>auth()->user()->id,
-            ]);
-            $this->accept_section=false;
-            session()->flash('success', 'Order Accepted Successfully.');
+        if (auth()->user()!=null && auth()->user()->role == 'Editor') {
+            DB::transaction(function () {
+                try {
+                    AcceptedOrder::create([
+                        'order_id'=>$this->orderPK,
+                        'comment'=>$this->comment,
+                        'from'=>auth()->user()->role,
+                        'from_id'=>auth()->user()->id,
+                    ]);
+                    $orderStatus = OrderStatus::updateOrCreate(
+                        ['order_id' =>  $this->orderPK],
+                        ['current_position' => 'Admin']
+                    );
+                    $this->accept_section=false;
+                    session()->flash('success', 'Order Accepted Successfully.');
+                } catch (\Throwable $th) {
+                    session()->flash('success', $th->getMessage());
+                }
+            });
+
+        } elseif (auth()->user()!=null && auth()->user()->is_admin == 1 && auth()->user()->role == 'Admin') {
+
+            DB::transaction(function () {
+                try {
+
+                    AcceptedOrder::create([
+                        'order_id'=>$this->orderPK,
+                        'comment'=>$this->comment,
+                        'from'=>auth()->user()->role,
+                        'from_id'=>auth()->user()->id,
+                    ]);
+                    $orderStatus = OrderStatus::updateOrCreate(
+                        ['order_id' =>  $this->orderPK],
+                        ['current_position' => 'Client']
+                    );
+                    WriterFile::where('order_id', $this->orderPK)
+                                ->update([
+                                    'status' => 'Accepted'
+                                ]);
+                    $this->accept_section=false;
+                    session()->flash('success', 'Order Accepted Successfully.');
+                } catch (\Throwable $th) {
+                    session()->flash('success', $th->getMessage());
+                }
+            });
+
         }
-        // dd($value);
     }
 }

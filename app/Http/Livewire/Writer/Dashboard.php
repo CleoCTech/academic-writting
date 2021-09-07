@@ -78,11 +78,13 @@ class Dashboard extends Component
 
         return $diff;
     }
-    public function viewOrder($id)
+    public function viewOrder($orderId)
     {
+        // dd($id);
         $this->resetCenterView();
         // $this->emit('orderId', $id);
-        session()->push('orderId', $id);
+        session()->forget('orderId');
+        session()->push('orderId', $orderId);
         $this->centerView = "order-details";
     }
     public function default()

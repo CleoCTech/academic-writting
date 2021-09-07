@@ -29,6 +29,7 @@ class Dashboard extends Component
     public function mount()
     {
         $this->varView;
+
     }
     public function render()
     {
@@ -44,7 +45,7 @@ class Dashboard extends Component
         $complete = $orders->whereIn('status', 'Complete');
         $cancelled = $orders->whereIn('status', 'Cancelled');
         $revisions =  RejectedOrder::where('from', 'client')
-                                    ->whereIn('from_id', session()->get('LoggedClient'))
+                                    ->where('from_id', session()->get('LoggedClient'))
                                     ->get();
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],

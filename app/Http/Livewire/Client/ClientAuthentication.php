@@ -36,7 +36,7 @@ class ClientAuthentication extends Component
                 session()->flash('message', 'Authentication Failed');
                 return false;
             }else{
-                session()->push('LoggedClient', $user->id);
+                session()->put('LoggedClient', $user->id);
                 return true;
             }
         } catch (Exception $th) {

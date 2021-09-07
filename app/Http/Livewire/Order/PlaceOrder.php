@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\Order;
 
+use App\Events\ClientAuthSuccessEvent;
 use App\Models\Order;
+use App\Events\ClientHasLoggedInEvent;
+use App\Models\Client;
 use App\Models\PaperCategory;
 use App\Traits\SendAlerts;
 use Illuminate\Support\Facades\Auth;
@@ -55,11 +58,20 @@ class PlaceOrder extends Component
         $this->validate();
         $this->storeInSession();
         //go to next view
-        if (Auth::check()) {
-            $this->emitUp('update_varView', 'step4');
-        }else{
+        if (session()->has('LoggedClient')) {
+            $client = Client::where('id', session()->get('LoggedClient'))->first();
+            event( new ClientAuthSuccessEvent($client));
+            // event( new ClientHasLoggedInEvent($client->auth_email, $client->auth_pass));
+            // $this->emitUp('update_varView', 'auth');
+        } else {
             $this->emitUp('update_varView', 'auth');
         }
+
+        // if (Auth::check()) {
+        //     $this->emitUp('update_varView', 'step4');
+        // }else{
+        //     $this->emitUp('update_varView', 'auth');
+        // }
 
     }
     public function storeInSession()

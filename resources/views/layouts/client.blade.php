@@ -276,6 +276,7 @@
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
         <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <!--end::Page Custom Javascript-->
         <script>
 
@@ -283,6 +284,7 @@
                 console.log('Ready');
             });
         </script>
+        @stack('scripts')
         @yield('scripts')
         {{-- <script>
            setInterval(() => {
