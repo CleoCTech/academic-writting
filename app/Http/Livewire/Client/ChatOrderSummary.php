@@ -9,10 +9,12 @@ use App\Models\Client;
 use App\Models\ClientFile;
 use App\Models\Message;
 use App\Models\MessageTo;
+use App\Models\Msg;
 use App\Models\Order;
 use App\Models\OrderBilling;
 use App\Models\OrderStatus;
 use App\Models\RejectedOrder;
+use App\Models\User;
 use App\Models\WriterFile;
 use App\Models\WriterOrder;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +46,14 @@ class ChatOrderSummary extends Component
     public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions, $writerFiles=[];
 
 
+    protected $listeners = [
+        'back'=>'back',
+        'sendMessage'=>'sendMessage',
+        'getDownload'=>'getDownload',
+        'edit'=>'edit',
+        'confrimInvoice'=>'confrimInvoice',
+        'rejectInvoice'=>'rejectInvoice',
+    ];
     public function back()
     {
         $this->emit('update_varView', '');
@@ -118,17 +128,28 @@ class ChatOrderSummary extends Component
             $this->type= 'Client';
         }
         if (auth()->user()!=null) {
-            $this->from_id=auth()->user()->id;
-            $this->to_id=$this->orderDetails->client_id;
-            $this->type= 'Admin';
+
+            $user = User::find(auth()->user()->id);
+            $user->messages()->create([
+                'message' => $this->messageText,
+            ]);
+
+            Msg::create([
+                'message' => $this->messageText,
+                'fromable_id' => $user->id,
+                'fromable_type' => $user->messages(),
+            ]);
+            // $this->from_id=auth()->user()->id;
+            // $this->to_id=$this->orderDetails->client_id;
+            // $this->type= 'Admin';
         }
-        Message::create([
-            'message' => $this->messageText,
-            'from_id' => $this->from_id,
-            'to_id' => $this->to_id,
-            'type' => $this->type,
-            'is_read' => 0,
-        ]);
+        // Message::create([
+        //     'message' => $this->messageText,
+        //     'from_id' => $this->from_id,
+        //     'to_id' => $this->to_id,
+        //     'type' => $this->type,
+        //     'is_read' => 0,
+        // ]);
 
         $this->reset('messageText');
     }

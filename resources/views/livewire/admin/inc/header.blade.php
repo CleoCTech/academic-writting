@@ -83,10 +83,25 @@
                         <!--end::Form-->
                     </div>
                     <!--end::Search-->
+
                 </div>
                 <!--end::Search-->
                 <!--begin::Toolbar wrapper-->
                 <div class="d-flex align-items-stretch flex-shrink-0">
+                    <div class="flex flex-nowrap mt-8">
+                        @if (Auth::user()!=null)
+                            @livewire('admin.inc.message-notification', ['user_id' => Auth::user()->id, 'user_type' => 'App\Models\User'])
+                            {{-- @livewire('admin.inc.message-notification', [Auth::user()->id, auth()->user->()->role]) --}}
+                            @livewire('admin.inc.notification')
+                        @elseif(session()->has('LoggedClient'))
+                             @livewire('admin.inc.message-notification', ['user_id' => session()->get('LoggedClient'), 'user_type' => 'App\Models\Client'])
+                            @livewire('admin.inc.notification')
+                        @elseif(session()->has('AuthWriter'))
+                            @livewire('admin.inc.message-notification', ['user_id' => session()->has('AuthWriter'), 'user_type' => 'App\Models\Writer'])
+                            @livewire('admin.inc.notification')
+                        @endif
+
+                    </div>
                     <!--begin::Notifications-->
                     <div class="d-flex align-items-center ms-1 ms-lg-3">
                         <!--begin::Menu-->

@@ -69,4 +69,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Session::class, 'user_id', 'id');
     }
+
+    // public function messages(){
+    //     return $this->morphMany(Msg::class, 'messageable');
+    // }
+    public function fromable(){
+        return $this->morphMany(MsgFro::class, 'fromable');
+    }
+    public function toable(){
+        return $this->morphMany(MsgTo::class, 'toable');
+    }
 }
