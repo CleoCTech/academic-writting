@@ -214,245 +214,129 @@
         </div>
         <!--end::Aside-->
         <!--begin::Content-->
-        <div class="flex-lg-row-fluid ms-lg-12" id="kt_chat_content">
-            <!--begin::Card-->
-            <div class="card">
-                <!--begin::Header-->
-                <div class="card-header align-items-center px-9 py-3" id="kt_chat_content_header">
-                    <div class="text-start flex-grow-1">
-                        <!--begin::Aside Mobile Toggle-->
-                        <button type="button"
-                            class="btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none"
-                            id="kt_app_chat_toggle">
-                            <!--begin::Svg Icon | path: icons/stockholm/Communication/Adress-book2.svg-->
-                            <span class="svg-icon svg-icon-1">
-                                <i class="bi bi-journal-album"></i>
+        <div class="flex-lg-row-fluid ms-lg-9" id="kt_chat_content">
+            <div class="grid grid-cols-3 min-w-full border rounded" style="min-height: 80vh;">
+                <div class="col-span-1 bg-white border-r border-gray-300">
+                    <div class="my-3 mx-3 ">
+                        <div class="relative text-gray-600 focus-within:text-gray-400">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-gray-500"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </span>
-                            <!--end::Svg Icon-->
-                        </button>
-                        <!--end::Aside Mobile Toggle-->
-                    </div>
-                    <div class="flex-grow-1">
-                        @auth
-                        <div class="text-gray-600 fw-bolder fs-6">
-                            {{ Auth::user()->name }}
-                        </div>
-                        <div>
-                            <span class="badge badge-dot badge-primary"></span>
-                            <span class="fw-bold text-muted fs-7">Active</span>
-                        </div>
-                        @endauth @guest
-                        <div class="text-gray-600 fw-bolder fs-6">
-                            Admin
-                        </div>
-                        <div>
-                            <span class="badge badge-dot badge-primary"></span>
-                            <span class="fw-bold text-muted fs-7">Active</span>
-                        </div>
-                        @endguest
-
-                    </div>
-                </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div>
-                    @if (session()->has('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-                </div>
-                <div>
-                    @if (session()->has('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                </div>
-                <div class="card-body px-9">
-                    <div class="row mt-0">
-                        <div class="col-md-6 mt-3">
-                            <a href="">{{$orderDetails->order_no}}</a>
-                        </div>
-                        <div wire:poll class="col-md-6 align-items-end text-end" wire:model.defer='confirm_invoice'>
-                            @guest @if ($confirm_invoice)
-                            {{--
-                                <a>
-                                    <x-jet-button wire:click='confrimInvoice'>Confirm Invoice</x-jet-button>
-                                </a> --}}
-                            <div class="justify-around">
-
-                                <span class="relative inline-flex rounded-md shadow-sm">
-
-                                    <button wire:click='confrimInvoice' type="button"
-                                        class="uppercase inline-flex items-center px-4 py-2 border border-purple-400 text-base leading-6 font-medium rounded-md text-purple-800 bg-white hover:text-purple-700 focus:border-purple-300 transition ease-in-out duration-150">
-                                        Confirm Invoice
-                                    </button>
-                                    <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                                        <span
-                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                        <span
-                                            class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                                    </span>
-                                </span>
-                            </div>
-
-                            @endif @endguest @auth
-                            <x-jet-input wire:model.defer='fee' style="width: 100px;"></x-jet-input>
-                            {{-- <a wire:click='sendInvoice'>
-                                    <x-jet-button>Send Invoice</x-jet-button>
-                                </a> --}}
-                            <div class="justify-around">
-
-                                <span class="relative inline-flex rounded-md shadow-sm">
-
-                                    <button wire:click='sendInvoice' type="button"
-                                        class="uppercase inline-flex items-center px-4 py-2 border border-purple-400 text-base leading-6 font-medium rounded-md text-purple-800 bg-white hover:text-purple-700 focus:border-purple-300 transition ease-in-out duration-150">
-                                        Send Invoice
-                                    </button>
-                                    <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                                        <span
-                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                        <span
-                                            class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="row">
-
-                            </div>
-                            @endauth
+                            <input aria-placeholder="Busca tus amigos o contacta nuevos" placeholder="Busca tus amigos"
+                            class="py-2 pl-10 block w-full rounded bg-gray-100 outline-none focus:text-gray-700" type="search" name="search" required autocomplete="search" />
                         </div>
                     </div>
-                    <!--begin::Scroll-->
-                    <div class="scroll-y me-lg-n6 pe-lg-5" data-kt-scroll="true"
-                        data-kt-scroll-height="{'default' : '400px', 'lg' : 'auto'}"
-                        data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_chat_content_header, #kt_chat_content_footer"
-                        data-kt-scroll-wrappers="#kt_content, #kt_wrapper"
-                        data-kt-scroll-offset="{'default' : '10px', 'lg' : '52px'}" style="height: 589px">
 
-                        <hr>
-                        <!--begin::Messages-->
-                        <div wire:poll class="messages" wire:model.defer='messages' id="messages">
-                            @auth @foreach ($messages as $message)
-                            <div
-                                class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
-                                <div class="d-flex align-items-center">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-40px flex-shrink-0 me-4">
-                                        <span class="symbol-label bg-light">
-                                            <img src="img/avatar.jpg" class="h-75 align-self-end" alt="" />
-                                        </span>
+                    <ul class="overflow-auto" style="height: 500px;">
+                        <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
+                        <li>
+                            <a class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                <img class="h-10 w-10 rounded-full object-cover"
+                                src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                alt="username" />
+                                <div class="w-full pb-2">
+                                    <div class="flex justify-between">
+                                        <span class="block ml-2 font-semibold text-base text-gray-600 ">Jhon C</span>
+                                        <span class="block ml-2 text-sm text-gray-600">5 minutes</span>
                                     </div>
-                                    <!--end::Symbol-->
-                                    <div
-                                        class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
-                                        <a href="#"
-                                            class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == Auth::user()->id) ? 'You' : $orderDetails->order->username }}</a>
-                                        <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
+                                    <span class="block ml-2 text-sm text-gray-600">Hello world!!</span>
+                                </div>
+                            </a>
+                            <a class="bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                <img class="h-10 w-10 rounded-full object-cover"
+                                src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                alt="username" />
+                                <div class="w-full pb-2">
+                                    <div class="flex justify-between">
+                                        <span class="block ml-2 font-semibold text-base text-gray-600 ">Eduard</span>
+                                        <span class="block ml-2 text-sm text-gray-600">15 minutes</span>
                                     </div>
+                                    <span class="block ml-2 text-sm text-gray-600">I am fine</span>
                                 </div>
-                                <div
-                                    class="{{ ($message->from_id == Auth::user()->id) ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
-                                    {{$message->message}}
-                                </div>
-                            </div>
-                            @endforeach @endauth @guest @foreach ($messages as $message)
-                            <div
-                                class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
-                                <div class="d-flex align-items-center">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-40px flex-shrink-0 me-4">
-                                        <span class="symbol-label bg-light">
-                                            <img src="img/avatar.jpg" class="h-75 align-self-end" alt="" />
-                                        </span>
+                            </a>
+                            <a class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                <img class="h-10 w-10 rounded-full object-cover"
+                                src="https://images.pexels.com/photos/6238133/pexels-photo-6238133.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                alt="username" />
+                                <div class="w-full pb-2">
+                                    <div class="flex justify-between">
+                                        <span class="block ml-2 font-semibold text-base text-gray-600 ">Celia</span>
+                                        <span class="block ml-2 text-sm text-gray-600">1 hour</span>
                                     </div>
-                                    <!--end::Symbol-->
-                                    <div
-                                        class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
-                                        <a href="#"
-                                            class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'You' : 'Admin' }}</a>
-                                        <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
-                                    </div>
+                                    <span class="block ml-2 text-sm text-gray-600">Last message</span>
                                 </div>
-                                <div
-                                    class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
-                                    {{$message->message}}
-                                </div>
-                            </div>
-
-                            @endforeach
-                            @if ($confirm_invoice)
-                            <div class="justify-around">
-                                <div class="flex">
-                                    <span class="relative inline-flex rounded-md shadow-sm cursor-pointer">
-
-                                        <button wire:click='confrimInvoice' type="button"
-                                            class="uppercase inline-flex items-center px-4 py-2 border border-purple-400 text-base leading-6 font-medium rounded-md text-purple-800 bg-white hover:text-purple-700 focus:border-purple-300 transition ease-in-out duration-150">
-                                            Confirm Invoice
-                                        </button>
-                                        <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                                            <span
-                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                            <span
-                                                class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                                        </span>
-                                    </span>
-
-                                    <span
-                                        class="relative inline-flex rounded-md shadow-sm ml-2 cursor-pointer hover:bg-purple-700">
-
-                                        <button wire:click='rejectInvoice' type="button"
-                                            class="uppercase inline-flex items-center px-4 py-2 border border-purple-400 text-base leading-6 font-medium rounded-md text-purple-800 bg-white hover:text-purple-700 focus:border-purple-300 transition ease-in-out duration-150">
-                                            Reject Invoice
-                                        </button>
-                                        <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                                            <span
-                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                            <span
-                                                class="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                                        </span>
-                                    </span>
-                                </div>
-
-                            </div>
-                            @endif
-                            @endguest
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-span-2 bg-white">
+                    <div class="w-full">
+                        <div class="flex items-center border-b border-gray-300 pl-3 py-3">
+                            <img class="h-10 w-10 rounded-full object-cover"
+                            src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                            alt="username" />
+                            <span class="block ml-2 font-bold text-base text-gray-600">Eduard</span>
+                            <span class="connected text-green-500 ml-2" >
+                                <svg width="6" height="6">
+                                    <circle cx="3" cy="3" r="3" fill="currentColor"></circle>
+                                </svg>
+                            </span>
                         </div>
-                        <!--end::Messages-->
+                        <div id="chat" class="w-full overflow-y-auto p-10 relative" style="height: 700px;" ref="toolbarChat">
+                            <ul>
+                                <li class="clearfix2">
+                                    <div class="w-full flex justify-start">
+                                        <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                            <span class="block">Hello bro</span>
+                                            <span class="block text-xs text-right">10:30pm</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex justify-end" >
+                                        <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                            <span class="block">Hello</span>
+                                            <span class="block text-xs text-left">10:32pm</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex justify-end" >
+                                        <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                            <span class="block">how are you?</span>
+                                            <span class="block text-xs text-left">10:32pm</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex justify-start">
+                                        <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                            <span class="block">I am fine</span>
+                                            <span class="block text-xs text-right">10:42pm</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
+                            <button class="outline-none focus:outline-none">
+                                <svg class="text-gray-400 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                            <button class="outline-none focus:outline-none ml-1">
+                                <svg class="text-gray-400 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                            </button>
+
+                            <input aria-placeholder="Escribe un mensaje aquí" placeholder="Escribe un mensaje aquí"
+                                class="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700" type="text" name="message" required/>
+
+                            <button class="outline-none focus:outline-none" type="submit">
+                                <svg class="text-gray-400 h-7 w-7 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <!--end::Scroll-->
                 </div>
-                <!--end::Body-->
-                <!--begin::Footer-->
-                <div class="card-footer align-items-center px-7 py-4" id="kt_chat_content_footer">
-                    <!--begin::Compose-->
-                    <form wire:submit.prevent='sendMessage'>
-                        @csrf
-                        <div class="position-relative">
-                            <textarea wire:model.defer='messageText'
-                                class="form-control border-0 p-2 resize-none overflow-hidden" rows="1"
-                                placeholder="Reply..."></textarea>
-                            <div class="position-absolute top-0 end-0 mr-n2">
-                                <span class="btn btn-icon btn-active-light-primary">
-                                    <i class="bi bi-paperclip"></i>
-                                </span>
-                                <button type="submit" onclick="scrollToBottomFunc()" id="sendmsg">
-                                    <span class="btn btn-icon btn-active-light-primary">
-                                        <i class="bi bi-telegram"></i>
-                                        Send
-                                    </span>
-
-                                </button>
-
-                            </div>
-                        </div>
-                    </form>
-                    <!--begin::Compose-->
-                </div>
-                <!--end::Footer-->
             </div>
-            <!--end::Card-->
         </div>
         <!--end::Content-->
     </div>

@@ -45,6 +45,7 @@ class ChatOrderSummary extends Component
     public $orderNextLevel = false;
     public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions, $writerFiles=[];
 
+    public $user_type;
 
     protected $listeners = [
         'back'=>'back',
@@ -159,6 +160,7 @@ class ChatOrderSummary extends Component
          //check which user that need this component
          if (session()->get('LoggedClient')) {
 
+            $this->user_type = 'App\Models\Client';
             $this->orderId = session()->get('orderId');
             $this->orderDetails = Order::with('order')
                                         ->where('order_no', $this->orderId)
@@ -212,7 +214,7 @@ class ChatOrderSummary extends Component
         }
 
         if (auth()->user()!=null) {
-
+            $this->user_type = 'App\Models\User';
             $this->orderId = session()->get('orderId');
             $this->orderDetails = Order::with('order')
                                         ->where('order_no', $this->orderId)

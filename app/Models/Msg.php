@@ -21,8 +21,12 @@ class Msg extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function messages(): HasMany
+    public function messagesTo(): HasMany
     {
         return $this->hasMany(MsgTo::class, 'message_id', 'id');
+    }
+    public function messagesFro(): HasMany
+    {
+        return $this->hasMany(MsgFro::class, 'message_id', 'id');
     }
 }

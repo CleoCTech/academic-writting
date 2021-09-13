@@ -13,15 +13,19 @@ class MessageNotification extends Component
     public $user_type;
     public $user_id;
 
+    public $listeners =[
+        'messageAdded' => 'refresh'
+    ];
+
     public function mount($user_id, $user_type)
     {
         $this->user_id = $user_id;
         $this->user_type = $user_type;
     }
+    public function refresh(){}
+
     public function render()
     {
-        // $count =MsgTo::whereMo ;
-
         $receivedMsgs = MsgTo::whereHasMorph('toable', [$this->user_type])
                                 ->whereHas('message', function($query){
                                     return $query->where('is_read', 0);

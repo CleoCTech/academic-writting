@@ -11,7 +11,7 @@
     <!--end ::Toolbar-->
 
     <!--begin::Chat-->
-        @livewire('client.components.order-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles, $confirm_invoice, $messages, $total_fee, $messageText, $fee ])
+        @livewire('client.components.order-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles, $confirm_invoice, $messages, $total_fee, $user_type, $orderId ])
     <!--end::Chat-->
 
         <br>
