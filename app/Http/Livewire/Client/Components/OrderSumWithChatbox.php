@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Client\Components;
 use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Message;
+use App\Models\Messaging;
 use App\Models\Msg;
 use App\Models\MsgFro;
 use App\Models\MsgTo;
@@ -21,13 +22,12 @@ class OrderSumWithChatbox extends Component
     public $total_fee, $messageText, $fee, $user_type;
     public $orderId;
 
-    public function mount($orderDetails, $revisions, $clientFiles, $confirm_invoice, $messages, $total_fee, $user_type, $orderId )
+    public function mount($orderDetails, $revisions, $clientFiles, $confirm_invoice, $total_fee, $user_type, $orderId )
     {
         $this->orderDetails = $orderDetails;
         $this->revisions = $revisions;
         $this->confirm_invoice = $confirm_invoice;
         $this->clientFiles = $clientFiles;
-        $this->messages = $messages;
         $this->total_fee = $total_fee;
         $this->user_type = $user_type;
         $this->orderId = $orderId;
@@ -44,32 +44,20 @@ class OrderSumWithChatbox extends Component
             // dd( $client_Id->client_id);
 
             //fetch chat history with this one user;
-
-            // MsgTo::whereHasMorph('toable', [$this->user_type])
-            //                     ->whereHas('message', function($query){
-            //                         return $query->where('is_read', 0);
-            //                     })
-            //                    ->get()->count();
-
-            $receivedMsgs = MsgTo::whereHasMorph('toable', ['App\Models\Client'])
-                                    ->whereHas('message')
-                                    ->where('toable_id', $client_Id->client_id)
-                                    ->get()->count();
-                                    dd($receivedMsgs);
-
-            $sentMsgs = MsgFro::whereHasMorph('fromable', [$this->user_type])
-                                    ->whereHas('message')
-                                    ->where('fromable_id', auth()->user()->id)
-                                    ->get()->count();
-                                    dd($sentMsgs);
-        //    foreach ($receivedMsgs as $key => $value) {
-        //         dd($value->message->message);
-        //    }
+            $this->messages = Messaging::where('fromable_type', 'App\Models\Client')
+                                        ->orWhere('fromable_type', 'App\Models\User')
+                                        ->where('fromable_id', $client_Id->client_id)
+                                        ->orWhere('fromable_id', auth()->user()->id)
+                                        ->where('toable_id', $client_Id->client_id)
+                                        ->orWhere('toable_id', auth()->user()->id)
+                                        ->get();
+            // dd($this->messages);
 
         } elseif(session()->get('LoggedClient')) {
             # code...
-            //list online admins' + previous people chat with
+            //list online admins' + previous people chat with;
             //fetch chat history;
+
         }
 
         return view('livewire.client.components.order-sum-with-chatbox');
@@ -94,51 +82,36 @@ class OrderSumWithChatbox extends Component
     public function sendMessage()
     {
         if (session()->get('LoggedClient')!=null) {
-            // $id = session()->get('LoggedClient');
-            // $this->from_id= $id;
-            // $this->to_id=1 ; //picks any admin that's online;
-            // $this->type= 'Client';
 
-            // $userTo = User::where('status', 1)
-            //                 ->first();
             $userTo=User::find(1);
             $userFrom = Client::find(session()->get('LoggedClient'));
-            $msg = Msg::create([
+
+
+            $message = $userFrom->fromable()->create([
                 'message' => $this->messageText,
+                'fromable_id' => $userFrom->id,
+                'toable_id' => $userTo->id,
+                'fromable_type' => "App\Models\Client",
+                'toable_type' => "App\Models\User",
             ]);
-            $userFrom->fromable()->create([
-                'message_id' => $msg->id,
-            ]);
-            $userTo->toable()->create([
-                'message_id' => $msg->id,
-            ]);
+
+
         }
         if (auth()->user()!=null) {
-            // $this->from_id=auth()->user()->id;
-            // $this->to_id=$this->orderDetails->client_id;
-            // $this->type= auth()->user()->role;
+
             $userFrom = User::find(auth()->user()->id);
             $userTo = Client::find($this->orderDetails->client_id);
 
-            $msg = Msg::create([
+            $message = $userFrom->fromable()->create([
                 'message' => $this->messageText,
-            ]);
-            $userFrom->fromable()->create([
-                'message_id' => $msg->id,
-            ]);
-            $userTo->toable()->create([
-                'message_id' => $msg->id,
+                'fromable_id' => $userFrom->id,
+                'toable_id' => $userTo->id,
+                'fromable_type' => "App\Models\User",
+                'toable_type' => "App\Models\Client",
             ]);
 
             $this->emit('messageAdded');
         }
-        // Message::create([
-        //     'message' => $this->messageText,
-        //     'from_id' => $this->from_id,
-        //     'to_id' => $this->to_id,
-        //     'type' => $this->type,
-        //     'is_read' => 0,
-        // ]);
 
         $this->reset('messageText');
     }

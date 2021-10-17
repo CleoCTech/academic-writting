@@ -73,10 +73,10 @@ class User extends Authenticatable
     // public function messages(){
     //     return $this->morphMany(Msg::class, 'messageable');
     // }
-    public function fromable(){
-        return $this->morphMany(MsgFro::class, 'fromable');
-    }
     public function toable(){
-        return $this->morphMany(MsgTo::class, 'toable');
+        return $this->morphMany(Messaging::class, 'toable');
+    }
+    public function fromable(){
+        return $this->morphMany(Messaging::class, 'fromable');
     }
 }

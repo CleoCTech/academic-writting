@@ -29,6 +29,7 @@
         <script src="https://kit.fontawesome.com/e1b0575b51.js" crossorigin="anonymous"></script>
         {{-- <script src="https://cdn.jsdelivr.net/gh/alpinej
         s/alpine@v2.8.2/dist/alpine.min.js" defer></script> --}}
+        <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
         @livewireStyles
     </head>
@@ -281,7 +282,18 @@
         <script>
 
             $(document).ready(function(){
-                console.log('Ready');
+                console.log('Ready for laravel echo');
+
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                console.log('dom load22');
+                //do work
+                Echo.channel(`messageChannel`)
+                    .listen('.message-event', (e) => {
+                        console.log(e.message);
+                    });
             });
         </script>
         @stack('scripts')
@@ -289,7 +301,7 @@
         {{-- <script>
            setInterval(() => {
             scrollToBottomFunc();
-           }, 4000);
+           }, 4000);  event(new App\Events\MessageTestEvent("hello cleo"));
             function scrollToBottomFunc() {
                 $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
             }

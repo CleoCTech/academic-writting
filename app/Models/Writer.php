@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\MsgTo;
-use App\Models\MsgFro;
 use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,9 +17,9 @@ class Writer extends Model
     ];
 
     public function toable(){
-        return $this->morphMany(MsgTo::class, 'toable');
+        return $this->morphMany(Messaging::class, 'toable');
     }
     public function fromable(){
-        return $this->morphMany(MsgFro::class, 'fromable');
+        return $this->morphMany(Messaging::class, 'fromable');
     }
 }

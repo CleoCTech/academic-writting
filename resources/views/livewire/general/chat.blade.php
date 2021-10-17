@@ -7,23 +7,25 @@
             <!--begin::Chat-->
             <div class="d-flex flex-column flex-lg-row">
                 <!--begin::Aside-->
-                <div class="flex-lg-row-auto w-lg-250px w-xl-400px mb-5 mb-lg-0" id="kt_chat_aside">
+                {{-- <div class="flex-lg-row-auto w-lg-250px w-xl-400px mb-5 mb-lg-0" id="kt_chat_aside">
                     <!--begin::Card-->
                     <div class="card">
+                        <div class="card-header align-items-center px-9 py-3" id="kt_chat_content_header">
+                            <div class="text-start flex-grow-1">
+                                <label for="">Order Details</label>
+                            </div>
+                            <div class="text-end flex-grow-1">
+                                @if ($orderDetails->status == "Pending")
+                                <label for=""><button class="btn btn-info"><span class="rounded btn-info">Not
+                                            Confirmed</span></button></label> @elseif($orderDetails->status == "In
+                                progress")
+                                <label for=""><button class="btn btn-success"><span
+                                            class="rounded btn-success">Confirmed</span></button></label> @endif
+
+                            </div>
+                        </div>
                         <!--begin::Body-->
                         <div class="card-body p-9">
-                            <!--begin:Search-->
-                            <div class="input-group input-group-solid" id="kt_chat_aside_search">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <!--begin::Svg Icon | path: icons/stockholm/General/Search.svg-->
-                                    <span class="svg-icon svg-icon-1 svg-icon-dark">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </span>
-                                <input type="text" class="form-control ps-0 py-4 h-auto" placeholder="Search" />
-                            </div>
-                            <!--end:Search-->
                             <!--begin:Users-->
                             <div class="mt-9 scroll-y me-lg-n6 pe-lg-5" data-kt-scroll="true"
                                 data-kt-scroll-height="{'default' : '300px', 'lg': 'auto'}"
@@ -31,270 +33,301 @@
                                 data-kt-scroll-wrappers="#kt_content, #kt_wrapper"
                                 data-kt-scroll-offset="{'default' : '10px', 'lg' : '60px'}" style="height: 644px">
                                 <!--begin:User-->
-                                @guest
-                                @if (count($users) >0)
-                                @foreach ($users as $user)
-                                <div class="d-flex flex-stack mb-9" wire:click="getMesssage({{ $user->id }})">
+                                <div class="d-flex flex-stack mb-9">
                                     <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-50px me-4">
-                                            <span class="symbol-label bg-light-primary">
-                                                <img src="https://via.placeholder.com/150" class="h-75 align-self-end" alt="" />
-                                            </span>
-                                        </div>
-                                        <!--end::Symbol-->
                                         <div class="d-flex flex-column">
-                                            <a href="#" class=" text-gray-600 text-hover-primary fw-bolder fs-6 mb-1 ">{{$user->name}}</a>
-                                            <span class="text-muted fw-bold">{{$user->role}}</span>
+                                            <a class="text-muted text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Order
+                                                ID</a>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-column align-items-end text-end">
-                                        <span class="text-muted fw-bold fs-7"></span>
-                                        @if ($this->countUnreadMessages($user->id)!=0)
-                                        <span class="badge badge-primary badge-square">{{ $this->countUnreadMessages($user->id) }}</span>
+                                        <span class="fw-bolder fs-5">{{$orderDetails->order_no}}</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Subject</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        <span class="fw-bolder fs-5">{{$orderDetails->category->subject}}</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Pages</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        <span class="badge xbadge-primary badge-square" style="color: #fff;
+                                    background-color: #929ea5;">{{$orderDetails->pages}}</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Deadline</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        <span class="fw-bolder fs-5">{{$orderDetails->deadline_date}}</span>
+                                        <span class="badge xbadge-primary badge-square" style="color: #fff;
+                                    background-color: #929ea5;">{{$orderDetails->deadline_time}}</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Status</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        @if ($orderDetails->status == "Pending")
+                                        <span class="badge badge-danger badge-square">{{$orderDetails->status}}</span>
+                                        @elseif($orderDetails->status =="In progress")
+                                        <span class="badge badge-info badge-square">{{$orderDetails->status}}</span>
+                                        @elseif($orderDetails->status =="Complete")
+                                        <span class="badge badge-success badge-square">{{$orderDetails->status}}</span>
                                         @endif
-
 
                                     </div>
                                 </div>
-                                @endforeach
-                                @endif
-                                @endguest
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Fee</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        @if ($orderDetails->status=="Pending")
+                                        <span class="badge badge-danger badge-square">${{$total_fee}}</span>
+                                        @elseif($orderDetails->status=="In progress")
+                                        <span class="badge badge-success badge-square">${{$total_fee}}</span>
+                                        @elseif($orderDetails->status=="Complete")
+                                        <span class="badge badge-success badge-square">${{$total_fee}}</span>
+                                        @endif
+
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-stack mb-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-1">Order
+                                                Created</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end text-end">
+                                        <span class="fw-bolder fs-5">{{$orderDetails->created_at}}</span>
+                                    </div>
+                                </div>
+                                <div class="flex-stack mb-9">
+                                    <div class=" align-items-center">
+                                        <div class=" flex-column">
+                                            <a class="text-blue-400 text-hover-primary fw-bolder fs-6 mb-3">Order
+                                                Description</a>
+                                        </div>
+                                        <p>{{$orderDetails->instructions}}</p>
+                                    </div>
+                                </div>
+                                <h4 class="text-blue-400 " style="margin-top: 1rem;">Additional Insructions (Revision)
+                                    <span class="svg-icon svg-icon-4 ">
+                                        <i class="bi bi-paperclip text-blue-400"></i>
+                                    </span>
+                                </h4>
                                 @auth
-                                @if (count($users) >0)
-                                @foreach ($users as $user)
-                                <div class="d-flex flex-stack mb-9" wire:click="getMesssage({{ $user->id }})">
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-50px me-4">
-                                            <span class="symbol-label bg-light-primary">
-                                                <img src="https://via.placeholder.com/150" class="h-75 align-self-end" alt="" />
-                                            </span>
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <div class="d-flex flex-column">
-                                            <a href="#" class=" text-gray-600 text-hover-primary fw-bolder fs-6 mb-1 ">{{$user->username}}</a>
-                                            {{-- <span class="text-muted fw-bold">{{$user->role}}</span> --}}
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-end text-end">
-                                        <span class="text-muted fw-bold fs-7"></span>
-                                        @if ($this->countUnreadMessages($user->id)!=0)
-                                        <span class="badge badge-primary badge-square">{{ $this->countUnreadMessages($user->id) }}</span>
-                                        @endif
-
-
-                                    </div>
-                                </div>
-                                @endforeach
-                            @endif
+                                <h4 class="text-blue-400 text-sm" style="margin-top: 1rem;">Remember to check additional
+                                    attached files below (if any)
+                                    <span class="svg-icon svg-icon-4 ">
+                                        <i class="bi bi-bell-fill text-blue-400"></i>
+                                    </span>
+                                </h4>
                                 @endauth
 
-
-                                <!--end:User-->
-
-                            </div>
-                            <!--end:Users-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Aside-->
-                <!--begin::Content-->
-                <div class="flex-lg-row-fluid ms-lg-12" id="kt_chat_content">
-                    <!--begin::Card-->
-                    <div class="card">
-                        <!--begin::Header-->
-                        <div class="card-header align-items-center px-9 py-3" id="kt_chat_content_header">
-                            <div class="text-start flex-grow-1">
-                                <!--begin::Aside Mobile Toggle-->
-                                <button type="button" class=" btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none " id="kt_app_chat_toggle">
-                                    <!--begin::Svg Icon | path: icons/stockholm/Communication/Adress-book2.svg-->
-                                    <span class="svg-icon svg-icon-1">
-                                        <i class="bi bi-journal-album"></i>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </button>
-                                <!--end::Aside Mobile Toggle-->
-                                <!--begin::Dropdown-->
-                                <button type="button" class=" btn btn-active-light-primary btn-sm btn-icon btn-icon-md ">
-                                    <!--begin::Svg Icon | path: icons/stockholm/Communication/Add-user.svg-->
-                                    <span class="svg-icon svg-icon-1">
-                                        <i class="bi bi-person-plus"></i>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </button>
-                                <!--end::Dropdown-->
-                            </div>
-                            {{-- <div class="text-center flex-grow-1">
-                                <div class="text-gray-600 fw-bolder fs-6">
-                                    Ja Morant
+                                <div class="flex-stack mb-9">
+                                    <div class=" align-items-center">
+                                        @if (count($revisions)>0)
+                                        @foreach ($revisions as $revision)
+                                        <p>{{$revision->comment}}</p>
+                                        @endforeach
+                                        @endif
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="badge badge-dot badge-primary"></span>
-                                    <span class="fw-bold text-muted fs-7">Active</span>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 d-flex justify-content-end">
-                                <!--begin::Dropdown-->
-                                <button type="button" class=" btn btn-sm btn-icon btn-color-primary btn-active-light-primary
-                                    " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                                    <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-4-blocks-2.svg-->
-                                    <span class="svg-icon svg-icon-1">
-                                        <i class="bi bi-ui-radios-grid"></i>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </button>
-                                <!--begin::Form-->
-
-                                <!--end::Form-->
-                                <!--end::Dropdown-->
-                            </div> --}}
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body px-9">
-                            <!--begin::Scroll-->
-                            <div class="scroll-y me-lg-n6 pe-lg-5" data-kt-scroll="true"
-                                data-kt-scroll-height="{'default' : '400px', 'lg' : 'auto'}"
-                                data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_chat_content_header, #kt_chat_content_footer"
-                                data-kt-scroll-wrappers="#kt_content, #kt_wrapper"
-                                data-kt-scroll-offset="{'default' : '10px', 'lg' : '52px'}" style="height: 589px">
-                                <hr>
-                                <!--begin::Messages-->
-                                <div wire:poll class="messages" wire:model.defer='messages'>
-                                    @auth
-                                     @if (count($messages)>0)
-                                     @foreach ($messages as $message)
-                                     <div
-                                         class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
-                                         <div class="d-flex align-items-center">
-                                             <!--begin::Symbol-->
-                                             <div class="symbol symbol-40px flex-shrink-0 me-4">
-                                                 <span class="symbol-label bg-light">
-                                                     <img src="img/avatar.jpg" class="h-75 align-self-end" alt="" />
-                                                 </span>
-                                             </div>
-                                             <!--end::Symbol-->
-                                             <div
-                                                 class="{{ ($message->from_id == Auth::user()->id) ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
-                                                 <a href="#"
-                                                     class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == Auth::user()->id) ? 'You' : $message->client->username }}</a>
-                                                 <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
-                                             </div>
-                                         </div>
-                                         <div
-                                             class="{{ ($message->from_id == Auth::user()->id) ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
-                                             {{$message->message}}
-                                         </div>
-                                     </div>
-                                     @endforeach
-                                     @endif
-                                    @endauth
-                                    @guest
-                                    @if (count($messages)>0)
-                                    @foreach ($messages as $message)
-                                    <div
-                                        class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column mb-5 align-items-end' : 'd-flex flex-column mb-5 align-items-start' }}">
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40px flex-shrink-0 me-4">
-                                                <span class="symbol-label bg-light">
-                                                    <img src="img/avatar.jpg" class="h-75 align-self-end" alt="" />
+                                <div class="flex-stack mb-9">
+                                    <div class=" align-items-center">
+                                        <div class=" flex-column mb-4">
+                                            <h4 class="text-blue-400 " style="margin-top: 1rem;">Attached
+                                                Files
+                                                <span class="svg-icon svg-icon-4 ">
+                                                    <i class="bi bi-paperclip text-blue-400"></i>
                                                 </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <div
-                                                class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'd-flex flex-column text-end' : 'd-flex flex-column' }}">
-                                                <a href="#"
-                                                    class="text-gray-600 text-hover-primary fw-bolder">{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'You' : 'Admin' }}</a>
-                                                <span class="text-muted fw-bold fs-7">{{$message->created_at}}</span>
-                                            </div>
+                                            </h4>
                                         </div>
-                                        <div
-                                            class="{{ ($message->from_id == $client[0] && $message->type == 'Client') ? 'rounded mt-2 p-5 bg-light-success text-gray-600 text-end mw-400px' : 'rounded mt-2 p-5 bg-light-primary text-gray-600 text-start mw-400px' }}">
-                                            {{$message->message}}
-                                        </div>
+                                        @foreach ($clientFiles as $clientFile)
+                                        <div class="row">
+                                            <div>
+                                                @if (session()->has('message'))
+                                                <div class="alert alert-danger">
+                                                    {{ session('message') }}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-8">
+                                                <i class="bi bi-dot fs-2 text-active-dark"></i>
+                                                <a wire:click="getDownload('{{$clientFile->folder}}/{{$clientFile->filename}}')"
+                                                    title="Click to download"
+                                                    class="text-gray-600 italic text-hover-primary fw-bold fs-6 mb-3 link-download">{{$clientFile->filename}}
+                                                </a>
+                                            </div>
                                     </div>
                                     @endforeach
-                                    @endif
-
-                                    @endguest
                                 </div>
-                                <!--end::Messages-->
+                                @guest
+                                <button wire:click='edit' class="btn btn-info"> Edit Record</button> @endguest
                             </div>
-                            <!--end::Scroll-->
-                        </div>
-                        <!--end::Body-->
-                        <!--begin::Footer-->
-                        <div class="card-footer align-items-center px-7 py-4" id="kt_chat_content_footer">
-                            <!--begin::Compose-->
-                            <form wire:submit.prevent='sendMessage'>
-                                @csrf
-                                <div class="position-relative">
-                                    <textarea wire:model.defer='messageText'
-                                        class="form-control border-0 p-2 resize-none overflow-hidden" rows="1"
-                                        placeholder="Reply..."></textarea>
-                                    <div class="position-absolute top-0 end-0 mr-n2">
-                                        <span class="btn btn-icon btn-active-light-primary">
-                                            <i class="bi bi-paperclip"></i>
-                                        </span>
-                                        <button  onclick="scrollToBottomFunc()" type="submit" id="sendmsg">
+                            <!--end:User-->
 
-                                            <span class="btn btn-icon btn-sm btn-active-light-primary" onclick="scrollToBottomFunc()">
-                                                <i class="fas fa-paper-plane fs-4"></i>
-                                            </span>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </form>
-                            <!--begin::Compose-->
                         </div>
-                        <!--end::Footer-->
+                        <!--end:Users-->
                     </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Content-->
+                    <!--end::Body-->
+                </div> --}}
+                <!--end::Card-->
             </div>
-            <!--end::Chat-->
+            <!--end::Aside-->
+            <!--begin::Content-->
+            <div class="flex-lg-row-fluid ms-lg-9" id="kt_chat_content">
+                <div class="grid grid-cols-3 min-w-full border rounded" style="min-height: 80vh;">
+                    <div class="col-span-1 bg-white border-r border-gray-300">
+                        <div class="my-3 mx-3 ">
+                            <div class="relative text-gray-600 focus-within:text-gray-400">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-gray-500"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </span>
+                                {{-- Busca tus amigos --}}
+                                <input aria-placeholder="" placeholder="Search people"
+                                class="py-2 pl-10 block w-full rounded bg-gray-100 outline-none focus:text-gray-700" type="search" name="search" required autocomplete="search" />
+                            </div>
+                        </div>
+
+                        <ul class="overflow-auto" style="height: 500px;">
+                            <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
+                            <li>
+                                @foreach ($users as $item)
+                                    @if ($item->model_type == 'App\Models\Client')
+                                    <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <img class="h-10 w-10 rounded-full object-cover"
+                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        alt="username" />
+                                        <div class="w-full pb-2">
+                                            <div class="flex justify-between">
+                                                <span class="block ml-2 font-semibold text-base text-gray-600 ">{{ $item->username }}</span>
+                                                <span class="block ml-2 text-sm text-gray-600"> {{ $this->getTimeForLastMsg( $item->id, $item->model_type) }}</span>
+                                            </div>
+                                            <span class="block ml-2 text-sm text-gray-600">{{ $this->getlastMessage( $item->id, $item->model_type) }}</span>
+                                        </div>
+                                    </a>
+                                    @endif
+                                    @if ($item->model_type == 'App\Models\User')
+
+
+                                    <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <img class="h-10 w-10 rounded-full object-cover"
+                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        alt="username" />
+                                        <div class="w-full pb-2">
+                                            <div class="flex justify-between">
+                                                <span class="block ml-2 font-semibold text-base text-gray-600 ">{{ $item->name }}</span>
+                                                <span class="block ml-2 text-sm text-gray-600"> {{ $this->getTimeForLastMsg( $item->id, $item->model_type) }}</span>
+                                            </div>
+                                            <span class="block ml-2 text-sm text-gray-600">{{ $this->getlastMessage( $item->id, $item->model_type) }}</span>
+                                        </div>
+                                    </a>
+                                    @endif
+                                    @if ($item->model_type == 'App\Models\Writer')
+
+
+                                    <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <img class="h-10 w-10 rounded-full object-cover"
+                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        alt="username" />
+                                        <div class="w-full pb-2">
+                                            <div class="flex justify-between">
+                                                <span class="block ml-2 font-semibold text-base text-gray-600 ">{{ $item->firstname }} {{ $item->lastname }}</span>
+                                                <span class="block ml-2 text-sm text-gray-600"> {{ $this->getTimeForLastMsg( $item->id, $item->model_type) }}</span>
+                                            </div>
+                                            <span class="block ml-2 text-sm text-gray-600">{{ $this->getlastMessage( $item->id, $item->model_type) }}</span>
+                                        </div>
+                                    </a>
+                                    @endif
+                                @endforeach
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--messages -->
+                    <div  class="col-span-2 bg-white">
+                        <div class="w-full">
+                            <div class="flex items-center border-b border-gray-300 pl-3 py-3">
+                                <img class="h-10 w-10 rounded-full object-cover"
+                                src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                alt="username" />
+                                <span class="block ml-2 font-bold text-base text-gray-600">{{ $this->getUsername() }}</span>
+                                <span class="connected text-green-500 ml-2" >
+                                    <svg width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" fill="currentColor"></circle>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div wire:poll   id="chat" class="w-full overflow-y-auto p-10 relative" style="height: 700px;" ref="toolbarChat">
+                                <ul>
+                                    <li class="clearfix2">
+                                        @foreach ($messages as $item)
+                                            @if ($item->fromable_type != $userType)
+                                            @if ( $item->is_read == 0 )
+                                            {{ $this->setOnread($item->id) }}
+                                            @endif
+                                            <div class="w-full flex justify-start">
+                                                <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                                    <span class="block">{{ $item->message }}</span>
+                                                    <span class="block text-xs text-right">{{ $item->created_at }}</span>
+                                                </div>
+                                            </div>
+                                            @else
+                                            <div class="w-full flex justify-end" >
+                                                <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                                    <span class="block">{{ $item->message }}</span>
+                                                    <span class="block text-xs text-left">{{ $item->created_at }}</span>
+                                                </div>
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
+
+
+                                <input wire:model.defer='messageText' aria-placeholder="Escribe un mensaje aquí" placeholder="Type here..."
+                                    class="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700" type="text" name="message" required/>
+
+                                <button wire:click='sendMessage' class="outline-none focus:outline-none" type="submit">
+                                    <svg class="text-gray-400 h-7 w-7 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
         </div>
         <!--end::Container-->
     </div>
     <!--end::Content-->
-    <script type="text/javascript">
-        window.checkScroll = false;
-            setInterval(() => {
-                if (window.checkScroll) {
-                    // console.log("do nothing");
-                    window.checkScroll = false;
-                }else{
-                    scrollToBottomFunc();
-                }
-    
-            }, 4000);
-            $('.scroll-y').scroll( function(evt) {
-                window.checkScroll = true;
-                // console.log("scroll true1");
-            });
-
-            // $('.scroll-y').onscroll
-            // object.onscroll = function() { /*...*/ }
-            document.addEventListener("keyup", function(event) {
-                var sendmsg = document.getElementById('sendmsg');
-                if (event.keyCode === 13) {
-                    sendmsg.click();
-                }
-        });
-        function scrollToBottomFunc() {
-            $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
-        }
-        function resetPond(){
-            var pond = document.getElementById("test");
-            pond.removeFiles();
-        }
-    </script>
 
 </div>
 

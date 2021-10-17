@@ -44,9 +44,10 @@ class Client extends Model
     //     return $this->hasMany(RejectedOrder::class, 'from_id', 'id');
     // }
     public function toable(){
-        return $this->morphMany(MsgTo::class, 'toable');
+        return $this->morphMany(Messaging::class, 'toable');
     }
     public function fromable(){
-        return $this->morphMany(MsgFro::class, 'fromable');
+        return $this->morphMany(Messaging::class, 'fromable');
     }
+
 }

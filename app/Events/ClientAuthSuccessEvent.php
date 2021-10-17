@@ -20,4 +20,5 @@ class ClientAuthSuccessEvent
         $this->client=$client;
     }
 
+
 }

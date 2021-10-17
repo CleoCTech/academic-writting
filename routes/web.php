@@ -70,6 +70,7 @@ Route::group(['middleware' => ['AuthWriter']], function(){
     Route::get('/writer/logout', WriterLogout::class)->name('writer-logout');
     Route::get('/writer/dashboard', WriterDashboard::class)->name('writer-dashboard');
     Route::get('/writer/settings', Settings::class)->name('writer-settings');
+    Route::get('/writer/chat', Chat::class)->name('writer-chat');
     Route::post('upload-id-front', [\App\Http\Controllers\UploadController::class, 'storeIdFront']);
     Route::post('upload-id-back', [\App\Http\Controllers\UploadController::class, 'storeIdBack']);
     Route::post('upload-selfie', [\App\Http\Controllers\UploadController::class, 'selfie']);
