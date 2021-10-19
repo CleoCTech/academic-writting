@@ -20,7 +20,7 @@ class MessageNotification extends Component
     public $user_id;
 
     public $listeners =[
-        'messageAdded' => 'refresh'
+        'messageAdded' => '$refresh'
     ];
 
     public function mount($user_id, $user_type)
@@ -28,8 +28,6 @@ class MessageNotification extends Component
         $this->user_id = $user_id;
         $this->user_type = $user_type;
     }
-    public function refresh(){}
-
     public function render()
     {
         if (auth()->user() !=null) {

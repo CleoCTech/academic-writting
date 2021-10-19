@@ -282,17 +282,18 @@
         <script>
 
             $(document).ready(function(){
-                console.log('Ready for laravel echo');
+                // console.log('Ready for laravel echo');
 
             });
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function(event) {
-                console.log('dom load22');
+                // console.log('dom load22');
                 //do work
-                Echo.channel(`messageChannel`)
-                    .listen('.message-event', (e) => {
-                        console.log(e.message);
+                Echo.channel(`message-sent`)
+                    .listen('.message-sent-event', (e) => {
+                        window.livewire.emit('messageAdded');
+                        // console.log(e.message);
                     });
             });
         </script>

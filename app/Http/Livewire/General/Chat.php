@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\General;
 
+use App\Events\MessageSentEvent;
 use App\Models\Client;
 use App\Models\Message;
 use App\Models\Messaging;
@@ -29,7 +30,7 @@ class Chat extends Component
     public $sendMessageTo;
 
     protected $listeners = [
-        'messageAdded' => 'refresh'
+        'messageAdded' => '$refresh'
     ];
 
     public function mount()
@@ -51,22 +52,15 @@ class Chat extends Component
         }
     }
 
-    public function refresh(){ }
-
     public function render()
     {
         if ($this->openId !=null) {
             $this->getMesssage($this->openId, $this->userTypeFro);
             $this->chatHistory($this->user_id, $this->model);
+            event( new MessageSentEvent());
 
-            // if (auth()->user()!=null) {
-            //     // $this->chats('App\Models\User');
-            //     $this->chatHistory($this->user_id, $this->model);
-            // }elseif(session()->get('LoggedClient')!=null){
-            //     $this->chatHistory(session()->get('LoggedClient'), 'App\Models\User');
-            //     // $this->chats('App\Models\Client');
-            // }
-
+        }else{
+            $this->chatHistory($this->user_id, $this->model);
         }
         return view('livewire.general.chat')->layout('layouts.client');
 
@@ -353,65 +347,6 @@ class Chat extends Component
         // dd($this->users);
         // dd('34');
     }
-    public function chats($userType)
-    {
-        $collection = collect(Messaging::where('fromable_type', '!=', $userType)->get());
-        $groupedInUserTypes = $collection->groupBy('fromable_type');
-        // $this->users[0] = Client::find(1);
-        $this->users[0]  =   Client::all()->random(1);
-        foreach ($groupedInUserTypes as $groupname => $userType) {
-
-            // dump($groupname);
-
-            // dd('nome');
-            foreach ($userType as $key => $value) {
-
-                    // dump($value->fromable_id);
-                   if($groupname == 'App\Models\User'){
-
-                        $getUser = User::where('id', $value->fromable_id)->first();
-                        $getUser->setAttribute('model_type', 'App\Models\User');
-                        if ($this->compareObjs($getUser) == '') {
-                            array_push($this->users, $getUser);
-                        }
-
-                   }elseif ($groupname == 'App\Models\Writer') {
-
-                        $getUser = Writer::where('id', $value->fromable_id)->first();
-                        $getUser->setAttribute('model_type', 'App\Models\Writer');
-                        if ($this->compareObjs($getUser) == '') {
-                            // dump('empty array1');
-                            array_push($this->users, $getUser);
-                        }else{
-                            // dump('found array1');
-                        }
-
-                   }elseif($groupname == 'App\Models\Client'){
-
-                        $getUser = Client::where('id', $value->fromable_id)->first();
-                        $getUser->setAttribute('model_type', 'App\Models\Client');
-                        // $foo = (array)$getUser;
-                        // $foo['model_type'] = 'App\Models\Client';
-                        // $getUser = (object)$foo;
-
-                        // array_push($getUser, 'App\Models\Client');
-                        if ($this->compareObjs($getUser) !=null  ) {
-                            // dump('found array');
-                        }else{
-
-                            // dump('empty array');
-                            array_push($this->users, $getUser);
-                        }
-                   }
-
-            }
-
-        }
-
-        unset($this->users[0]);
-        // dd($this->users);
-
-    }
     public function compareObjs($object)
     {
         $result = array_search($object, $this->users); // return index or false
@@ -444,8 +379,11 @@ class Chat extends Component
                 'fromable_type' => $this->userType,
                 'toable_type' => $this->sendMessageTo,
             ]);
+            $this->reset('messageText');
+            $this->messageText = '';
+            // $this->emit('messageAdded');
+            event( new MessageSentEvent());
 
-            $this->emit('messageAdded');
         }
         if (auth()->user()!=null) {
 
@@ -459,8 +397,10 @@ class Chat extends Component
                 'fromable_type' => $this->userType,
                 'toable_type' => $this->sendMessageTo,
             ]);
-
-            $this->emit('messageAdded');
+            $this->reset('messageText');
+            $this->messageText = '';
+            $this->emit('scroll-y');
+            event( new MessageSentEvent());
         }
         if (session()->get('AuthWriter')!=null) {
 
@@ -474,11 +414,13 @@ class Chat extends Component
                 'toable_type' => $this->sendMessageTo,
             ]);
 
-            $this->emit('messageAdded');
+            $this->reset('messageText');
+            $this->messageText = '';
+            // $this->emit('messageAdded');
+            event( new MessageSentEvent());
         }
 
-        $this->reset('messageText');
-        $this->messageText = '';
+
     }
 
 }

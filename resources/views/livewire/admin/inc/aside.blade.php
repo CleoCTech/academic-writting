@@ -157,7 +157,7 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link" href="#">
+                            <a class="menu-link" href="{{ route('writer-chat')}}">
                                 <span class="menu-icon">
                                     <!--begin::Svg Icon | path: icons/stockholm/Files/File.svg-->
                                     <span class="svg-icon svg-icon-3">

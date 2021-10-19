@@ -43,9 +43,15 @@
                 sendmsg.click();
             }
         });
-        function scrollToBottomFunc() {
-            $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
-        }
+        // function scrollToBottomFunc() {
+        //     $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+        // }
+        $( document ).ready(function() {
+             function scrollToBottomFunc() {
+                $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+            }
+            // console.log( "ready!" );
+        });
         function resetPond(){
             var pond = document.getElementById("test");
             pond.removeFiles();

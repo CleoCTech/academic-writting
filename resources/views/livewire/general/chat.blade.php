@@ -280,7 +280,7 @@
                                     </svg>
                                 </span>
                             </div>
-                            <div wire:poll   id="chat" class="w-full overflow-y-auto p-10 relative" style="height: 700px;" ref="toolbarChat">
+                            <div  id="chat" class="w-full overflow-y-auto p-10 relative scroll-y" style="height: 700px;" ref="toolbarChat">
                                 <ul>
                                     <li class="clearfix2">
                                         @foreach ($messages as $item)
@@ -310,10 +310,10 @@
                             <div class="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
 
 
-                                <input wire:model.defer='messageText' aria-placeholder="Escribe un mensaje aquí" placeholder="Type here..."
+                                <input wire:model.defer='messageText' aria-placeholder="Escribe un mensaje aquí" placeholder="Type here..." id="message"
                                     class="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700" type="text" name="message" required/>
 
-                                <button wire:click='sendMessage' class="outline-none focus:outline-none" type="submit">
+                                <button wire:click='sendMessage' class="outline-none focus:outline-none" type="submit" id="sendMessage">
                                     <svg class="text-gray-400 h-7 w-7 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                                     </svg>
@@ -328,6 +328,46 @@
         <!--end::Container-->
     </div>
     <!--end::Content-->
+     {{--  @livewireScripts  --}}
+    <script>
+
+        // Livewire.on('messageAdded', () => {
+
+        // })
+        window.onload = function() {
+            Livewire.on('scroll-y', () => {
+                // scrollToBottomFunc();
+            })
+        }
+        // Get the input field
+        var input = document.getElementById("message");
+
+
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup",
+        function(event) {
+
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("sendMessage").click();
+            input.value = '';
+        }
+        }); 
+
+         $( document ).ready(function() {
+             function scrollToBottomFunc() {
+                $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
+            }
+            // console.log( "ready!" );
+        });
+        // function scrollToBottomFunc() {
+        //     alert('scrollin');
+        //     document.getElementsByClassName("socroll-ymeclassname").scrollTop($('.scroll-y')[1].scrollHeight);
+        // }
+    </script>
 
 </div>
 

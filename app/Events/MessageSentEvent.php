@@ -10,28 +10,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageTestEvent implements ShouldBroadcast
+class MessageSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
-        // return ['message'];
-        return new Channel('messageTestChannel');
+        return new Channel('message-sent');
     }
     public function broadcastAs()
     {
-        return 'message-event';
+        return 'message-sent-event';
     }
 }
