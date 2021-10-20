@@ -25,12 +25,16 @@ class OrderDetails extends Component
     public $messagesTab, $orderSubmitTab =false;
     public $supports = [];
     public $messages = [];
+    public $clientmessages = [];
     public $userType;
     public $sendMessageTo;
+    public $toableClient;
     public $from_id;
     public $from_type;
     public $toable_id;
+    public $toableclient_id;
     public $messageText;
+    public $cleintmessageText;
 
     protected $listeners = [
         'messageAdded' => '$refresh'
@@ -50,43 +54,91 @@ class OrderDetails extends Component
         $this->option1 = true;
         $this->messagesTab = true;
         $this->getsupportUsers();
-
         // $this->writerId = session()->get('AuthWriter');
     }
     public function render()
     {
-        if ($this->toable_id != '' && $this->sendMessageTo !='') {
-            $this->getMesssage($this->toable_id , $this->sendMessageTo);
+        if ($this->toable_id != null && $this->sendMessageTo != null) {
+            $model=  str_replace('\\','',$this->sendMessageTo);
+            $this->getMesssage($this->toable_id , $model);
+        }
+        if ($this->option2) {
+            $this->getclientMesssage($this->orderDetails['client_id']);
         }
         return view('livewire.writer.order.order-details');
     }
     public function sendMessage()
     {
-
-        if (session()->get('AuthWriter')!=null) {
-
+        if ($this->option2) {
             $userFrom = Writer::find(session()->get('AuthWriter'));
 
             $message = $userFrom->fromable()->create([
-                'message' => $this->messageText,
+                'message' => $this->cleintmessageText,
                 'fromable_id' => $userFrom->id,
-                'toable_id' => $this->toable_id,
+                'toable_id' => $this->toableclient_id,
                 'fromable_type' => $this->userType,
-                'toable_type' => $this->sendMessageTo,
+                'toable_type' => $this->toableClient,
             ]);
 
-            $this->reset('messageText');
-            $this->messageText = '';
+            $this->reset('cleintmessageText');
+            $this->cleintmessageText = '';
             $this->emit('messageAdded');
-            // $this->getMesssage($this->toable_id, $this->sendMessageTo);
             event( new MessageSentEvent());
 
+        }elseif($this->option1){
+            if (session()->get('AuthWriter')!=null) {
+
+                $userFrom = Writer::find(session()->get('AuthWriter'));
+
+                $message = $userFrom->fromable()->create([
+                    'message' => $this->messageText,
+                    'fromable_id' => $userFrom->id,
+                    'toable_id' => $this->toable_id,
+                    'fromable_type' => $this->userType,
+                    'toable_type' => $this->sendMessageTo,
+                ]);
+
+                $this->reset('messageText');
+                $this->messageText = '';
+                $this->emit('messageAdded');
+                event( new MessageSentEvent());
+
+            }
         }
+    }
+    public function setOnread($id)
+    {
+        Messaging::where('id', $id)->update(['is_read' => 1]);
+    }
+    public function getclientMesssage($userId)
+    {
+        $model = "App\Models\Client";
 
+        $this->toableclient_id = $userId;
+        if (session()->get('AuthWriter')!=null) {
 
+            $this->clientmessages = Messaging::
+            where(function($query) use($userId, $model){
+                $query->where('fromable_id', $userId)
+                ->where('toable_id', session()->get('AuthWriter'))
+                ->where('toable_type', "App\Models\Writer")
+                ->where('fromable_type',  $model);
+            })
+            ->orwhere(function($query) use($userId, $model){
+                $query->where('fromable_id', session()->get('AuthWriter'))
+                ->where('toable_id', $userId)
+                ->where('toable_type', $model)
+                ->where('fromable_type',  "App\Models\Writer");
+            })
+            ->get();
+            $this->userType = "App\Models\Writer";
+            $this->toableClient = $model;
+        }
+        // dd($this->clientmessages);
     }
     public function getMesssage($userId, $model)
     {
+        // dd('user Id:' .$userId. 'Model:' .$model);
 
         $model = explode("Models",$model);
         $model = $model[0]."\\Models\\".$model[1];
@@ -219,6 +271,7 @@ class OrderDetails extends Component
     {
         $this->option1 = false;
         $this->option2 = true;
+        $this->getclientMesssage($this->orderDetails['client_id']);
     }
     public function optionOne()
     {

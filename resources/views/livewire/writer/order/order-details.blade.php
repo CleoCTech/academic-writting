@@ -143,7 +143,7 @@
             </div>
 
         </div>
-        <div class="max-w-full  bg-white flex flex-col rounded overflow-hidden shadow-lg" id="kt_post" style="margin: 2rem;">
+        <div class="max-w-full  bg-white flex flex-col rounded overflow-hidden shadow-lg" id="kt_post" style="margin: 2rem; ">
             <div class="flex flex-row items-baseline flex-nowrap bg-gray-100 p-2">
                 {{-- <h1 class="ml-2 uppercase font-bold text-gray-500"> Messages </h1> --}}
                 <nav class="flex flex-col sm:flex-row">
@@ -207,7 +207,7 @@
                             </div>
                             <div class="col-span-2">
                                 <div class="flex flex-col bg-white">
-                                    <div id="chat" class="flex flex-col mt-2 flex-col overflow-y-scroll	 space-y-3 mb-20 pb-3 ">
+                                    <div id="chat" class="flex flex-col mt-2 flex-col overflow-y-scroll	 space-y-3 mb-20 pb-3 " style="max-height: 300px">
                                         @foreach ($messages as $item)
                                             @if ($item->fromable_type != "App\Models\Writer")
                                                  <div class="other break-all mt-2  ml-5 rounded-bl-none float-none bg-gray-300 mr-auto rounded-2xl p-2">
@@ -254,37 +254,33 @@
                             </div>
                             <div class="col-span-2">
                                 <div class="flex flex-col bg-white">
-                                    <div id="chat" class="flex flex-col mt-2 flex-col-reverse overflow-y-scroll	 space-y-3 mb-20 pb-3 ">
-
-                                        <div
-                                            class="w-max ml-auto break-all mt-2 mb-1 p-2 rounded-br-none bg-blue-500 rounded-2xl text-white text-left mr-5">
-                                            2/10
-                                        </div>
-                                        <div
-                                            class="w-max ml-auto break-all mt-2 mb-1 p-2 rounded-br-none bg-blue-500 rounded-2xl text-white text-left mr-5">
-                                            But numbers can
-                                        </div>
-                                        <div class="other break-all mt-2  ml-5 rounded-bl-none float-none bg-gray-300 mr-auto rounded-2xl p-2">
-                                            Aww thx!!
-                                        </div>
-                                        <div
-                                            class="w-max ml-auto break-all mt-2 mb-1 p-2 rounded-br-none bg-blue-500 rounded-2xl text-white text-left mr-5">
-                                            Words can't describe how beautiful you are :)
-                                        </div>
-                                        <div class="other break-all mt-2  ml-5 rounded-bl-none float-none bg-gray-300 mr-auto rounded-2xl p-2">
-                                            Words can't decsribe how ugly you are ;)
-                                        </div>
+                                    <div id="chat" class="flex flex-col mt-2 flex-col overflow-y-scroll	 space-y-3 mb-20 pb-3 " style="max-height: 300px">
+                                        @foreach ($clientmessages as $item)
+                                            @if ($item->fromable_type != "App\Models\Writer")
+                                            @if ($item->is_read == 0)
+                                            {{ $this->setOnread($item->id) }}
+                                            @endif
+                                                 <div class="other break-all mt-2  ml-5 rounded-bl-none float-none bg-gray-300 mr-auto rounded-2xl p-2">
+                                                    {{ $item->message }}
+                                                </div>
+                                            @else
+                                                 <div
+                                                    class="w-max ml-auto break-all mt-2 mb-1 p-2 rounded-br-none bg-blue-500 rounded-2xl text-white text-left mr-5">
+                                                    {{ $item->message }}
+                                                </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                     <div class="flex flex-row  items-center  bottom-0 my-2 w-full">
                                         <div class="ml-2 flex flex-row border-gray items-center w-full border rounded-3xl h-12 px-2">
                                             <div class="w-full">
-                                                <input type="text" id="message"
+                                                <input wire:model.defer='cleintmessageText' type="text" id="message"
                                                     class="border rounded-2xl border-transparent w-full focus:outline-none text-sm h-10 flex items-center"
                                                     placeholder="Type your message...." />
                                             </div>
                                         </div>
                                         <div>
-                                            <button id="self"
+                                            <button wire:click='sendMessage' id="self"
                                                 class="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-gray-200 hover:bg-gray-300 text-indigo-800 text-white focus:outline-none">
                                                 <svg class="w-5 h-5 transform rotate-90 -mr-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -349,7 +345,7 @@
                         <i class="bi bi-paperclip text-blue-400"></i>
                     </span>
                 </h4>
-                <div  class="row">
+                <div wire:ignore class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <input type="file" name="paperFile" id="test"
                             multiple>
