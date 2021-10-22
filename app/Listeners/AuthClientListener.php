@@ -17,7 +17,7 @@ class AuthClientListener
 
         $client = Client::where('email', $event->email)->first();
         if ($client) {
-            session()->push('LoggedClient', $client->id);
+            session()->put('LoggedClient', $client->id);
             event( new ClientAuthSuccessEvent($client));
             // return redirect('client/dashboard');
         }else{

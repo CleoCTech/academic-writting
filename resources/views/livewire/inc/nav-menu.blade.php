@@ -7,7 +7,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <nav id="navigation" class="navigation navigation-landscape">
                         <div class="nav-header">
-                            <a class="nav-brand" href="#">
+                            <a class="nav-brand" href="{{ route('home') }}">
                                 <img src="assets/img/logo.png" class="logo" alt="" />
                             </a>
                             <div class="nav-toggle"></div>
@@ -21,6 +21,40 @@
                             </ul>
 
                             <ul class="nav-menu nav-menu-social align-to-right">
+                                @if (session()->get('LoggedClient') != null)
+                                <li class="add-listing dark-bg">
+                                    <a href="{{route('dashboard')}}" >
+                                        <i class="ti-user mr-1"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="order add-listing dark-bg">
+                                    <a href="{{route('create-order')}}" >
+                                        <i class="ti-user mr-1"></i> Order Now
+                                    </a>
+                                </li>
+                                @elseif(session()->get('AuthWriter') != null) 
+                                <li class="add-listing dark-bg">
+                                    <a href="{{route('writer-dashboard')}}" >
+                                        <i class="ti-user mr-1"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="order add-listing dark-bg">
+                                    <a href="{{route('create-order')}}" >
+                                        <i class="ti-user mr-1"></i> Order Now
+                                    </a>
+                                </li>
+                                @elseif(auth()->user() != null) 
+                                <li class="add-listing dark-bg">
+                                    <a href="{{route('admin-dashboard')}}" >
+                                        <i class="ti-user mr-1"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="order add-listing dark-bg">
+                                    <a href="{{route('create-order')}}" >
+                                        <i class="ti-user mr-1"></i> Order Now
+                                    </a>
+                                </li>
+                                @else 
                                 <li>
                                     <a href="{{route('writer-login')}}" style="color: black !important;">
                                         <i class="fa fa-upload mr-1"></i>For Writers
@@ -36,6 +70,8 @@
                                         <i class="ti-user mr-1"></i> Order Now
                                     </a>
                                 </li>
+                                @endif
+                                
                             </ul>
                         </div>
                     </nav>

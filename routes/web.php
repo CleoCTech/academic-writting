@@ -47,7 +47,7 @@ Route::get('/email', function () {
 Route::get('/verify-email/{mail}', [\App\Http\Controllers\VerifyWriterEmailController::class, 'verifyMail'])->name('verify-email');
 // Route::get('/verify-email/{mail}', VerifyEmailController::class, 'verifyMail')->name('verify-email');
 Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
-Route::get('/', Home::class);
+Route::get('/', Home::class)->name('home');
 Route::get('/order', Order::class)->name('create-order');
 Route::get('/writer/get-started', Writer::class)->name('writer-get-started');
 

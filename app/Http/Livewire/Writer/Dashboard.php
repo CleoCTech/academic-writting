@@ -7,9 +7,11 @@ use App\Models\Writer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
+    use WithPagination;
 
     protected $listeners = [
         'update_varView'=> 'updateVarView',
@@ -54,7 +56,7 @@ class Dashboard extends Component
                 ON (`orders`.`subject_id` = `paper_categories`.`id`)
         WHERE (`orders`.`publish` =? );', [1]);
 
-
+        // $active->paginate(10);
         return view('livewire.writer.dashboard')->with(['active'=>$active])->layout('layouts.client');
 
     }

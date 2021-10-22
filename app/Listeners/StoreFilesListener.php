@@ -2,6 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Events\AuthenticateExistingClientEvent;
+use App\Events\ClientHasLoggedInEvent;
 use App\Models\ClientFile;
 use App\Models\TemporaryFile;
 use Illuminate\Contracts\Queue\ShouldQueue;

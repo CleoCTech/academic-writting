@@ -79,4 +79,8 @@ class User extends Authenticatable
     public function fromable(){
         return $this->morphMany(Messaging::class, 'fromable');
     }
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notificationable');
+    }
 }

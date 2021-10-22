@@ -10,7 +10,11 @@ use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
 
 class AdminDashboard extends Component
 {
@@ -18,6 +22,7 @@ class AdminDashboard extends Component
     use AdminPropertiesTrait;
     use SearchFilterTrait;
     use SearchFilterTrait;
+    use WithPagination;
 
     protected $listeners = [
         'update_varView'=> 'updateVarView',
@@ -32,6 +37,7 @@ class AdminDashboard extends Component
     public $quickStats = true;
     public $menuButtons = true;
 
+
     public function updateVarView($varValue)
     {
         $this->resetFields();
@@ -45,11 +51,15 @@ class AdminDashboard extends Component
     public function render()
     {
         $orders = collect(Order::search($this->searchKeyword)->with('order')->get());
-        $pending_orders = $orders->where('status', 'Pending');
-        $cancelled = $orders->whereIn('status', 'Cancelled');
-        $complete = $orders->whereIn('status', 'Complete');
+        // $pending_orders = $orders->where('status', 'Pending')->paginate(10);
+        $pending_orders = Order::where('status', 'Pending')->latest()->paginate(8);
+        // $cancelled = $orders->whereIn('status', 'Cancelled');
+        $cancelled = Order::where('status', 'Cancelled')->latest()->paginate(8);
+        // $complete = $orders->whereIn('status', 'Complete');
+        $complete = Order::where('status', 'Complete')->latest()->paginate(8);
         $revisions = RejectedOrder::where('from', 'client')->get();
-        $progress_orders = $orders->where('status', 'In progress');
+        // $progress_orders = $orders->where('status', 'In progress');
+        $progress_orders = Order::where('status', 'In progress')->latest()->paginate(8);
 
         $active =  DB::select('SELECT * FROM `order_billings`  INNER JOIN `orders`
                                             ON (`order_billings`.`order_id` = `orders`.`id`);');
@@ -71,6 +81,12 @@ class AdminDashboard extends Component
 
         $this->keyCol = $this->getKeyCol();
         return view('livewire.admin.admin-dashboard')->with(['pending_orders'=>$pending_orders, 'progress_orders'=>$progress_orders,  'complete'=>$complete, 'orders'=>$orders, 'revisions'=>$revisions, 'cancelled'=>$cancelled, 'active'=>$active])->layout('layouts.client');
+    }
+    public function paginate($items, $perPage = 8, $page = null, $options = [])
+    {
+        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
     public function publishOrder($id, $clientPrice)
     {

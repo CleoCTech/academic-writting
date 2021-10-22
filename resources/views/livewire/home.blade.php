@@ -557,6 +557,7 @@
         </section>
         <!-- ============================ Call To Action End ================================== -->
 
+        @livewire('general.quick-chat')
          <!-- Log In Modal -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">

@@ -50,4 +50,12 @@ class Client extends Model
         return $this->morphMany(Messaging::class, 'fromable');
     }
 
+    public function notificationstoable()
+    {
+        return $this->morphMany(Notification::class, 'toable');
+    }
+    public function notificationsfromable()
+    {
+        return $this->morphMany(Notification::class, 'fromable');
+    }
 }

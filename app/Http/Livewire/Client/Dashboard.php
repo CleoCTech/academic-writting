@@ -17,7 +17,10 @@ class Dashboard extends Component
     use SearchFilterTrait;
     use SearchFilterTrait;
 
-    protected $listeners = ['update_varView'=> 'updateVarView' ];
+    protected $listeners = [
+        'update_varView'=> 'updateVarView',
+        'Incoming-Request'=> 'chat',
+     ];
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
     public $quickStats = true;

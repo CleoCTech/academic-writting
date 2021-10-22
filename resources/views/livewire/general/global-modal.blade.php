@@ -10,7 +10,7 @@
                     x-transition:leave="ease-in duration-300" x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-90"
                 >
-                    <img src="/storage/general/loading-black.gif" class="max-w-16 max-h-16">
+                    <img src="/storage/general/loading-colored.gif" class="max-w-16 max-h-16">
                 </div>
             </div>
             @else

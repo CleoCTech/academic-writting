@@ -357,16 +357,6 @@
         }
         }); 
 
-         $( document ).ready(function() {
-             function scrollToBottomFunc() {
-                $('.scroll-y').scrollTop($('.scroll-y')[1].scrollHeight);
-            }
-            // console.log( "ready!" );
-        });
-        // function scrollToBottomFunc() {
-        //     alert('scrollin');
-        //     document.getElementsByClassName("socroll-ymeclassname").scrollTop($('.scroll-y')[1].scrollHeight);
-        // }
     </script>
 
 </div>

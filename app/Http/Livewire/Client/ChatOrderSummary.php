@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client;
 
+use App\Events\InvoiceSentEvent;
 use App\Events\OrderAnswerUploadEvent;
 use App\Models\AcceptedOrder;
 use App\Models\Activity;
@@ -10,6 +11,7 @@ use App\Models\ClientFile;
 use App\Models\Message;
 use App\Models\MessageTo;
 use App\Models\Msg;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderBilling;
 use App\Models\OrderStatus;
@@ -25,6 +27,7 @@ use App\Traits\AdminPropertiesTrait;
 use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Matcher\Not;
 use Psy\Command\WhereamiCommand;
 
 class ChatOrderSummary extends Component
@@ -43,6 +46,8 @@ class ChatOrderSummary extends Component
     public $orderStatus=false;
     public $showOperationSection = false;
     public $orderNextLevel = false;
+    public $InvoiceAccepted = false;
+    public $InvoiceRejected = false;
     public $orderDetails, $messages_sent, $messages_received, $messages, $activitie, $clientFiles, $companyFiles, $revisions, $writerFiles=[];
 
     public $user_type;
@@ -54,40 +59,17 @@ class ChatOrderSummary extends Component
         'edit'=>'edit',
         'confrimInvoice'=>'confrimInvoice',
         'rejectInvoice'=>'rejectInvoice',
+        'invoice-sent' => '$refresh',
     ];
     public function back()
     {
         $this->emit('update_varView', '');
     }
-    public function sendInvoice()
-    {
-        // if (session()->get('LoggedClient')!=null) {
-        //     $id = session()->get('LoggedClient');
-        //     $this->from_id= $id;
-        //     $this->to_id=1 ;
-        //     $this->type= 'Client';
-        // }
-        if (auth()->user()!=null) {
-            $this->from_id=auth()->user()->id;
-            $this->to_id=$this->orderDetails->client_id;
-            $this->type= 'Admin';
-        }
-        Activity::create([
-            'name' => 'Sent Invoice',
-            'value' => $this->fee,
-            'from_id' => $this->from_id,
-            'to_id' => $this->to_id,
-            'type' => $this->type,
-        ]);
-
-        $this->reset('fee');
-
-    }
     public function rejectInvoice()
     {
-        Activity::where('id', $this->activity_id)
+        Notification::where('id', $this->activity_id)
                 ->update(['status' => 'rejected']);
-        session()->flash('Invoice-Rejected', 'Invoice has been declined. Create a new one');
+                event(new InvoiceSentEvent());
     }
     public function confrimInvoice()
     {
@@ -110,49 +92,15 @@ class ChatOrderSummary extends Component
             'prepared_by' => $this->to_id,
         ]);
 
-        Activity::where('id', $this->activity_id)
+        Notification::where('id', $this->activity_id)
                 ->update(['status' => 'responded']);
 
         Order::where('id',  $order->id)
                 ->update(['status' => 'In progress']);
-        session()->flash('Invoice-Confirmed', 'Invoice Confirmed Succesfully, Your Order Is In Progress.');
+        event(new InvoiceSentEvent());
+        // session()->flash('Invoice-Confirmed', 'Invoice Confirmed Succesfully, Your Order Is In Progress.');
         return redirect()->route('dashboard');
 
-    }
-
-    public function sendMessage()
-    {
-        if (session()->get('LoggedClient')!=null) {
-            $id = session()->get('LoggedClient');
-            $this->from_id= $id;
-            $this->to_id=1 ;
-            $this->type= 'Client';
-        }
-        if (auth()->user()!=null) {
-
-            $user = User::find(auth()->user()->id);
-            $user->messages()->create([
-                'message' => $this->messageText,
-            ]);
-
-            Msg::create([
-                'message' => $this->messageText,
-                'fromable_id' => $user->id,
-                'fromable_type' => $user->messages(),
-            ]);
-            // $this->from_id=auth()->user()->id;
-            // $this->to_id=$this->orderDetails->client_id;
-            // $this->type= 'Admin';
-        }
-        // Message::create([
-        //     'message' => $this->messageText,
-        //     'from_id' => $this->from_id,
-        //     'to_id' => $this->to_id,
-        //     'type' => $this->type,
-        //     'is_read' => 0,
-        // ]);
-
-        $this->reset('messageText');
     }
 
     public function render()
@@ -177,25 +125,18 @@ class ChatOrderSummary extends Component
             $this->client = session()->get('LoggedClient');
             // Message::where(['from_id' => $user_id, 'to_id' => $my_id])->update(['is_read' => 1]);
             // Get all message from selected user
-            $this->messages = Message::where(function ($query) use ($user_id, $my_id) {
-                $query->where('type', 'Admin')->where('to_id', $my_id );
-            })->oRwhere(function ($query) use ($user_id, $my_id) {
-                $query->where('from_id', $my_id)->where('type', 'Client');
-            })->get();
-            // ->latest()
-            // ->take(10)
-            // ->get()
 
-            $this->activity = Activity::where(function ($query) use ($user_id, $my_id) {
-                $query->where('type', 'Admin')->where('to_id', $my_id);
-            })->latest('created_at')->first();
+            $this->activity = Notification::where('order_no', $this->orderId)
+            ->where('status', 'waiting')
+            ->first();
 
             if ($this->activity) {
-                if ($this->activity->name == "Sent Invoice" && $this->activity->status == "waiting") {
+                if ($this->activity->title == "Sent Invoice") {
                     $this->confirm_invoice =true;
                     $this->activity_id = $this->activity->id;
                     $this->fee = $this->activity->value;
-                }elseif($this->activity->name == "Sent Invoice" && $this->activity->status == "responded" || $this->activity->status == "rejected"){
+                    
+                }elseif($this->activity->title == "Sent Invoice" && $this->activity->status == "responded" || $this->activity->status == "rejected"){
                     $this->confirm_invoice =false;
                 }
             }
@@ -230,25 +171,29 @@ class ChatOrderSummary extends Component
             $my_id = auth()->user()->id;
             // Message::where(['from_id' => $user_id, 'to_id' => $my_id])->update(['is_read' => 1]);
             // Get all message from selected user
-            $this->messages = Message::where(function ($query) use ($user_id, $my_id) {
-                $query->where('from_id', $user_id)->where('to_id', $my_id);
-            })->oRwhere(function ($query) use ($user_id, $my_id) {
-                $query->where('from_id', $my_id)->where('to_id', $user_id);
-            })->get();
-            // ->latest()
-            // ->take(10)
-            // ->get()
-            $this->activity = Activity::where(function ($query) use ($user_id, $my_id) {
-                $query->where('type', 'Admin')->where('to_id', $user_id );
-            })->latest('created_at')->first();
+            $this->activity = Notification::where('order_no', $this->orderId)
+            ->where('status', 'rejected')
+            ->first();
 
-            if ($this->activity) {
-                if ($this->activity->name == "Sent Invoice" && $this->activity->status == "responded") {
-                    session()->flash('success', 'Invoice Accepted.');
-                }elseif($this->activity->name == "Sent Invoice" &&  $this->activity->status == "rejected"){
-                    session()->flash('error', 'Invoice Rejected.');
+            if ($this->activity != null) {
+                if ($this->activity->title == "Sent Invoice") {
+                    $this->confirm_invoice =true;
+                    $this->activity_id = $this->activity->id;
+                    $this->fee = $this->activity->value;
+                    
+                }elseif($this->activity->title == "Sent Invoice" && $this->activity->status == "responded" ){
+                    $this->confirm_invoice =false;
                 }
             }
+
+            if ($this->activity != null) {
+                if ($this->activity->name == "Sent Invoice" && $this->activity->status == "responded") {
+                    $this->InvoiceAccepted = true;
+                }elseif($this->activity->name == "Sent Invoice" &&  $this->activity->status == "rejected"){
+                    $this->InvoiceRejected = true;
+                }
+            }
+            
             $this->clientFiles = ClientFile::where('client_id', $user_id)
                                             ->where('order_id',  $this->orderDetails->id)
                                             ->where('from',  'client')

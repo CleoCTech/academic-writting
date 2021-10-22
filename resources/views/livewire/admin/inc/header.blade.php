@@ -92,13 +92,13 @@
                         @if (Auth::user()!=null)
                             @livewire('admin.inc.message-notification', ['user_id' => Auth::user()->id, 'user_type' => 'App\Models\User'])
                             {{-- @livewire('admin.inc.message-notification', [Auth::user()->id, auth()->user->()->role]) --}}
-                            @livewire('admin.inc.notification')
+                            @livewire('admin.inc.notification', ['user_id' => Auth::user()->id, 'user_type' => 'App\Models\User'])
                         @elseif(session()->has('LoggedClient'))
-                             @livewire('admin.inc.message-notification', ['user_id' => session()->get('LoggedClient'), 'user_type' => 'App\Models\Client'])
-                            @livewire('admin.inc.notification')
+                            @livewire('admin.inc.message-notification', ['user_id' => session()->get('LoggedClient'), 'user_type' => 'App\Models\Client'])
+                            @livewire('admin.inc.notification', ['user_id' => session()->get('LoggedClient'), 'user_type' => 'App\Models\Client'])
                         @elseif(session()->has('AuthWriter'))
                             @livewire('admin.inc.message-notification', ['user_id' => session()->has('AuthWriter'), 'user_type' => 'App\Models\Writer'])
-                            @livewire('admin.inc.notification')
+                            @livewire('admin.inc.notification', ['user_id' => session()->has('AuthWriter'), 'user_type' => 'App\Models\Writer'])
                         @endif
 
                     </div>

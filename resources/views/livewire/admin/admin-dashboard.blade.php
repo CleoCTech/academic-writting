@@ -22,6 +22,23 @@
             </div>
         </div>
         <!--end::Toolbar-->
+        <!-- Alert Info -->
+        {{-- <div class="bg-blue-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
+            <svg viewBox="0 0 24 24" class="text-blue-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
+                <path fill="currentColor"
+                    d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
+                </path>
+            </svg>
+            <span class="text-blue-800"> We've updated a few things. We've updated a few things. </span> 
+            <span class="flex justify-end" style=" margin-left: 2rem;">
+            <button
+                class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
+                " >
+                Create Invoice
+            </button>
+            </span>
+        </div> --}}
+        <!-- End Alert Info -->
         <!--How it Works-->
         <div class="w-full py-6">
             <div class="flex">
@@ -110,7 +127,6 @@
 
                 <br>
                 <div class="row g-xl-8">
-
 
                     @if ($menuButtons)
                          <!-- Earnings (Monthly) Card Example -->
@@ -857,11 +873,13 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        
                                         <!--end::Table-->
                                     </div>
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
+                                {{ $pending_orders->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1160,6 +1178,7 @@
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
+                                {{ $pending_orders->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1302,6 +1321,7 @@
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
+                                {{ $pending_orders->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1317,429 +1337,6 @@
 
                 </div>
                 <!--end::Row-->
-                <!--begin::Row-->
-                {{-- <div class="row g-5 gx-xxl-8 mb-xxl-3">
-                    <!--begin::Col-->
-                    <div class="col-xxl-8">
-                        <!--begin::Table widget 1-->
-                        <div class="card card-xxl-stretch mb-5 mb-xl-3">
-                            <!--begin::Header-->
-                            <div class="card-header border-0 pt-5 pb-3">
-                                <!--begin::Heading-->
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-boldest text-gray-800 fs-2">Clients</span>
-                                    <span class="text-gray-400 fw-bold mt-2 fs-6">10 Active Clients</span>
-                                </h3>
-                                <!--end::Heading-->
-                                <!--begin::Toolbar-->
-                                <div class="card-toolbar">
-                                    <!--begin::Select-->
-                                    <div class="pe-6 my-1">
-                                        <select class="form-select form-select-sm form-select-solid w-125px"
-                                            data-control="select2" data-placeholder="All Users" data-hide-search="true">
-                                            <option value="1" selected="selected">
-                                                All Users
-                                            </option>
-                                            <option value="2">Online</option>
-                                            <option value="3">Offline</option>
-                                        </select>
-                                    </div>
-                                    <!--end::Select-->
-                                    <!--begin::Search-->
-                                    <div class="w-125px position-relative my-1">
-                                        <!--begin::Svg Icon | path: icons/stockholm/General/Search.svg-->
-                                        <span
-                                            class="svg-icon svg-icon-3 svg-icon-gray-500 position-absolute top-50 translate-middle ms-6">
-                                            <i class="bi bi-search"></i>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                        <input type="text" class="form-control form-control-sm form-control-solid ps-10"
-                                            name="search" value="" placeholder="Search" />
-                                    </div>
-                                    <!--end::Search-->
-                                </div>
-                                <!--end::Toolbar-->
-                            </div>
-                            <!--end::Header-->
-                            <!--begin::Body-->
-                            <div class="card-body py-0">
-                                <!--begin::Table-->
-                                <div class="table-responsive">
-                                    <table class="table align-middle table-row-bordered table-row-dashed gy-5"
-                                        id="kt_table_widget_1">
-                                        <tbody>
-                                            <tr class="text-start text-gray-400 fw-boldest fs-7 text-uppercase">
-                                                <th class="w-20px ps-0">
-                                                    <div
-                                                        class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            data-kt-check="true"
-                                                            data-kt-check-target="#kt_table_widget_1 .form-check-input"
-                                                            value="1" />
-                                                    </div>
-                                                </th>
-                                                <th class="min-w-200px px-0">Names</th>
-                                                <th class="min-w-125px">Topic</th>
-                                                <th class="min-w-125px">Progress</th>
-                                                <th class="text-end pe-2 min-w-70px">Action</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-0">
-                                                    <div
-                                                        class="form-check form-check-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                    </div>
-                                                </td>
-                                                <td class="p-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="symbol symbol-50px me-2">
-                                                            <span class="symbol-label">
-                                                                <img alt="" class="w-25px" src="img/avatar.jpg" />
-                                                            </span>
-                                                        </div>
-                                                        <div class="ps-3">
-                                                            <a href="#"
-                                                                class="text-gray-800 fw-boldest fs-5 text-hover-primary mb-1">Brad
-                                                                Simmons</a>
-                                                            <span class="text-gray-400 fw-bold d-block">London</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="text-gray-400 fw-bold">Design Asthetics</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                        <span class="text-gray-400 me-2 fw-boldest mb-2">65%</span>
-                                                        <div class="progress bg-light-danger w-100 h-5px">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                style="width: 65%"></div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="pe-0 text-end">
-                                                    <a href="#"
-                                                        class="btn btn-light text-muted fw-boldest btn-sm px-5">View</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-0">
-                                                    <div
-                                                        class="form-check form-check-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                    </div>
-                                                </td>
-                                                <td class="p-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="symbol symbol-50px me-2">
-                                                            <span class="symbol-label">
-                                                                <img alt="" class="w-25px" src="img/avatar.jpg" />
-                                                            </span>
-                                                        </div>
-                                                        <div class="ps-3">
-                                                            <a href="#"
-                                                                class="text-gray-800 fw-boldest fs-5 text-hover-primary mb-1">Jessie
-                                                                Clarcson</a>
-                                                            <span class="text-gray-400 fw-bold d-block">Queens</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="text-gray-400 fw-bold">English Math</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column w-100 me-2">
-                                                        <span class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
-                                                        <div class="progress bg-light-primary w-100 h-5px">
-                                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                                style="width: 85%"></div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="pe-0 text-end">
-                                                    <a href="#"
-                                                        class="btn btn-light text-muted fw-boldest btn-sm px-5">View</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-0">
-                                                    <div
-                                                        class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                    </div>
-                                                </td>
-                                                <td class="p-0">
-                                                    <div class="d-flex align-items-center text-start">
-                                                        <div class="symbol symbol-50px me-2">
-                                                            <span class="symbol-label">
-                                                                <img class="w-25px" alt="" src="img/avatar.jpg" />
-                                                            </span>
-                                                        </div>
-                                                        <div class="ps-3">
-                                                            <a href="#"
-                                                                class="text-gray-800 fw-boldest fs-5 text-hover-primary mb-1">Lebron
-                                                                Wayde</a>
-                                                            <span class="text-gray-400 fw-bold d-block">Sydney</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="text-gray-400 fw-bold">Academic Writing</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column w-100 me-2">
-                                                        <span class="text-gray-400 me-2 fw-boldest mb-2">4%</span>
-                                                        <div class="progress bg-light-success w-100 h-5px">
-                                                            <div class="progress-bar bg-success" role="progressbar"
-                                                                style="width: 47%"></div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="pe-0 text-end">
-                                                    <a href="#"
-                                                        class="btn btn-light text-muted fw-boldest btn-sm px-5">View</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-0">
-                                                    <div
-                                                        class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                    </div>
-                                                </td>
-                                                <td class="p-0">
-                                                    <div class="d-flex align-items-center text-start">
-                                                        <div class="symbol symbol-50px me-2">
-                                                            <span class="symbol-label">
-                                                                <img class="w-25px" alt="" src="img/avatar.jpg" />
-                                                            </span>
-                                                        </div>
-                                                        <div class="ps-3">
-                                                            <a href="#"
-                                                                class="text-gray-800 fw-boldest fs-5 text-hover-primary mb-1">Natali
-                                                                Trump</a>
-                                                            <span class="text-gray-400 fw-bold d-block">Malibu</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="text-gray-400 fw-bold">Essay Writing</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column w-100 me-2">
-                                                        <span class="text-gray-400 me-2 fw-boldest mb-2">71%</span>
-                                                        <div class="progress bg-light-info w-100 h-5px">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                style="width: 71%"></div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="pe-0 text-end">
-                                                    <a href="#"
-                                                        class="btn btn-light text-muted fw-boldest btn-sm px-5">View</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!--end::Table-->
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                        <!--end::Table widget 1-->
-                    </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-xxl-4">
-                        <!--begin::List Widget 1-->
-                        <div class="card card-xxl-stretch mb-5 mb-xl-8">
-                            <!--begin::Card header-->
-                            <div class="card-header align-items-center border-0 mt-5">
-                                <!--begin::Card title-->
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="fw-boldest text-dark fs-2">Writers</span>
-                                    <span class="text-gray-400 mt-2 fw-bold fs-6">32 Active Writers</span>
-                                </h3>
-                                <!--end::Card title-->
-                                <!--begin::Card toolbar-->
-                                <div class="card-toolbar">
-                                    <!--begin::Menu-->
-                                    <button type="button"
-                                        class="btn btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3"
-                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                        data-kt-menu-flip="top-end">
-                                        <!--begin::Svg Icon | path: icons/stockholm/Layout/Layout-4-blocks-2.svg-->
-                                        <span class="svg-icon svg-icon-3">
-                                            <i class="bi bi-ui-radios-grid"></i>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                    </button>
-                                    <!--begin::Menu 3-->
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3"
-                                        data-kt-menu="true">
-                                        <!--begin::Heading-->
-                                        <div class="menu-item px-3">
-                                            <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
-                                                Writers
-                                            </div>
-                                        </div>
-                                        <!--end::Heading-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">All</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link flex-stack px-3">Online</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">Offline</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    </div>
-                                    <!--end::Menu 3-->
-                                    <!--end::Menu-->
-                                </div>
-                                <!--end::Card toolbar-->
-                            </div>
-                            <!--end::Card header-->
-                            <!--begin::Card body-->
-                            <div class="card-body pt-5">
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-7">
-                                    <!--begin::Section-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-35px me-4">
-                                            <img src="img/avatar.jpg" alt="" />
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <!--begin::Title-->
-                                        <div class="ps-1">
-                                            <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-boldest">Anne
-                                                Clarc</a>
-                                            <div class="fs-7 text-gray-400 fw-bold mt-1">
-                                                Juja
-                                            </div>
-                                        </div>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Section-->
-                                    <!--begin::Details-->
-                                    <a href="#" class="btn btn-light btn-color-muted fw-boldest btn-sm px-5">Details</a>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-7">
-                                    <!--begin::Section-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-35px me-4">
-                                            <img src="img/avatar.jpg" alt="" />
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <!--begin::Title-->
-                                        <div class="ps-1">
-                                            <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-boldest">Brad
-                                                Simmons</a>
-                                            <div class="fs-7 text-gray-400 fw-bold mt-1">
-                                                Nairobi
-                                            </div>
-                                        </div>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Section-->
-                                    <!--begin::Details-->
-                                    <a href="#" class="btn btn-light btn-color-muted fw-boldest btn-sm px-5">Details</a>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-7">
-                                    <!--begin::Section-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-35px me-4">
-                                            <img src="img/avatar.jpg" alt="" />
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <!--begin::Title-->
-                                        <div class="ps-1">
-                                            <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-boldest">Randy
-                                                Trent</a>
-                                            <div class="fs-7 text-gray-400 fw-bold mt-1">
-                                                Kisumu
-                                            </div>
-                                        </div>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Section-->
-                                    <!--begin::Details-->
-                                    <a href="#" class="btn btn-light btn-color-muted fw-boldest btn-sm px-5">Details</a>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-7">
-                                    <!--begin::Section-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-35px me-4">
-                                            <img src="img/avatar.jpg" alt="" />
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <!--begin::Title-->
-                                        <div class="ps-1">
-                                            <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-boldest">Ricky
-                                                Hunt</a>
-                                            <div class="fs-7 text-gray-400 fw-bold mt-1">
-                                                Nakuru
-                                            </div>
-                                        </div>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Section-->
-                                    <!--begin::Details-->
-                                    <a href="#" class="btn btn-light btn-color-muted fw-boldest btn-sm px-5">Details</a>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack mb-">
-                                    <!--begin::Section-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Symbol-->
-                                        <div class="symbol symbol-35px me-4">
-                                            <img src="img/avatar.jpg" alt="" />
-                                        </div>
-                                        <!--end::Symbol-->
-                                        <!--begin::Title-->
-                                        <div class="ps-1">
-                                            <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-boldest">Jessie
-                                                Clarcson</a>
-                                            <div class="fs-7 text-gray-400 fw-bold mt-1">
-                                                Nairobi
-                                            </div>
-                                        </div>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Section-->
-                                    <!--begin::Details-->
-                                    <a href="#" class="btn btn-light btn-color-muted fw-boldest btn-sm px-5">Details</a>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Item-->
-                            </div>
-                            <!--end::Card body-->
-                        </div>
-                        <!--end::List Widget 1-->
-                    </div>
-                    <!--end::Col-->
-                </div> --}}
                 <!--end::Row-->
             </div>
             <!--end::Container-->

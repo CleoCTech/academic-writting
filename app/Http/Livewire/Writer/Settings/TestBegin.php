@@ -33,7 +33,7 @@ class TestBegin extends Component
         $identity  = session()->get('AuthWriter');
 
         Test::create([
-            'writer_id' => $identity[0],
+            'writer_id' => $identity,
             'paper' => $this->content,
         ]);
 

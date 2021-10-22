@@ -291,11 +291,18 @@
                 // console.log('dom load22');
                 //do work
                 Echo.channel(`message-sent`)
-                    .listen('.message-sent-event', (e) => {
-                        window.livewire.emit('messageAdded');
-                        // console.log(e.message);
-                    });
+                .listen('.message-sent-event', (e) => { 
+                    window.livewire.emit('messageAdded'); 
+                }); 
+
+                Echo.channel(`invoice-sent`)
+                .listen('.invoice-sent-event', (e) => {
+                    window.livewire.emit('invoice-sent');
+                    // console.log(e.message);
+                });
+                
             });
+
         </script>
         @stack('scripts')
         @yield('scripts')

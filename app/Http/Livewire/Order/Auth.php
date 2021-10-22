@@ -119,6 +119,7 @@ class Auth extends Component
             'password'=>$hash_pass,
         ]);
         $this->storeInSession($client->id);
+        session()->put('LoggedClient', $client->id);
         event( new ClientHasRegisteredEvent($client));
         $this->emitUp('update_varView', 'success');
 
@@ -130,7 +131,7 @@ class Auth extends Component
         }
         // $this->storeData('AuthClient', 'email', $this->email);
         // $this->storeData('AuthClient', 'password', $this->password);
-        $this->emitUp('update_varView', 'success');
+        $this->emitUp('update_varView', 'success'); 
         event( new ClientHasLoggedInEvent($this->auth_email, $this->auth_pass));
 
       }

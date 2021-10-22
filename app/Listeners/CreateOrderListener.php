@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ClientHasLoggedInEvent;
 use App\Events\OrderRegisteredEvent;
 use App\Models\Order;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -55,6 +56,7 @@ class CreateOrderListener
             'status'=>$this->status
         ]);
         session()->forget('Order');
+        // event( new ClientHasLoggedInEvent($event->client->email, $event->client->password));
         event( new OrderRegisteredEvent($order, $event->client->id));
     }
 }

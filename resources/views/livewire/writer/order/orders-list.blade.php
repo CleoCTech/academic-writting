@@ -51,7 +51,7 @@
 
                     @if ($menuButtons)
                         <div wire:click='bids'
-                        class="col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -68,7 +68,7 @@
                     </div>
 
                     <div wire:click='cancelled'
-                        class=" col-xl-3 col-md-6 mb-4 border-l-2 border-danger shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class=" cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-danger shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div wire:click='progress'
-                        class="col-xl-3 col-md-6 mb-4 border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div wire:click='completed'
-                        class="col-xl-3 col-md-6 mb-4 border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-success shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <div wire:click='revisions'
-                        class="col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
                     <div wire:click='ongoingRevisions'
-                        class="col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
