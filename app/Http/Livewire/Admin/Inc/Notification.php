@@ -13,12 +13,13 @@ class Notification extends Component
     public $userTypeFro;
     public $userIdTo;
     public $user_id;
-    
+
     protected $listeners = [
         'invoice-sent' => '$refresh',
+        'OrderCreated' => 'newOrder',
     ];
 
-    
+
     public function mount($user_id, $user_type)
     {
         $this->user_id = $user_id;
@@ -32,14 +33,14 @@ class Notification extends Component
                 ->where('toable_type', $this->user_type)
                 ->where('status', 'waiting')
                 ->get()->count();
-                
+
             $activities = ModelsNotification::
             where('toable_id', $this->user_id)
             ->where('toable_type', $this->user_type)
             ->where('status', 'waiting')
             ->get();
-    
-            
+
+
         } elseif (auth()->user() != null) {
             $counts = ModelsNotification::
                 where('fromable_id', $this->user_id)
@@ -47,7 +48,21 @@ class Notification extends Component
                 ->where('status', 'rejected')
                 ->whereOr('status', 'responded')
                 ->get()->count();
-                
+
+            $activities = ModelsNotification::
+            where('fromable_id', $this->user_id)
+            ->where('fromable_type', $this->user_type)
+            ->where('status', 'rejected')
+            ->whereOr('status', 'responded')
+            ->get();
+        } elseif (session()->get('AuthWriter') !=null){
+            $counts = ModelsNotification::
+                where('fromable_id', $this->user_id)
+                ->where('fromable_type', $this->user_type)
+                ->where('status', 'rejected')
+                ->whereOr('status', 'responded')
+                ->get()->count();
+
             $activities = ModelsNotification::
             where('fromable_id', $this->user_id)
             ->where('fromable_type', $this->user_type)
@@ -55,7 +70,7 @@ class Notification extends Component
             ->whereOr('status', 'responded')
             ->get();
         }
-        
+
         return view('livewire.admin.inc.notification', [
             'counts' => $counts,
             'notifications' => $activities,
@@ -72,6 +87,19 @@ class Notification extends Component
         where('toable_id', $this->user_id)
         ->where('toable_type', $this->user_type)
         ->get();
-        
+
+    }
+    public function newOrder()
+    {
+        $this->alert('success', 'You have new order', [
+            'position' =>  'center',
+            'timer' =>  5000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+       ]);
     }
 }

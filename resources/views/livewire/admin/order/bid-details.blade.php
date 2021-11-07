@@ -51,7 +51,7 @@
                 @if ( $orderDetails != '' )
                 <div class="mt-2">
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class=" muted text-primary">
                             Order ID:
                         </div>
                         <div class="" style="margin-left: -25rem">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class=" muted text-primary">
                             Price:
                         </div>
                         <div class="" style="margin-left: -25rem">
@@ -68,15 +68,15 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pl-8 ">
-                        <div class="fw-bold text-gray-800 fs-2">
+                        <div class="fw-bold muted text-primary">
                             Message:
                         </div>
-                        <div class="text-sm text-gray-800 " style="margin-left: -25rem">
+                        <div class="text-md-start text-gray-800 " style="margin-left: -25rem">
                             {{$orderDetails[0]->bid}}
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class=" muted text-primary">
                             Writer:
                         </div>
                         <div class="" style="margin-left: -25rem">
@@ -109,7 +109,6 @@
                             <!--end::Svg Icon-->
                             <button wire:click="award({{ $orderDetails[0]->price }}, '{{ $orderDetails[0]->writer_id }}')"
                                 class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
-
                                 Award
                             </button>
                             {{-- <a class="btn btn-light text-muted fw-bold text-hover-primary btn-sm px-5"

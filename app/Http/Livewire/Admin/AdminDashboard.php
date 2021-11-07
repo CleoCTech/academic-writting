@@ -50,19 +50,32 @@ class AdminDashboard extends Component
 
     public function render()
     {
-        $orders = collect(Order::search($this->searchKeyword)->with('order')->get());
-        // $pending_orders = $orders->where('status', 'Pending')->paginate(10);
-        $pending_orders = Order::where('status', 'Pending')->latest()->paginate(8);
-        // $cancelled = $orders->whereIn('status', 'Cancelled');
-        $cancelled = Order::where('status', 'Cancelled')->latest()->paginate(8);
-        // $complete = $orders->whereIn('status', 'Complete');
-        $complete = Order::where('status', 'Complete')->latest()->paginate(8);
-        $revisions = RejectedOrder::where('from', 'client')->get();
-        // $progress_orders = $orders->where('status', 'In progress');
-        $progress_orders = Order::where('status', 'In progress')->latest()->paginate(8);
+        $perPage = 6;
 
-        $active =  DB::select('SELECT * FROM `order_billings`  INNER JOIN `orders`
-                                            ON (`order_billings`.`order_id` = `orders`.`id`);');
+        $orders = collect(Order::search($this->searchKeyword)->with('order')->latest()->get());
+
+        $pending_ordersZ = $orders->where('status', 'Pending');
+        $pending_orders = $pending_ordersZ->forPage($this->page, $perPage);
+        $pending_orders = new LengthAwarePaginator($pending_orders, $pending_ordersZ->count(), $perPage, $this->page);
+
+        $cancelledZ = $orders->whereIn('status', 'Cancelled');
+        $cancelled = $cancelledZ->forPage($this->page, $perPage);
+        $cancelled = new LengthAwarePaginator($cancelled, $cancelledZ->count(), $perPage, $this->page);
+
+        $completeZ = $orders->whereIn('status', 'Complete');
+        $complete = $completeZ->forPage($this->page, $perPage);
+        $complete = new LengthAwarePaginator($complete, $completeZ->count(), $perPage, $this->page);
+
+        $revisions = RejectedOrder::where('from', 'client')->latest()->paginate(6);
+
+        $progress_ordersZ = $orders->where('status', 'In progress');
+        $progress_orders = $progress_ordersZ->forPage($this->page, $perPage);
+        $progress_orders = new LengthAwarePaginator($progress_orders, $progress_ordersZ->count(), $perPage, $this->page);
+
+        // $active =  DB::select('SELECT * FROM `order_billings`  INNER JOIN `orders`
+        //                                     ON (`order_billings`.`order_id` = `orders`.`id`);');
+
+        $active = OrderBilling::with('order')->latest()->paginate(6);
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "order_no",'colCaption' => 'Order ID', 'type' => 'text', 'element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => true, 'isList' => true, 'isView' => true,'isSearch' => true],
@@ -80,7 +93,16 @@ class AdminDashboard extends Component
         ];
 
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.admin.admin-dashboard')->with(['pending_orders'=>$pending_orders, 'progress_orders'=>$progress_orders,  'complete'=>$complete, 'orders'=>$orders, 'revisions'=>$revisions, 'cancelled'=>$cancelled, 'active'=>$active])->layout('layouts.client');
+        return view('livewire.admin.admin-dashboard')
+        ->with([
+            'pending_orders'=>$pending_orders,
+            'progress_orders'=>$progress_orders,
+            'complete'=>$complete, 'orders'=>$orders,
+            'revisions'=>$revisions,
+            'cancelled'=>$cancelled,
+            'active'=>$active
+            ])
+        ->layout('layouts.client');
     }
     public function paginate($items, $perPage = 8, $page = null, $options = [])
     {

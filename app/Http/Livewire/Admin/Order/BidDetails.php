@@ -8,6 +8,7 @@ use App\Models\OrderBilling;
 use App\Models\OrderStatus;
 use App\Models\WriterBid;
 use App\Models\WriterOrder;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -40,6 +41,21 @@ class BidDetails extends Component
 
         DB::transaction(function () {
             try {
+
+                $checkIfGiven = WriterOrder::where('order_id', $this->oderId)->first();
+                if ($checkIfGiven) {
+                    return  $this->alert('error', 'Oops! Order has been awarded to another writer ' , [
+                            'position' =>  'top-end',
+                            'timer' =>  3000,
+                            'toast' =>  true,
+                            'text' =>  '',
+                            'confirmButtonText' =>  'Ok',
+                            'cancelButtonText' =>  'Cancel',
+                            'showCancelButton' =>  false,
+                            'showConfirmButton' =>  false,
+                       ]);
+
+                }
                 WriterOrder::create([
                     'writer_id'=> $this->writerId,
                     'order_id'=> $this->oderId,
@@ -62,35 +78,29 @@ class BidDetails extends Component
 
                 event( new AwardOrderEvent);
                 // session()->flash('success', 'Order Awarded Successfully');
-                $this->dispatchBrowserEvent('swal', [
-                    'title' => 'Order Awarded Successfully',
-                    'timer'=>3000,
-                    'icon'=>'success',
-                    'toast'=>true,
-                    'position'=>'top-right',
+                $this->alert('success', 'Order Awarded Successfully', [
+                    'position' =>  'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
                     'text' =>  '',
                     'confirmButtonText' =>  'Ok',
                     'cancelButtonText' =>  'Cancel',
                     'showCancelButton' =>  false,
                     'showConfirmButton' =>  false,
+               ]);
 
-                ]);
-            } catch (\Exception $th) {
-                //'Oops! Something went wrong'
+            } catch (Exception $e) {
                 // session()->flash('error', 'Oops! Something went wrong');
-                $this->dispatchBrowserEvent('swal', [
-                    'title' => 'Oops! Something went wrong',
-                    'timer'=>3000,
-                    'icon'=>'error',
-                    'toast'=>true,
-                    'position'=>'top-right',
+                $this->alert('error', 'Oops! Something went wrong', [
+                    'position' =>  'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
                     'text' =>  '',
                     'confirmButtonText' =>  'Ok',
                     'cancelButtonText' =>  'Cancel',
                     'showCancelButton' =>  false,
                     'showConfirmButton' =>  false,
-
-                ]);
+               ]);
             }
 
         });

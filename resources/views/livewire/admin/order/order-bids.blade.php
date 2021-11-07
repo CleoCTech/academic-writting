@@ -8,28 +8,29 @@
         <div class="col-xxl-12">
             <!--begin::Table widget 1-->
             <div class="card card-xxl-stretch mb-5 mb-xl-3">
+
                 <div class="mt-2">
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class="muted text-primary">
                             Order ID:
                         </div>
-                        <div class="" style="margin-left: -25rem">
+                        <div class="lead fw-bold flex-auto" style="margin-left: -25rem">
                             {{$orderDetails->order_no}}
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class="muted text-primary">
                             Topic:
                         </div>
-                        <div class="" style="margin-left: -25rem">
+                        <div class="lead fw-bold flex-auto" style="margin-left: -25rem">
                             {{$orderDetails->topic}}
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pl-8 fw-bold text-gray-800 fs-2">
-                        <div class="">
+                        <div class="muted text-primary">
                             Price:
                         </div>
-                        <div class="" style="margin-left: -25rem">
+                        <div class="lead fw-bold flex-auto" style="margin-left: -25rem">
                            $ {{$orderDetails->bill->proposed_resell_price}}
                         </div>
                     </div>
@@ -150,7 +151,7 @@
                                         <a class="btn btn-light text-muted fw-bold text-hover-primary btn-sm px-5"
                                             x-on:click="$wire.bidDetails('{{$bidder->order_id}}')">View Bid</a>
                                         <a class="btn btn-light text-muted fw-bold text-hover-primary btn-sm px-5"
-                                            x-on:click="$wire.award('{{$bidder->id}}')">Award</a>
+                                            x-on:click="$wire.award('{{ $bidder->price }}','{{$bidder->writer_id}}')">Award</a>
                                     </td>
                                 </tr>
                                 @endforeach

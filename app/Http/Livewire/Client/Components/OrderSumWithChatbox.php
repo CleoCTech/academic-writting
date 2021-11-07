@@ -6,16 +6,13 @@ use App\Events\InvoiceSentEvent;
 use App\Events\MessageSentEvent;
 use App\Models\Activity;
 use App\Models\Client;
-use App\Models\Message;
 use App\Models\Messaging;
-use App\Models\Msg;
-use App\Models\MsgFro;
-use App\Models\MsgTo;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderBilling;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Validator;
 
 class OrderSumWithChatbox extends Component
 {
@@ -36,7 +33,7 @@ class OrderSumWithChatbox extends Component
     protected $listeners = [
         'messageAdded' => '$refresh'
     ];
-    
+
     public function mount($orderDetails, $revisions, $clientFiles, $confirm_invoice, $total_fee, $user_type, $orderId )
     {
         $this->orderDetails = $orderDetails;
@@ -52,7 +49,13 @@ class OrderSumWithChatbox extends Component
         ->where('order_no', $this->orderId)
         ->first();
 
-        $this->openId = $client_Id->client_id;
+        if (auth()->user()!=null) {
+            $this->openId = $client_Id->client_id;
+        } else {
+            $this->openId = '';
+        }
+
+
     }
     public function render()
     {
@@ -78,7 +81,7 @@ class OrderSumWithChatbox extends Component
 
         return view('livewire.client.components.order-sum-with-chatbox');
     }
-    
+
     public function createInvoice()
     {
         $this->modal= "livewire.admin.components.create-invoice-modal";
@@ -87,7 +90,7 @@ class OrderSumWithChatbox extends Component
     {
 
          $this->users = [];
-         
+
         if(session()->get('LoggedClient') !=null){
            $this->users[0]  =  Client::all()->random(1);
            $onlineUsrs = User::
@@ -100,7 +103,7 @@ class OrderSumWithChatbox extends Component
                     array_push($this->users, $value);
                 }
            }
-    
+
             $traces = Messaging::
             where(function($query) use($userId, $Model){
                 $query->where('fromable_id', $userId)
@@ -113,10 +116,10 @@ class OrderSumWithChatbox extends Component
             ->orderBy('id', 'desc')
             ->get()
             ->groupBy('fromable_type', 'toable_type');
-           
+
             foreach($traces as $model){
                 foreach ($model as $key => $value) {
-    
+
                     if ($value['fromable_id'] == $userId && $value['fromable_type'] == $Model) {
                         // dump('yes');
                         $this->from_id = $value->toable_id;
@@ -125,18 +128,18 @@ class OrderSumWithChatbox extends Component
                         $this->from_id = $value->fromable_id;
                         $this->from_type = $value->fromable_type;
                     }
-    
+
                     if($this->from_type == 'App\Models\User'){
-    
+
                         $getUser = User::where('id', $this->from_id)->first();
                         $getUser->setAttribute('model_type', 'App\Models\User');
                         if ($this->compareObjs($getUser) == '') {
                             // dd($getUser);
                             array_push($this->users, $getUser);
                         }
-    
+
                    }elseif($this->from_type == 'App\Models\Client'){
-    
+
                         $getUser = Client::where('id', $this->from_id)->first();
                         $getUser->setAttribute('model_type', 'App\Models\Client');
                         if ($this->compareObjs($getUser) !=null  ) {
@@ -145,12 +148,12 @@ class OrderSumWithChatbox extends Component
                             array_push($this->users, $getUser);
                         }
                    }
-    
+
                 }
             }
             unset($this->users[0]);
          }elseif(auth()->user() != null){
-             
+
             $traces = Messaging::
             where(function($query) use($userId, $Model){
                 $query->where('fromable_id', $userId)
@@ -163,11 +166,11 @@ class OrderSumWithChatbox extends Component
             ->orderBy('id', 'desc')
             ->get()
             ->groupBy('fromable_type', 'toable_type');
-    
+
             $this->users[0]  =   Client::all()->random(1);
             foreach($traces as $model){
                 foreach ($model as $key => $value) {
-    
+
                     if ($value['fromable_id'] == $userId && $value['fromable_type'] == $Model) {
                         // dump('yes');
                         $this->from_id = $value->toable_id;
@@ -176,17 +179,17 @@ class OrderSumWithChatbox extends Component
                         $this->from_id = $value->fromable_id;
                         $this->from_type = $value->fromable_type;
                     }
-    
+
                     if($this->from_type == 'App\Models\User'){
-    
+
                         $getUser = User::where('id', $this->from_id)->first();
                         $getUser->setAttribute('model_type', 'App\Models\User');
                         if ($this->compareObjs($getUser) == '') {
                             array_push($this->users, $getUser);
                         }
-    
+
                    }elseif($this->from_type == 'App\Models\Client'){
-    
+
                         $getUser = Client::where('id', $this->from_id)->first();
                         $getUser->setAttribute('model_type', 'App\Models\Client');
                         if ($this->compareObjs($getUser) !=null  ) {
@@ -195,15 +198,15 @@ class OrderSumWithChatbox extends Component
                             array_push($this->users, $getUser);
                         }
                    }
-    
+
                 }
             }
 
             unset($this->users[0]);
          }
-        
+
         //  dd($this->users);
-       
+
     }
     public function compareObjs($object)
     {
@@ -272,7 +275,7 @@ class OrderSumWithChatbox extends Component
                     $getClient = Client::where('id', $this->openId)->first();
                     return $getClient->username;
                }
-                
+
            }elseif(session()->get('LoggedClient') != null){
                if ($this->openId !=null) {
                 $getClient = User::where('id', $this->openId)->first();
@@ -281,11 +284,11 @@ class OrderSumWithChatbox extends Component
                 }else{
                     return '';
                 }
-                
+
                }else{
                    return '';
                }
-                
+
            }
 
     }
@@ -436,10 +439,16 @@ class OrderSumWithChatbox extends Component
         where('to_id', session()->get('LoggedClient'))
         ->where('type', 'Admin')
         ->get();
-        
+
     }
     public function sendInvoice()
     {
+        $validatedData = Validator::make(
+            ['fee' => $this->fee],
+            ['fee' => 'required'],
+            ['required' => 'The :attribute field is required'],
+        )->validate();
+
         Notification::create([
             'title' => 'Sent Invoice',
             'fromable_id' => auth()->user()->id,
@@ -449,17 +458,10 @@ class OrderSumWithChatbox extends Component
             'value' => $this->fee,
             'order_no' => $this->orderDetails->order_no,
         ]);
-        
-        // Activity::create([
-        //     'name' => 'Sent Invoice',
-        //     'value' => $this->fee,
-        //     'from_id' => $this->from_id,
-        //     'to_id' => $this->to_id,
-        //     'type' => $this->type,
-        // ]);
+
         session()->flash('success-modal', 'Invoice Sent Successfully');
         event( new InvoiceSentEvent());
-        
+
         $this->reset('fee');
     }
     public function sendMessage()
@@ -548,5 +550,5 @@ class OrderSumWithChatbox extends Component
     {
         $this->emitUp('edit');
     }
-    
+
 }

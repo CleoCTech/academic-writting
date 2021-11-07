@@ -251,7 +251,14 @@
         <!--begin::Javascript-->
 
         @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+        </script>
+        <x-livewire-alert::scripts />
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous">
+        </script>
 
         <script src="https://js.stripe.com/v3/"></script>
         <script src="{{ asset('js/app.js') }}"></script>
@@ -280,27 +287,25 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <!--end::Page Custom Javascript-->
         <script>
-
-            $(document).ready(function(){
-                // console.log('Ready for laravel echo');
-
-            });
-        </script>
-        <script>
             document.addEventListener("DOMContentLoaded", function(event) {
                 // console.log('dom load22');
                 //do work
                 Echo.channel(`message-sent`)
-                .listen('.message-sent-event', (e) => { 
-                    window.livewire.emit('messageAdded'); 
-                }); 
+                .listen('.message-sent-event', (e) => {
+                    window.livewire.emit('messageAdded');
+                });
 
                 Echo.channel(`invoice-sent`)
                 .listen('.invoice-sent-event', (e) => {
                     window.livewire.emit('invoice-sent');
                     // console.log(e.message);
                 });
-                
+                Echo.channel(`OrderCreated`)
+                .listen('.order-created-event', (e) => {
+                    window.livewire.emit('OrderCreated');
+                    // console.log(e.message);
+                });
+
             });
 
         </script>

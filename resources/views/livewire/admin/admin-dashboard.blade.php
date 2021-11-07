@@ -29,7 +29,7 @@
                     d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
                 </path>
             </svg>
-            <span class="text-blue-800"> We've updated a few things. We've updated a few things. </span> 
+            <span class="text-blue-800"> We've updated a few things. We've updated a few things. </span>
             <span class="flex justify-end" style=" margin-left: 2rem;">
             <button
                 class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
@@ -64,12 +64,12 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      3
+                      2
                     </span>
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Confirm Order By Clicking "View" Button</div>
+                <div class="text-xs text-center md:text-base">Confirm Order By Clicking <strong>"View"</strong> Button</div>
               </div>
 
               <div class="w-1/4">
@@ -82,7 +82,7 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      4
+                      3
                     </span>
                   </div>
                 </div>
@@ -100,7 +100,7 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      5
+                      4
                     </span>
                   </div>
                 </div>
@@ -873,7 +873,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        
+
                                         <!--end::Table-->
                                     </div>
                                     <!--end::Body-->
@@ -1016,6 +1016,7 @@
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
+                                {{ $cancled->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1107,7 +1108,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$progress_order->order_no}}
+                                                                        class="text-gray-400 mb-1">{{$progress_order->order->order_no}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1116,7 +1117,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$progress_order->topic}}
+                                                                        class="text-gray-400 mb-1">{{$progress_order->order->topic}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1137,7 +1138,7 @@
                                                         <td>
                                                             <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                                                @if ($progress_order->status=='In progress')
+                                                                @if ($progress_order->order->status=='In progress')
                                                                 <span
                                                                     wire:class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
                                                                 <div class="progress bg-light-info w-100 h-5px">
@@ -1150,11 +1151,13 @@
                                                         </td>
                                                         <td class="pe-0 text-start">
                                                             <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
-                                                                x-on:click="$wire.chat('{{$progress_order->order_no}}')">View</a>
+                                                                x-on:click="$wire.chat('{{$progress_order->order->order_no}}')">View</a>
+                                                            @if ($progress_order->order->publish == 0)
                                                             <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
-                                                            x-data="{}" x-on:click="$dispatch('dlg-modal');$wire.publishOrder({{$progress_order->id}}, '{{$progress_order->amount}}')">Publish Order</a>
+                                                            x-data="{}" x-on:click="$dispatch('dlg-modal');$wire.publishOrder({{$progress_order->order->id}}, '{{$progress_order->amount}}')">Publish Order</a>
+                                                            @endif
                                                             <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
-                                                                x-on:click="$wire.bids('{{$progress_order->id}}')">View Bids</a>
+                                                                x-on:click="$wire.bids('{{$progress_order->order->id}}')">View Bids</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -1178,7 +1181,7 @@
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
-                                {{ $pending_orders->links('components.pagination-links') }}
+                                {{ $active->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1244,7 +1247,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @if (count($complete) > 0)
-                                                    @foreach ($complete as $complete)
+                                                    @foreach ($complete as $done)
                                                     <tr>
                                                         <td class="p-0">
                                                             <div
@@ -1260,7 +1263,7 @@
                                                                         class="text-gray-500  fs-5  mb-1">{!!
                                                                         htmlspecialchars_decode(date('j<\s\up>S
                                                                         </\s\up> F Y',
-                                                                        strtotime($complete->created_at))) !!}
+                                                                        strtotime($done->created_at))) !!}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1269,7 +1272,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$complete->order_no}}
+                                                                        class="text-gray-400 mb-1">{{$done->order_no}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1278,7 +1281,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$complete->topic}}
+                                                                        class="text-gray-400 mb-1">{{$done->topic}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1288,7 +1291,7 @@
                                                         <td>
                                                             <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                                                @if ($complete->status=='Complete')
+                                                                @if ($done->status=='Complete')
                                                                 <span
                                                                     wire:class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
                                                                 <div class="progress bg-light-info w-100 h-5px">
@@ -1301,7 +1304,7 @@
                                                         </td>
                                                         <td class="pe-0 text-end">
                                                             <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
-                                                                x-on:click="$wire.chat('{{$complete->order_no}}')">View</a>
+                                                                x-on:click="$wire.chat('{{$done->order_no}}')">View</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -1321,7 +1324,7 @@
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Table widget 1-->
-                                {{ $pending_orders->links('components.pagination-links') }}
+                                {{ $complete->links('components.pagination-links') }}
                             </div>
                             <!--end::Col-->
                         </div>

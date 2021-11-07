@@ -18,7 +18,7 @@ class VerifyWriterEmailController extends Controller
             if ($user !=null) {
                 //update email_verified_at;
                 Writer::where(['email' => $mail])->update(['email_verified_at' => now()]);
-                session()->push('AuthWriter', $user->id);
+                session()->put('AuthWriter', $user->id);
             }
             return redirect()->route('writer-settings');
         } catch (Exception $e) {

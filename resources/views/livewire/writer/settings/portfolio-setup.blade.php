@@ -170,7 +170,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <label class="font-semibold text-blue-600 py-2 item-center">
+                                    <label class="font-semibold text-red-600 py-2 item-center">
 
                                       ***No records***
                                     </label>
@@ -206,7 +206,7 @@
                                     </div>
                                 @endforeach
                             @else
-                                <label class="font-semibold text-blue-600 py-2 item-center">
+                                <label class="font-semibold text-red-600 py-2 item-center">
 
                                   ***No records***
                                 </label>

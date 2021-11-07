@@ -8,7 +8,9 @@ use App\Models\RejectedOrder;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
@@ -16,6 +18,7 @@ class Dashboard extends Component
     use AdminPropertiesTrait;
     use SearchFilterTrait;
     use SearchFilterTrait;
+    use WithPagination;
 
     protected $listeners = [
         'update_varView'=> 'updateVarView',
@@ -36,20 +39,33 @@ class Dashboard extends Component
     }
     public function render()
     {
-        // $client = Client::where('id', session()->get('LoggedClient'))->first();
-        // dd($client);
+        $perPage = 4;
+
         $orders = collect(Order::search($this->searchKeyword)->with('order')->where('client_id', session()->get('LoggedClient'))->get());
-        // dd($orders);
-        // $orders = collect(Order::with('order')->where('client_id', 14)->get());
-        $pending_orders = $orders->where('status', 'Pending');
-        // dd($pending_orders);
-        $others = $orders->whereNotIn('status', 'Pending');
-        $ongoing = $orders->whereIn('status', 'In progress');
-        $complete = $orders->whereIn('status', 'Complete');
-        $cancelled = $orders->whereIn('status', 'Cancelled');
+
+            $pending_ordersZ = $orders->where('status', 'Pending');
+            $pending_orders = $pending_ordersZ->forPage($this->page, $perPage);
+            $pending_orders = new LengthAwarePaginator($pending_orders, $pending_ordersZ->count(), $perPage, $this->page);
+
+        $othersZ = $orders->whereNotIn('status', 'Pending');
+        $others = $othersZ->forPage($this->page, $perPage);
+        $others = new LengthAwarePaginator($others, $othersZ->count(), $perPage, $this->page);
+
+        $ongoingZ = $orders->whereIn('status', 'In progress');
+        $ongoing = $ongoingZ->forPage($this->page, 8);
+        $ongoing = new LengthAwarePaginator($ongoing, $ongoingZ->count(), 8, $this->page);
+
+        $completeZ = $orders->whereIn('status', 'Complete');
+        $complete = $completeZ->forPage($this->page, $perPage);
+        $complete = new LengthAwarePaginator($ongoing, $completeZ->count(), $perPage, $this->page);
+
+        $cancelledZ = $orders->whereIn('status', 'Cancelled');
+        $cancelled = $cancelledZ->forPage($this->page, $perPage);
+        $cancelled = new LengthAwarePaginator($ongoing, $cancelledZ->count(), $perPage, $this->page);
+
         $revisions =  RejectedOrder::where('from', 'client')
                                     ->where('from_id', session()->get('LoggedClient'))
-                                    ->get();
+                                    ->latest()->paginate(8);
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "order_no",'colCaption' => 'Order ID', 'type' => 'text', 'element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => true, 'isList' => true, 'isView' => true,'isSearch' => true],

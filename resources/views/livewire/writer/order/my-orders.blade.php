@@ -3,7 +3,12 @@
     <div wire:loading>
         @livewire('general.loader')
     </div>
+    <button wire:click='default' type="button" class="rounded btn btn-primary">
+        <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
+       Back
+    </button>
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+
     <div class="row g-5 gx-xxl-8 mb-xxl-3">
         <!--begin::Col-->
         <div class="col-xxl-12">

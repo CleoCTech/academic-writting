@@ -67,9 +67,11 @@ class ChatOrderSummary extends Component
     }
     public function rejectInvoice()
     {
-        Notification::where('id', $this->activity_id)
-                ->update(['status' => 'rejected']);
-                event(new InvoiceSentEvent());
+        Notification::
+            where('id', $this->activity_id)
+            ->update(['status' => 'rejected']);
+            session()->flash('success', 'Invoice declined successfully.');
+            event(new InvoiceSentEvent());
     }
     public function confrimInvoice()
     {
@@ -97,6 +99,8 @@ class ChatOrderSummary extends Component
 
         Order::where('id',  $order->id)
                 ->update(['status' => 'In progress']);
+        session()->flash('success', 'Invoice Confirmed successfully.');
+
         event(new InvoiceSentEvent());
         // session()->flash('Invoice-Confirmed', 'Invoice Confirmed Succesfully, Your Order Is In Progress.');
         return redirect()->route('dashboard');
@@ -135,7 +139,7 @@ class ChatOrderSummary extends Component
                     $this->confirm_invoice =true;
                     $this->activity_id = $this->activity->id;
                     $this->fee = $this->activity->value;
-                    
+
                 }elseif($this->activity->title == "Sent Invoice" && $this->activity->status == "responded" || $this->activity->status == "rejected"){
                     $this->confirm_invoice =false;
                 }
@@ -180,7 +184,7 @@ class ChatOrderSummary extends Component
                     $this->confirm_invoice =true;
                     $this->activity_id = $this->activity->id;
                     $this->fee = $this->activity->value;
-                    
+
                 }elseif($this->activity->title == "Sent Invoice" && $this->activity->status == "responded" ){
                     $this->confirm_invoice =false;
                 }
@@ -193,7 +197,7 @@ class ChatOrderSummary extends Component
                     $this->InvoiceRejected = true;
                 }
             }
-            
+
             $this->clientFiles = ClientFile::where('client_id', $user_id)
                                             ->where('order_id',  $this->orderDetails->id)
                                             ->where('from',  'client')

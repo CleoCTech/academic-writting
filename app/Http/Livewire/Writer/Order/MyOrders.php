@@ -51,4 +51,8 @@ class MyOrders extends Component
        session()->put('orderId', $orderId);
        $this->emitUp('update_varView', 'order-details');
    }
+   public function default()
+   {
+       $this->emit('update_varView', '');
+   }
 }

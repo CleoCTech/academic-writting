@@ -111,4 +111,5 @@ class OrdersList extends Component
    {
        $this->varView = "my-orders";
    }
+
 }

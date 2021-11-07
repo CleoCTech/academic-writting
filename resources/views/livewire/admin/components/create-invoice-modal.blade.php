@@ -1,5 +1,6 @@
 <div>
     {{-- Be like water. --}}
+
     <div>
         {{-- In work, do what you enjoy. --}}
         <div class="flex justify-between items-center pb-3" x-data ="{}" >
@@ -50,13 +51,18 @@
     </div>
     @endif
     {{-- <label class="font-semibold text-gray-700 py-2">Create Invoice:</label> --}}
-
+    <div wire:loading wire:target='sendInvoice'>
+        @livewire('general.loader-gif')
+    </div>
     <span class="float-center"><label class="font-bold text-green-700 py-2" for="">Set Price in $ / per page</label></span>
     <br>
     <label class="font-semibold text-gray-700 py-2">Set Price</label>
     <input wire:model.defer='fee' placeholder=""
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
         type="number">
+    @if($errors->has('fee'))
+    <span class="text-red-500">{{ $errors->first('fee') }}</span>
+    @endif
 
     <div class="flex justify-end pt-2">
         <button wire:click='sendInvoice'

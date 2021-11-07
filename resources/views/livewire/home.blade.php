@@ -1,6 +1,6 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    
+
         @livewire('inc.hero-banner')
         <div class="clearfix"></div>
         <!-- ============================================================== -->
@@ -325,7 +325,7 @@
         <!-- ============================ Counter Facts End ================================== -->
 
         <!-- ============================ Services Start ==================================== -->
-        
+
         <!-- ============================ Services End ==================================== -->
 
         <!-- ============================ Featured Themes Start ==================================== -->
@@ -557,7 +557,7 @@
         </section>
         <!-- ============================ Call To Action End ================================== -->
 
-        @livewire('general.quick-chat')
+        {{--  @livewire('general.quick-chat')  --}}
          <!-- Log In Modal -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">

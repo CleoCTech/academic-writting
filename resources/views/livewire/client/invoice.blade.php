@@ -177,6 +177,7 @@
                                         <!--end::Tbody-->
                                     </table>
                                     <!--end::Table-->
+                                    {{ $data->links('components.pagination-links') }}
                                 </div>
                             </div>
                         </div>

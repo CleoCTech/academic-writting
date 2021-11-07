@@ -8,6 +8,7 @@ use App\Traits\LayoutTrait;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\SearchFilterTrait;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Invoice extends Component
 {
@@ -15,7 +16,7 @@ class Invoice extends Component
     use AdminPropertiesTrait;
     use SearchFilterTrait;
     use SearchTrait;
-
+    use WithPagination;
 
 
     public $pageSettings = [
@@ -54,13 +55,15 @@ class Invoice extends Component
             $id = session()->get('LoggedClient');
             $data = OrderBilling::search($this->searchKeyword)
                             ->with('client')
-                            ->where('client_id', $id[0])
-                            ->get();
+                            ->where('client_id', $id)
+                            ->latest()
+                            ->paginate(6);
         }
         if (auth()->user()!=null) {
             $data = OrderBilling::search($this->searchKeyword)
                             ->with('client')
-                            ->get();
+                            ->latest()
+                            ->paginate(6);
         }
 
 

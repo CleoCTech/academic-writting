@@ -129,7 +129,7 @@
                         <!--begin::Menu-->
                         <div class="cursor-pointer symbol symbol-40px" data-kt-menu-trigger="click"
                             data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-                            <img alt="Pic" src="/dash-assets/img/avatar.jpg" />
+                            <img alt="Pic" src="{{ Auth::user()->profile_photo_url }}" />
                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -223,7 +223,7 @@
                         <!--begin::Menu-->
                         <div class="cursor-pointer symbol symbol-40px" data-kt-menu-trigger="click"
                             data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-                            <img alt="Pic" src="/dash-assets/img/avatar.jpg" />
+                            <img alt="Pic" src="{{ Avatar::create($client->username)->toBase64() }}" />
                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -241,7 +241,7 @@
                                 <div class="symbol symbol-40px mx-5 py-5">
                                     {{-- <img alt="Logo" src="img/avatar.jpg" /> --}}
                                     <img class="h-8 w-8 rounded-full object-cover"
-                                        src="/dash-assets/img/avatar.jpg" alt="Avatar" />
+                                        src="{{ Avatar::create($client->username)->toBase64() }}" alt="Avatar" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Info-->
@@ -316,7 +316,7 @@
                         <!--begin::Menu-->
                         <div class="cursor-pointer symbol symbol-40px" data-kt-menu-trigger="click"
                             data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-                            <img alt="Pic" src="/dash-assets/img/avatar.jpg" />
+                            <img alt="Pic" src="{{ Avatar::create($client->username)->toBase64() }}" />
                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -334,7 +334,7 @@
                                 <div class="symbol symbol-40px mx-5 py-5">
                                     {{-- <img alt="Logo" src="img/avatar.jpg" /> --}}
                                     <img class="h-8 w-8 rounded-full object-cover"
-                                        src="/dash-assets/img/avatar.jpg" alt="Avatar" />
+                                        src="{{ Avatar::create($client->username)->toBase64() }}" alt="Avatar" />
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Info-->

@@ -27,6 +27,41 @@
                     {{ session('Invoice-Rejected') }}
                 </div>
                 @endif
+
+                @if (session()->has('success'))
+                <div class="m-auto">
+                    <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+                        <div class="flex flex-row">
+                            <div class="px-2">
+                                <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1299 813l-422 422q-19 19-45 19t-45-19l-294-294q-19-19-19-45t19-45l102-102q19-19 45-19t45 19l147 147 275-275q19-19 45-19t45 19l102 102q19 19 19 45t-19 45zm141 83q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
+                                </svg>
+                            </div>
+                            <div class="">
+                                <span class="font-semibold"> {{ session('success-modal') }}</span>
+                                {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (session()->has('error'))
+                <div class="m-auto">
+                    <div class="bg-danger rounded-lg border-gray-300 border p-3 shadow-lg"
+                        style="background-color: rgba(224,52,18,.1) !important; color: rgba(224,52,18,.5);">
+                        <div class="flex flex-row">
+                            <div class="px-2 text-damger">
+                                <i class="text-danger fas fa-times-circle fa-2x"></i>
+                            </div>
+                            <div class="">
+                                <span class="font-semibold text-danger"> {{ session('error-modal') }}</span>
+                                {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 <!--end::Info-->
                 <!--begin::Actions-->
                 {{-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
@@ -63,12 +98,12 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      3
+                      2
                     </span>
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Confirm Order By Clicking "View" Button</div>
+                <div class="text-xs text-center md:text-base">Confirm Order By Clicking <strong>"View"</strong> Button</div>
               </div>
 
               <div class="w-1/4">
@@ -81,7 +116,7 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      4
+                      3
                     </span>
                   </div>
                 </div>
@@ -99,7 +134,7 @@
 
                   <div class="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
                     <span class="text-center text-white w-full">
-                      5
+                      4
                     </span>
                   </div>
                 </div>
@@ -118,8 +153,9 @@
                 <div class="row g-xl-8">
 
                     @if ($menuButtons)
-                        <div wire:click='pending'
+                    <div {{-- wire:click='pending' --}}
                         class="cursor-pointer col-xl-3 col-md-6 mb-4 border-l-2 border-info shadow h-70 py-2 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                        <a href="#pendingorders">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -133,6 +169,7 @@
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
 
                     <div wire:click='cancelled'
@@ -279,6 +316,7 @@
                         <!--begin::Col-->
                         <div class="col-xxl-12">
                             @if ($quickStats)
+
                             <div class="quick-stats row g-xl-8">
                                 <!--begin::Col-->
                                 <div class="col-xl-4">
@@ -464,12 +502,13 @@
                                 <!--end::Col-->
 
                             </div>
+
                             @endif
 
                             <!--begin::Row-->
                             @if ($centerView != '')
                             <button wire:click='default'
-                                class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
+                                class="btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
                                 <span class="svg-icon svg-icon-2 rotate-180">
                                     <i class="bi bi-arrow-bar-left"></i>
                                 </span>
@@ -477,11 +516,11 @@
                             </button>
                             @endif
 
-                            <br>
-                            <div class="g-xl-8">
+                            <br class="py-3">
+                            <div class="g-xl-8 pt-3">
                                 @if ($centerView == '')
                                 <!--begin::Row-->
-                                <div class="row g-5 gx-xxl-8 mb-xxl-3">
+                                <div id="pendingorders" class="row g-5 gx-xxl-8 mb-xxl-3">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12">
                                         <!--begin::Table widget 1-->
@@ -641,13 +680,14 @@
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Table widget 1-->
+                                        {{ $pending_orders->links('components.pagination-links') }}
                                     </div>
                                     <!--end::Col-->
                                 </div>
                                 <!--end::Row-->
                                 <!--begin::Row-->
 
-                                <div class="row g-5 gx-xxl-8 mb-xxl-3">
+                                <div id="ongoinorders" class="row g-5 gx-xxl-8 mb-xxl-3">
                                     <!--begin::Col-->
                                     <div class="col-xxl-12">
                                         <!--begin::Table widget 1-->
@@ -796,6 +836,7 @@
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Table widget 1-->
+                                        {{ $others->links('components.pagination-links') }}
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -1100,6 +1141,7 @@
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Table widget 1-->
+                                        {{ $cancelled->links('components.pagination-links') }}
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -1166,7 +1208,7 @@
                                                         </thead>
                                                         <tbody>
                                                             @if (count($ongoing) > 0)
-                                                            @foreach ($ongoing as $ongoing)
+                                                            @foreach ($ongoing as $on)
                                                             <tr>
                                                                 <td class="p-0">
                                                                     <div
@@ -1182,7 +1224,7 @@
                                                                                 class="text-gray-500  fs-5  mb-1">{!!
                                                                                 htmlspecialchars_decode(date('j<\s\up>S
                                                                                 </\s\up> F Y',
-                                                                                strtotime($ongoing->created_at))) !!}
+                                                                                strtotime($on->created_at))) !!}
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -1191,7 +1233,7 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="ps-3">
                                                                             <a href="#"
-                                                                                class="text-gray-400 mb-1">{{$ongoing->order_no}}
+                                                                                class="text-gray-400 mb-1">{{$on->order_no}}
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -1200,7 +1242,7 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="ps-3">
                                                                             <a href="#"
-                                                                                class="text-gray-400 mb-1">{{$ongoing->topic}}
+                                                                                class="text-gray-400 mb-1">{{$on->topic}}
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -1210,7 +1252,7 @@
                                                                 <td>
                                                                     <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                                                        @if ($ongoing->status=='In progress')
+                                                                        @if ($on->status=='In progress')
                                                                         <span
                                                                             wire:class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
                                                                         <div class="progress bg-light-info w-100 h-5px">
@@ -1223,7 +1265,7 @@
                                                                 </td>
                                                                 <td class="pe-0 text-end">
                                                                     <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
-                                                                        x-on:click="$wire.chat('{{$ongoing->order_no}}')">View</a>
+                                                                        x-on:click="$wire.chat('{{$on->order_no}}')">View</a>
                                                                 </td>
                                                             </tr>
                                                             @endforeach
@@ -1242,6 +1284,7 @@
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Table widget 1-->
+                                        {{ $ongoing->links('components.pagination-links') }}
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -1386,6 +1429,7 @@
                                             <!--end::Body-->
                                         </div>
                                         <!--end::Table widget 1-->
+                                        {{ $complete->links('components.pagination-links') }}
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -1415,8 +1459,16 @@
     @livewire('client.invoice')
     @endif
 
+    {{-- <div class="ease-in-out duration-500">
+
+    </div> --}}
+
 </div>
 <style>
+    #pendingorders {
+        transition-duration: 500ms;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .bs-wizard {margin-top: 40px;}
 
     /*Form Wizard*/

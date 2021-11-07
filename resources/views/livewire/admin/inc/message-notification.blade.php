@@ -22,7 +22,7 @@
                     $item->fromable_type) }}")' href="#"
                     class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                     <img class="h-8 w-8 rounded-full object-cover mx-1"
-                        src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                        src="{{ Avatar::create('Avatar')->toBase64() }}"
                         alt="avatar">
                     <p class="text-gray-600 text-sm mx-2">
                         <span class="font-bold" href="#">{{ $this->getUsername($item->fromable_id, $item->fromable_type)

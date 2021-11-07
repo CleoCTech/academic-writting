@@ -71,9 +71,11 @@ class Progress extends Component
 
     public function settings($component)
     {
+        // dd(session()->get('AuthWriter'));
         $this->emit('component', $component);
         if ($component == 'test') {
-            $findTest = Test::where('writer_id', session()->get('AuthWriter'));
+
+            $findTest = Test::where('writer_id', session()->get('AuthWriter'))->first();
             if ($findTest) {
                 session()->flash('error', 'You already did test. Kindly wait for review');
                 $this->emit('component', '');

@@ -22,7 +22,7 @@
             </div>
             <!--end::Toolbar-->
             <!--How it Works-->
-            
+
             <!--begin::Post-->
             <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                 <div class="container">
@@ -39,7 +39,7 @@
 
                     <div class="row g-xl-8">
                         @if ($menuButtons)
-                           
+
                         @endif
                     </div>
 
@@ -51,7 +51,7 @@
                             <input type="text" id="password" class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-blue-500 transition-colors" placeholder="Search...">
                             <button class="block w-7 h-7 text-center text-xl leading-0 absolute top-2 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors"><i class="mdi mdi-magnify"></i></button>
                         </div>
-                        <a href="" class="underline text-gray-800 py-3 hover:underline text-blue-500 text-lg">Show More Filters</a>
+                        <a href="" class="underline text-gray-800 py-3 hover:underline text-lg">Show More Filters</a>
                     </div>
 
                     <div class="row g-5 gx-xxl-8 mb-xxl-3">

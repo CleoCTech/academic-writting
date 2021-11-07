@@ -182,8 +182,12 @@ class OrderDetails extends Component
                 ->where('toable_type', $model)
                 ->where('fromable_type',  "App\Models\Writer");
             })
-            ->get()->last()->created_at->diffForHumans();
-           return $TimeForLastMsg;
+            ->get()->last();
+            if ($TimeForLastMsg) {
+                return $TimeForLastMsg->created_at->diffForHumans();
+            }else{
+                return '';
+            }
         }
     }
     public function getlastMessage($user_id, $model)
@@ -206,22 +210,23 @@ class OrderDetails extends Component
                 ->where('toable_type', $model)
                 ->where('fromable_type',  "App\Models\Writer");
             })
-            ->get()->last()->message;
-           return $lastMessage;
+            ->get()->last();
+            if ($lastMessage) {
+                return $lastMessage->message;
+            }else{
+                return '';
+            }
         }
     }
     public function getsupportUsers()
     {
-
-        unset($this->supports); // $foo is gone
-        $this->supports = array(); // $foo is here again
+        $this->supports = [];
         $this->supports[0]  =   Client::all()->random(1);
 
         $onlineUsrs = User::
         where('online', 1)
-        ->where('role', '!=', 'Admin')
+        ->where('role','!=', 'Admin')
         ->get();
-
         foreach ($onlineUsrs as $key => $value) {
             $value->setAttribute('model_type', 'App\Models\User');
             array_push($this->supports, $value);
@@ -305,6 +310,16 @@ class OrderDetails extends Component
             return response()->download($file);
         } else {
             session()->flash('message', 'File Does Not Exist.');
+            $this->alert('error', 'File Does Not Exist', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
         }
 
     }
@@ -323,32 +338,26 @@ class OrderDetails extends Component
                 $file->delete();
             }
             // return response()->download($file);
-            $this->dispatchBrowserEvent('swal', [
-                'title' => 'File Deleted Successfuly',
-                'timer'=>3000,
-                'icon'=>'success',
-                'toast'=>true,
-                'position'=>'top-right',
+            $this->alert('success', 'File Deleted Successfuly', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
                 'text' =>  '',
                 'confirmButtonText' =>  'Ok',
                 'cancelButtonText' =>  'Cancel',
                 'showCancelButton' =>  false,
                 'showConfirmButton' =>  false,
-
-            ]);
+           ]);
         } else {
-            $this->dispatchBrowserEvent('swal', [
-                'title' => 'File Does Not Exist',
-                'timer'=>3000,
-                'icon'=>'error',
-                'toast'=>true,
-                'position'=>'top-right',
+             $this->alert('error', 'File Does Not Exist', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
                 'text' =>  '',
                 'confirmButtonText' =>  'Ok',
                 'cancelButtonText' =>  'Cancel',
                 'showCancelButton' =>  false,
                 'showConfirmButton' =>  false,
-
             ]);
         }
 
@@ -363,4 +372,8 @@ class OrderDetails extends Component
         $result = array_search($object, $this->supports); // return index or false
         return $result;
     }
+    public function default()
+   {
+       $this->emit('update_varView', 'my-orders');
+   }
 }

@@ -27,7 +27,10 @@ class ProfileSetup extends Component
     public function MoreUserRules()
     {
         try {
-            $primaryContact = PhoneNumber::where('type', 'Primary')->first();
+            $primaryContact = PhoneNumber::
+            where('writer_id', session()->get('AuthWriter'))
+            ->where('type', 'Primary')
+            ->first();
             if ($primaryContact) {
                session()->flash('error-modal', 'Primary Contact Exists');
                $this->emit('alert_remove');
@@ -98,7 +101,7 @@ class ProfileSetup extends Component
        try {
             $writer = session()->get('AuthWriter');
             $save = PhoneNumber::Create([
-                'writer_id' =>$writer[0],
+                'writer_id' =>$writer,
                 'phone' =>$this->phone,
                 'type' =>$this->type
             ]);

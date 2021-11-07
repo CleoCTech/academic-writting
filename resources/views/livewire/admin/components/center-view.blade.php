@@ -144,6 +144,7 @@
                 <!--end::Body-->
             </div>
             <!--end::Table widget 1-->
+            {{ $items->links('components.pagination-links') }}
         </div>
         <!--end::Col-->
     </div>
@@ -276,6 +277,7 @@
                 <!--end::Body-->
             </div>
             <!--end::Table widget 1-->
+            {{ $items->links('components.pagination-links') }}
         </div>
         <!--end::Col-->
     </div>
@@ -409,6 +411,7 @@
                 <!--end::Body-->
             </div>
             <!--end::Table widget 1-->
+            {{ $items->links('components.pagination-links') }}
         </div>
         <!--end::Col-->
     </div>

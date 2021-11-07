@@ -20,5 +20,14 @@ class OrderRegisteredEvent
         $this->order=$order;
         $this->client_id=$client_id;
     }
+    public function broadcastOn()
+    {
+        // return ['message'];
+        return new Channel('OrderCreated');
+    }
+    public function broadcastAs()
+    {
+        return 'order-created-event';
+    }
 
 }

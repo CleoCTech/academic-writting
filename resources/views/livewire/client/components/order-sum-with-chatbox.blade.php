@@ -215,7 +215,7 @@
         <!--end::Aside-->
         <!--begin::Content-->
         <div class="flex-lg-row-fluid ms-lg-9" id="kt_chat_content">
-            <div class="grid grid-cols-3 min-w-full border rounded" style="min-height: 80vh;">
+            <div class="grid grid-cols-3 min-w-full border rounded" style="min-height: 30vh;">
                 <div class="col-span-1 bg-white border-r border-gray-300">
                     <div class="my-3 mx-3 ">
                         <div class="relative text-gray-600 focus-within:text-gray-400">
@@ -227,14 +227,14 @@
                         </div>
                     </div>
 
-                    <ul class="overflow-auto" style="height: 500px;">
+                    <ul class="overflow-auto" style="height: 372px;">
                         <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
                         <li>
                             @foreach ($users as $item)
                                     @if ($item->model_type == 'App\Models\Client')
                                     <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
                                         <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        src="{{ Avatar::create($item->username)->toBase64() }}"
                                         alt="username" />
                                         <div class="w-full pb-2">
                                             <div class="flex justify-between">
@@ -250,7 +250,7 @@
 
                                     <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
                                         <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        src="{{ Avatar::create($item->name)->toBase64() }}"
                                         alt="username" />
                                         <div class="w-full pb-2">
                                             <div class="flex justify-between">
@@ -266,7 +266,7 @@
 
                                     <a wire:click="openChat('{{ $item->id }}', '{{ $item->model_type }}')" class="hover:bg-gray-100 border-b border-gray-300 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
                                         <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                                        src="{{ Avatar::create( $item->firstname .' '.$item->lastname )->toBase64() }}"
                                         alt="username" />
                                         <div class="w-full pb-2">
                                             <div class="flex justify-between">
@@ -283,11 +283,12 @@
                 </div>
 
                 <!--messages -->
-                <div class="col-span-2 bg-white" >
+                <div class="col-span-2 bg-white" style="max-height: 436px;">
                     <div class="w-full">
                         <div class="flex items-center border-b border-gray-300 pl-3 py-3">
+                            @if ($this->getUsername() != null)
                             <img class="h-10 w-10 rounded-full object-cover"
-                            src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+                            src="{{ Avatar::create($this->getUsername())->toBase64() }}"
                             alt="username" />
                             <span class="block ml-2 font-bold text-base text-gray-600">{{ $this->getUsername() }}</span>
                             <span class="connected text-green-500 ml-2" >
@@ -295,11 +296,12 @@
                                     <circle cx="3" cy="3" r="3" fill="currentColor"></circle>
                                 </svg>
                             </span>
-                            
+                            @endif
                         </div>
-                        <div id="chat" class="w-full overflow-y-auto p-10 relative" style="height: 636px;" ref="toolbarChat">
-                            
+                        <div id="chat" class="w-full overflow-y-auto p-10 relative" style="height: 336px;"  ref="toolbarChat">
+
                             <ul>
+                                @if ($openId != null)
                                 <li class="clearfix2">
                                     @foreach ($messages as $item)
                                         @if ($item->fromable_type != $userType)
@@ -322,23 +324,31 @@
                                         @endif
                                     @endforeach
                                 </li>
+                                @else
+                                <h3 class="inline-block rounded-min text-gray-600 bg-gray-100 px-2 py-1 text-lg-center font-bold mr-8">
+                                    Select a chat to start messaging
+                                </h3>
+                                @endif
                             </ul>
                         </div>
 
                         <div class="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
-                           
 
-                            <input wire:model.defer='messageText' aria-placeholder="Type here..." placeholder="Type here..." id="message"
-                            class="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700" type="text" name="message" required/>
 
-                            <button wire:click='sendMessage' class="outline-none focus:outline-none" type="submit" id="sendMessage">
+                            <input wire:model.defer='messageText' aria-placeholder="Type here and press Enter to send a message..." placeholder="Type and press Enter to send a message..." id="message"
+                            class="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700 {{ ($openId != null) ? '' : 'cursor-not-allowed' }} "
+                            type="text" name="message" required {{ ($openId != null) ? '' : 'disabled' }} />
+
+                            <button wire:click='sendMessage' class="cursor-not-allowed outline-none focus:outline-none
+                             hover:bg-green-500 rounded-md translate-x-1 ease-in-out "
+                             type="submit" id="sendMessage" {{ ($openId != null) ? '' : 'disabled' }}>
                                 <svg class="text-gray-400 h-7 w-7 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20" fill="currentColor">
                                     <path
                                         d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                                 </svg>
                             </button>
-                            
+
                         </div>
                         @if (auth()->user() != null)
                         <div class="w-full py-2 px-3 items-end">
@@ -349,11 +359,11 @@
                             </button>
                             <div x-data="{isDlgModal:false}" :class="{ 'block': isDlgModal, 'hidden': !isDlgModal }" class="hidden"
                                 x-on:dlg-modal.window="isDlgModal = !isDlgModal" @click.away="isDlgModal = false">
-                            
+
                                 @include('livewire.general.global-modal')
                         </div>
                         @endif
-                        
+
                     </div>
                 </div>
             </div>
@@ -387,7 +397,7 @@
             document.getElementById("sendMessage").click();
             input.value = '';
         }
-        }); 
+        });
 
     </script>
 </div>
