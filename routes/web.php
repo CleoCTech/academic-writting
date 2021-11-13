@@ -4,6 +4,7 @@ use App\Http\Controllers\VerifyWriterEmailController;
 use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\Applications;
 use App\Http\Livewire\Admin\Job;
+use App\Http\Livewire\Client\ClientAuth;
 use App\Http\Livewire\Client\ClientAuthentication;
 use App\Http\Livewire\Client\ClientLogout;
 use App\Http\Livewire\Client\Dashboard;
@@ -16,6 +17,7 @@ use App\Http\Livewire\Writer\Order\OrdersList;
 use App\Http\Livewire\Writer\Settings;
 use App\Http\Livewire\Writer\Writer;
 use App\Http\Livewire\Writer\WriterAuthentication;
+use App\Http\Livewire\Writer\WriterAuth;
 use App\Http\Livewire\Writer\WriterLogout;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Route;
@@ -55,8 +57,10 @@ Route::get('/writer/get-started', Writer::class)->name('writer-get-started');
 // Route::middleware(['AuthCheck', 'second'])->group(function () {
 
 // });
+// Route::get('/c/login', ClientAuth::class)->name('client-auth');
 Route::group(['middleware' => ['AuthCheck']], function(){
-    Route::get('/client/login', ClientAuthentication::class)->name('client-login');
+    Route::get('/client/login', ClientAuth::class)->name('client-login');
+    // Route::get('/c/login', ClientAuth::class)->name('client-auth');
     Route::get('/client/logout', ClientLogout::class)->name('client-logout');
     Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/client/invoice', Invoice::class)->name('client-invoice');
@@ -64,9 +68,10 @@ Route::group(['middleware' => ['AuthCheck']], function(){
     Route::post('/confirm-payment',[\App\Http\Controllers\StripePaymentController::class, 'store'])->name('confirm-payment');
 
 });
+// Route::get('/w/login', WriterAuth::class)->name('writer-auth');
 Route::group(['middleware' => ['AuthWriter']], function(){
 
-    Route::get('/writer/login', WriterAuthentication::class)->name('writer-login');
+    Route::get('/writer/login', WriterAuth::class)->name('writer-login');
     Route::get('/writer/logout', WriterLogout::class)->name('writer-logout');
     Route::get('/writer/dashboard', WriterDashboard::class)->name('writer-dashboard');
     Route::get('/writer/settings', Settings::class)->name('writer-settings');

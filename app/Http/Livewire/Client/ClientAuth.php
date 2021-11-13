@@ -7,10 +7,10 @@ use Exception;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
-class ClientAuthentication extends Component
+class ClientAuth extends Component
 {
-    public $email ='';
-    public $password ='';
+
+    public $email, $password='';
 
     protected $rules = [
         'email' => 'required|email',
@@ -24,7 +24,7 @@ class ClientAuthentication extends Component
 
     public function render()
     {
-        return view('livewire.client.client-authentication')->layout('layouts.client');
+        return view('livewire.client.client-auth')->layout('layouts.plain');
     }
     public function auth()
     {
