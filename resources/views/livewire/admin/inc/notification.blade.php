@@ -17,11 +17,11 @@
                     @foreach ($notifications as $item)
                     @if ($item->title == "Sent Invoice")
                     <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        
+
                         <p class="text-gray-600 text-sm mx-2">
                             <span class="font-bold" href="#">Confirm Invoice of <span class="font-bold text-blue-500"
-                                >${{ $item->value }}</span> </span> created on 
-                                <span x-on:click="$wire.gotToOrder('{{$item->order_no}}')" class="font-bold text-blue-500" 
+                                >${{ $item->value }}</span> </span> created on
+                                <span x-on:click="$wire.gotToOrder('{{$item->order_no}}')" class="font-bold text-blue-500"
                                     href="#">{{ $item->order_no }}</span> . 2m
                         </p>
                     </a>
@@ -31,21 +31,26 @@
                     @foreach ($notifications as $item)
                     @if ($item->title == "Sent Invoice")
                     <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        
-                        <p class="text-gray-600 text-sm mx-2">
+
+                        <p x-on:click="$wire.gotToOrder('{{$item->order_no}}', '{{ $item->id }}')" class="text-gray-600 text-sm mx-2">
                             <span class="font-bold" href="#">Invoice of <span class="font-bold text-blue-500"
                                 >${{ $item->value }}</span> </span> was {{ $item->status }}
-                                <span x-on:click="$wire.gotToOrder('{{$item->order_no}}')" class="font-bold text-blue-500" 
-                                    href="#">{{ $item->order_no }}</span> . 2m
+                                <span x-on:click="$wire.gotToOrder('{{$item->order_no}}', '{{ $item->id }}')" class="font-bold text-blue-500"
+                                    href="#">{{ $item->order_no }}</span> . {{ $item->created_at->diffForHumans() }}</>
                         </p>
                     </a>
                     @endif
                     @endforeach
                 @endif
-                
-                
             </div>
             <a href="#" class="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('open-order-from-notification', event => {
+        // window.livewire.emit('open-order-from-notification', event.detail.order_no);
+        // window.livewire.emit('open_eye');
+        // alert('Order No: ' + event.detail.order_no);
+    })
+</script>

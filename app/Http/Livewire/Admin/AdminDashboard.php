@@ -27,6 +27,9 @@ class AdminDashboard extends Component
     protected $listeners = [
         'update_varView'=> 'updateVarView',
         'update_CenterView'=> 'updateCenterView',
+        'open_eye' => 'eye',
+        'open-order-from-notification' => 'chat',
+
     ];
 
     public $varView, $modal, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
@@ -103,6 +106,10 @@ class AdminDashboard extends Component
             'active'=>$active
             ])
         ->layout('layouts.client');
+    }
+    public function eye()
+    {
+        dd('open eye...');
     }
     public function paginate($items, $perPage = 8, $page = null, $options = [])
     {

@@ -119,8 +119,6 @@
                                                             class="mb-10 font-sans md:font-serif text-gray-400 text-hover-primary ">
                                                             Before accepting the order, preview the work and
                                                             assertain that everything is okay.</p>
-                                                        {{-- <a wire:click='activateAcceptSection'
-                                                            class="btn btn-primary">Accept Order</a> --}}
                                                         @if ($acceptBtn)
                                                         <div class="justify-around" x-data=''>
 
@@ -155,9 +153,6 @@
                                                                     <i class="bi bi-chat-left-text-fill text-blue-400"></i>
                                                                 </span>
                                                             </h4>
-                                                            {{-- <label for="Instructions"
-                                                                class="block text-md font-medium text-gray-700">Leave a
-                                                                comment (Optional)</label> --}}
                                                             <div class="mt-1 relative rounded-md shadow-sm">
                                                                 <textarea wire:model.defer='comment'
                                                                     class="bg-white focus:shadow-outline text-gray-700 appearance-none inline-block w-full border border-emerald-300 rounded-lg py-3 px-4 focus:outline-none "
@@ -208,8 +203,6 @@
                                                             Before rejecting the order, preview the work and
                                                             assertain that instructions you gave were not followed.
                                                         </p>
-                                                        {{-- <a wire:click='activateRejectSection'
-                                                            class="btn btn-danger">Reject Order</a> --}}
                                                         @if ($rejectBtn)
 
 
@@ -479,18 +472,7 @@
                                                                         </span>
                                                                     </h4>
                                                                 </div>
-                                                                {{-- {{
-                                                                $this->checkIfOrderPassedStage($orderDetails->id,
-                                                                auth()->user()->role) }}
-                                                                --}}
                                                                 @foreach ($writerFiles as $writerFile)
-                                                                {{-- @php
-                                                                $path = $clientFile->folder.'/'.$clientFile->filename;
-                                                                // getDownload(
-                                                                {{$clientFile->folder'/'$clientFile->filename}}
-                                                                )
-                                                                // dd($path);
-                                                                @endphp --}}
                                                                 <div class="row">
                                                                     <div>
                                                                         @if (session()->has('message'))
@@ -502,7 +484,6 @@
 
                                                                     @if(($this->orderCurrentStatus($writerFile->order_id)
                                                                     ) === auth()->user()->role || $orderNextLevel)
-                                                                    {{-- {{dd(auth()->user()->role)}} --}}
                                                                     <div class="col-md-10">
                                                                         <a wire:click="getDownload('{{$writerFile->folder}}/{{$writerFile->filename}}')"
                                                                             class="text-gray-600 text-hover-primary  fw-bold fs-8 mb-3 link-download"
@@ -513,13 +494,6 @@
                                                                         </a>
                                                                     </div>
                                                                     <div class="col-md-2 p-1">
-                                                                        {{-- <a
-                                                                            wire:click="deleteFile('{{$writerFile->folder}}')"
-                                                                            type="button" class="btn-floating xs"
-                                                                            download="{{$writerFile->filename}}"> <span
-                                                                                class="svg-icon svg-icon-3 text-hover-danger">
-                                                                                <i class="bi bi-trash-fill fs-4"></i>
-                                                                            </span></a> --}}
                                                                         <span class="float-end">
                                                                             <a wire:click="getDownload('{{$writerFile->folder}}/{{$writerFile->filename}}')"
                                                                                 type="button"
@@ -532,7 +506,6 @@
                                                                         </span>
                                                                     </div>
                                                                     @else
-                                                                    {{-- {{dd("False")}} --}}
                                                                     <h4 class="text-blue-400 "
                                                                         style="margin-top: 1rem;">
                                                                         ***No Files Found***
@@ -598,9 +571,6 @@
                                                                         class="bi bi-chat-left-text-fill text-blue-400"></i>
                                                                 </span>
                                                             </h4>
-                                                            {{-- <label for="Instructions"
-                                                                class="block text-md font-medium text-gray-700">Leave a
-                                                                comment (Optional)</label> --}}
                                                             <div class="mt-1 relative rounded-md shadow-sm">
                                                                 <textarea wire:model.defer='comment'
                                                                     class="bg-white focus:shadow-outline text-gray-700 appearance-none inline-block w-full border border-emerald-300 rounded-lg py-3 px-4 focus:outline-none "
@@ -653,10 +623,7 @@
                                                             Before rejecting the order, preview the work and
                                                             assertain that instructions you gave were not followed.
                                                         </p>
-                                                        {{-- <a wire:click='activateRejectSection'
-                                                            class="btn btn-danger">Reject Order</a> --}}
                                                         @if ($rejectBtn)
-
 
                                                         <div class="justify-around" x-data=''>
 

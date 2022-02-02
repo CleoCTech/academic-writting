@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Client;
 
 use App\Events\InvoiceSentEvent;
 use App\Events\OrderAnswerUploadEvent;
+use App\Events\OrderSubmittedEvent;
 use App\Models\AcceptedOrder;
 use App\Models\Activity;
 use App\Models\Client;
@@ -60,52 +61,16 @@ class ChatOrderSummary extends Component
         'confrimInvoice'=>'confrimInvoice',
         'rejectInvoice'=>'rejectInvoice',
         'invoice-sent' => '$refresh',
+        'rejectOrder' => 'reject',
+        'acceptOrder' => 'accept',
+        'activateRejectSection' => 'activateRejectSection',
+        'activateAcceptSection' => 'activateAcceptSection',
     ];
     public function back()
     {
         $this->emit('update_varView', '');
     }
-    public function rejectInvoice()
-    {
-        Notification::
-            where('id', $this->activity_id)
-            ->update(['status' => 'rejected']);
-            session()->flash('success', 'Invoice declined successfully.');
-            event(new InvoiceSentEvent());
-    }
-    public function confrimInvoice()
-    {
-        if (session()->get('LoggedClient')!=null) {
-            $id = session()->get('LoggedClient');
-            $this->from_id= $id;
-            $this->to_id=1 ;
-            $this->type= 'Client';
-        }
 
-        $this->orderId = session()->get('orderId');
-        $order = Order::with('order')
-                                    ->where('order_no', $this->orderId)
-                                    ->first();
-        OrderBilling::create([
-            'order_id' => $order->id,
-            'client_id' => $this->orderDetails->client_id,
-            'amount' => $this->fee,
-            'total_amount' => ($order->pages * $this->fee),
-            'prepared_by' => $this->to_id,
-        ]);
-
-        Notification::where('id', $this->activity_id)
-                ->update(['status' => 'responded']);
-
-        Order::where('id',  $order->id)
-                ->update(['status' => 'In progress']);
-        session()->flash('success', 'Invoice Confirmed successfully.');
-
-        event(new InvoiceSentEvent());
-        // session()->flash('Invoice-Confirmed', 'Invoice Confirmed Succesfully, Your Order Is In Progress.');
-        return redirect()->route('dashboard');
-
-    }
 
     public function render()
     {
@@ -284,12 +249,22 @@ class ChatOrderSummary extends Component
     }
     public function dropFile($id, $folder, $filename)
     {
-
-        Storage::delete('client_files/'.$folder . '/' .$filename);
-        rmdir('storage/client_files/' .$folder );
         DB::beginTransaction();
         try {
+
+            $file = ClientFile::where('id', $id)->first();
+            $order = $file->order_id;
+            Order::where('id', $order)
+            ->update([
+                'status' => 'In progress'
+            ]);
+            if (OrderStatus::where('order_id', $order)->exists()) {
+                OrderStatus::where('order_id', $order)->update(['current_position' =>'Admin']);
+            }
+            Storage::delete('client_files/'.$folder . '/' .$filename);
+            rmdir('storage/client_files/' .$folder );
             ClientFile::where('id', $id)->delete();
+
             DB::Commit();
             session()->flash('success', 'File Deleted Successfully.');
         } catch (\Exception $e) {
@@ -300,11 +275,34 @@ class ChatOrderSummary extends Component
     public function store()
     {
         $this->emit('saved');
-        Order::where('id', $this->orderDetails->id)
+        DB::beginTransaction();
+        try {
+            Order::where('id', $this->orderDetails->id)
                 ->update(['status' => 'Complete']);
-        event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
-        $this->reset('companyFile');
-        session()->flash('success', 'Order Submited Successfully.');
+            OrderStatus::updateOrCreate(
+                ['order_id' =>  $this->orderDetails->id],
+                ['current_position' => 'Client']
+            );
+            Notification::create([
+                'title'=>'Order Submitted',
+                'fromable_id'=>auth()->user()->id,
+                'toable_id'=>$this->orderDetails->client_id,
+                'fromable_type'=>'App\Models\User',
+                'toable_type'=>'App\Models\Client',
+                'value'=>0,
+                'order_no'=>$this->orderDetails->order_no,
+                'status'=>'waiting'
+            ]);
+            event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+            $this->reset('companyFile');
+            DB::commit();
+            session()->flash('success', 'Order Submited Successfully.');
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+             session()->flash('error',$th);
+        }
+
 
     }
 
@@ -454,29 +452,40 @@ class ChatOrderSummary extends Component
 
         } elseif (auth()->user()!=null && auth()->user()->is_admin == 1 && auth()->user()->role == 'Admin') {
 
-            DB::transaction(function () {
-                try {
-
-                    AcceptedOrder::create([
-                        'order_id'=>$this->orderPK,
-                        'comment'=>$this->comment,
-                        'from'=>auth()->user()->role,
-                        'from_id'=>auth()->user()->id,
-                    ]);
-                    $orderStatus = OrderStatus::updateOrCreate(
-                        ['order_id' =>  $this->orderPK],
-                        ['current_position' => 'Client']
-                    );
-                    WriterFile::where('order_id', $this->orderPK)
-                                ->update([
-                                    'status' => 'Accepted'
-                                ]);
-                    $this->accept_section=false;
-                    session()->flash('success', 'Order Accepted Successfully.');
-                } catch (\Throwable $th) {
-                    session()->flash('success', $th->getMessage());
-                }
-            });
+            DB::beginTransaction();
+            try {
+                AcceptedOrder::create([
+                    'order_id'=>$this->orderPK,
+                    'comment'=>$this->comment,
+                    'from'=>auth()->user()->role,
+                    'from_id'=>auth()->user()->id,
+                ]);
+                $orderStatus = OrderStatus::updateOrCreate(
+                    ['order_id' =>  $this->orderPK],
+                    ['current_position' => 'Client']
+                );
+                WriterFile::where('order_id', $this->orderPK)
+                            ->update([
+                                'status' => 'Accepted'
+                            ]);
+                Notification::create([
+                    'title'=>'Order Submitted',
+                    'fromable_id'=>auth()->user()->id,
+                    'toable_id'=>$this->orderDetails->client_id,
+                    'fromable_type'=>'App\Models\User',
+                    'toable_type'=>'App\Models\Client',
+                    'value'=>0,
+                    'order_no'=>$value,
+                    'status'=>'waiting'
+                ]);
+                $this->accept_section=false;
+                event( new OrderSubmittedEvent($value));
+                DB::commit();
+                session()->flash('success', 'Order Accepted Successfully.');
+            } catch (\Throwable $th) {
+                DB::rollback();
+                session()->flash('success', $th->getMessage());
+            }
 
         }
     }

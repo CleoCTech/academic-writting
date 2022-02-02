@@ -85,7 +85,7 @@ class Invoice extends Component
         ];
 
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.client.invoice')->with('data',$data)->layout('layouts.client');;
+        return view('livewire.client.invoice')->with('data',$data)->layout('layouts.client');
     }
     public function checkPaidStatus($orderId)
     {

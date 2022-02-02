@@ -11,6 +11,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderBilling;
 use App\Models\User;
+use App\Services\InvoiceService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
 
@@ -441,7 +442,7 @@ class OrderSumWithChatbox extends Component
         ->get();
 
     }
-    public function sendInvoice()
+    public function sendInvoice(InvoiceService $invoiceService)
     {
         $validatedData = Validator::make(
             ['fee' => $this->fee],
@@ -449,20 +450,24 @@ class OrderSumWithChatbox extends Component
             ['required' => 'The :attribute field is required'],
         )->validate();
 
-        Notification::create([
-            'title' => 'Sent Invoice',
-            'fromable_id' => auth()->user()->id,
-            'toable_id' => $this->orderDetails->client_id,
-            'fromable_type' => 'App\Models\User',
-            'toable_type' => 'App\Models\Client',
-            'value' => $this->fee,
-            'order_no' => $this->orderDetails->order_no,
-        ]);
+        $createInvoice =  $invoiceService->createInvoice(
+            'Sent Invoice',
+            auth()->user()->id,
+            'App\Models\User',
+            $this->orderDetails->client_id,
+            'App\Models\Client',
+            $this->fee,
+            $this->orderDetails->order_no
+        );
 
-        session()->flash('success-modal', 'Invoice Sent Successfully');
-        event( new InvoiceSentEvent());
+        if (!$createInvoice) {
+            session()->flash('error-modal', 'Oops!, Something went wrong contact the manager');
+        } else {
+            session()->flash('success-modal', 'Invoice Sent Successfully');
+            event( new InvoiceSentEvent());
+            $this->reset('fee');
+        }
 
-        $this->reset('fee');
     }
     public function sendMessage()
     {
@@ -550,5 +555,8 @@ class OrderSumWithChatbox extends Component
     {
         $this->emitUp('edit');
     }
+
+
+    //new from chat-order-summary
 
 }

@@ -14,6 +14,7 @@ use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
+
     use LayoutTrait;
     use AdminPropertiesTrait;
     use SearchFilterTrait;
@@ -21,9 +22,10 @@ class Dashboard extends Component
     use WithPagination;
 
     protected $listeners = [
-        'update_varView'=> 'updateVarView',
-        'Incoming-Request'=> 'chat',
-     ];
+        'update_varView' => 'updateVarView',
+        'open-order-from-notification' => 'test'
+    ];
+
     public $varView, $orderId, $client_id, $subject_id, $topic, $pages, $deadline_date, $deadline_time,$instructions, $status, $created_at, $updated_at;
     public $centerView='';
     public $quickStats = true;

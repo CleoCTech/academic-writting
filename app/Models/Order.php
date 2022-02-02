@@ -77,5 +77,5 @@ class Order extends Model
     {
         return $this->hasMany(WriterBid::class, 'order_id', 'id');
     }
-    
+
 }

@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Admin\Inc;
 use App\Models\Activity;
 use App\Models\Notification as ModelsNotification;
 use App\Models\Order;
+use App\Services\NotificationService;
 use Livewire\Component;
 
 class Notification extends Component
 {
+
     public $user_type;
     public $userTypeFro;
     public $userIdTo;
@@ -16,7 +18,10 @@ class Notification extends Component
 
     protected $listeners = [
         'invoice-sent' => '$refresh',
+        'invoice-rejected' => '$refresh',
+        'invoice-accepted' => '$refresh',
         'OrderCreated' => 'newOrder',
+        // 'open-order-from-notification' => 'test',
     ];
 
 
@@ -31,13 +36,16 @@ class Notification extends Component
             $counts = ModelsNotification::
                 where('toable_id', $this->user_id)
                 ->where('toable_type', $this->user_type)
+                ->where('is_read', 0)
                 ->where('status', 'waiting')
                 ->get()->count();
 
             $activities = ModelsNotification::
             where('toable_id', $this->user_id)
             ->where('toable_type', $this->user_type)
+            ->where('is_read', 0)
             ->where('status', 'waiting')
+            ->latest()
             ->get();
 
 
@@ -45,29 +53,45 @@ class Notification extends Component
             $counts = ModelsNotification::
                 where('fromable_id', $this->user_id)
                 ->where('fromable_type', $this->user_type)
-                ->where('status', 'rejected')
-                ->whereOr('status', 'responded')
+                ->where('is_read', 0)
+                ->where(function($q) {
+                    $q->where('status', 'rejected')
+                    ->orWhere('status', 'responded');
+                })
+                ->latest()
                 ->get()->count();
 
             $activities = ModelsNotification::
             where('fromable_id', $this->user_id)
             ->where('fromable_type', $this->user_type)
-            ->where('status', 'rejected')
-            ->whereOr('status', 'responded')
+            ->where('is_read', 0)
+            ->where(function($q) {
+                $q->where('status', 'rejected')
+                ->orWhere('status', 'responded');
+            })
+            ->latest()
             ->get();
+
         } elseif (session()->get('AuthWriter') !=null){
             $counts = ModelsNotification::
                 where('fromable_id', $this->user_id)
                 ->where('fromable_type', $this->user_type)
-                ->where('status', 'rejected')
-                ->whereOr('status', 'responded')
+                ->where('is_read', 0)
+                ->where(function($q) {
+                    $q->where('status', 'rejected')
+                    ->orWhere('status', 'responded');
+                })
                 ->get()->count();
 
             $activities = ModelsNotification::
             where('fromable_id', $this->user_id)
             ->where('fromable_type', $this->user_type)
-            ->where('status', 'rejected')
-            ->whereOr('status', 'responded')
+            ->where('is_read', 0)
+            ->where(function($q) {
+                $q->where('status', 'rejected')
+                ->orWhere('status', 'responded');
+            })
+            ->latest()
             ->get();
         }
 
@@ -76,10 +100,15 @@ class Notification extends Component
             'notifications' => $activities,
         ]);
     }
-    public function gotToOrder($order_no)
+    public function gotToOrder($order_no, $notification_id, NotificationService $notificationService)
     {
-        // $order = Order::where('order_no', $order_no)->first();
-        $this->emit('Incoming-Request', $order_no);
+        $mark_as_read = $notificationService->markAsRead($notification_id);
+        $this->emit('open-order-from-notification', $order_no);
+
+    }
+    public function test($value)
+    {
+        dd($value);
     }
     public function checkActivities()
     {

@@ -10,7 +10,7 @@ class Notification extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'fromable_id', 'toable_id', 'fromable_type', 'toable_type', 'value', 'order_no',
-    'status'
+    'status', 'is_read',
     ];
 
     public function fromable()
@@ -21,5 +21,5 @@ class Notification extends Model
     {
         return $this->morphTo();
     }
-    
+
 }

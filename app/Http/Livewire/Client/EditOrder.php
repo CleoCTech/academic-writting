@@ -60,6 +60,7 @@ class EditOrder extends Component
     public function store()
     {
         $this->validate();
+        $success = false; //flag
         DB::beginTransaction();
         try {
            Order::where('order_no',  $this->orderId)
@@ -73,11 +74,15 @@ class EditOrder extends Component
                 ]);
 
             $order = Order::where('order_no',  $this->orderId)->first();
-            DB::Commit();
-            event( new OrderRegisteredEvent($order, $this->user_id));
-            session()->flash('success', 'Updated Successfully.');
+            $success = true;
+            if($success){
+                DB::Commit();
+                event( new OrderRegisteredEvent($order, $this->user_id));
+                session()->flash('success', 'Updated Successfully.');
+            }
         } catch (\Exception $e) {
             DB::rollback();
+            $success = false;
             session()->flash('error',$e);
         }
 

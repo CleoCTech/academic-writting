@@ -9,9 +9,12 @@ use App\Http\Livewire\Client\ClientAuthentication;
 use App\Http\Livewire\Client\ClientLogout;
 use App\Http\Livewire\Client\Dashboard;
 use App\Http\Livewire\Client\Invoice;
+use App\Http\Livewire\Dashboard\Home as DashboardHome;
+use App\Http\Livewire\Dashboard\Pages\Chat as PagesChat;
+use App\Http\Livewire\Dashboard\Pages\Invoices;
 use App\Http\Livewire\General\Chat;
-use App\Http\Livewire\Home;
 use App\Http\Livewire\Order;
+use App\Http\Livewire\Home;
 use App\Http\Livewire\Writer\Dashboard as WriterDashboard;
 use App\Http\Livewire\Writer\Order\OrdersList;
 use App\Http\Livewire\Writer\Settings;
@@ -22,6 +25,7 @@ use App\Http\Livewire\Writer\WriterLogout;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Mail\VerifyAccountMail;
+use BugHonorFileTimeTest\BugHonorFileTimeTest;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -63,12 +67,17 @@ Route::group(['middleware' => ['AuthCheck']], function(){
     // Route::get('/c/login', ClientAuth::class)->name('client-auth');
     Route::get('/client/logout', ClientLogout::class)->name('client-logout');
     Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/c/dashboard', DashboardHome::class)->name('dash-test');
     Route::get('/client/invoice', Invoice::class)->name('client-invoice');
+    Route::get('/c/invoice', Invoices::class)->name('c-invoice');
     Route::get('/client/chat', Chat::class)->name('client-chat');
+    Route::get('/c/chat', PagesChat::class)->name('c-chat');
     Route::post('/confirm-payment',[\App\Http\Controllers\StripePaymentController::class, 'store'])->name('confirm-payment');
 
 });
 // Route::get('/w/login', WriterAuth::class)->name('writer-auth');
+// Route::get('/dash-test', DashboardHome::class)->name('dash');
+
 Route::group(['middleware' => ['AuthWriter']], function(){
 
     Route::get('/writer/login', WriterAuth::class)->name('writer-login');
@@ -96,5 +105,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
     Route::get('/admin/invoice', Invoice::class)->name('invoices');
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
-    Route::get('/admin/applications', Applications::class)->name('applications');
+
+ Route::get('/admin/applications', Applications::class)->name('applications');
 });

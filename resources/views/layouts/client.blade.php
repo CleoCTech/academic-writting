@@ -305,6 +305,15 @@
                     window.livewire.emit('OrderCreated');
                     // console.log(e.message);
                 });
+                Echo.channel(`invoice-rejected`)
+                .listen('.invoice-rejected-event', (e) => {
+                    window.livewire.emit('invoice-rejected');
+                    console.log("Rejected");
+                });
+                Echo.channel(`invoice-accepted`)
+                .listen('.invoice-accepted-event', (e) => {
+                    window.livewire.emit('invoice-accepted');
+                });
 
             });
 

@@ -69,7 +69,7 @@
                     </div>
                   </div>
                 @endif
-                  
+
                     @if (session()->has('message'))
                     <div class="bg-red-50 border-l-8 border-red-900 mb-2">
                         <div class="flex items-center">
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     @endif
-                 
+
                   <div class="fv-row mb-10 relative">
                     <label class="mb-4 fs-6 font-bold text-dark">Email</label>
                     <input
@@ -154,13 +154,13 @@
                     </div>
                   </div>
                   <div class="fv-row mb-10 relative">
-                    <button id="signin" wire:click='auth' wire.target='auth' type="button" 
+                    <button id="signin" wire:click='auth' wire.target='auth' type="button"
                     class=" font-bold btn btn-lg btn-primary inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md hover:bg-blue-300 ease-in-out duration-150 "  wire:loading.class= "cursor-not-allowed"
                     wire:loading.attr="disabled" >
-                        <svg wire.loading wire.target='auth' 
-                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white" 
+                        <svg wire.loading wire.target='auth'
+                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         wire:loading.class.remove= "hidden"
-                        xmlns="http://www.w3.org/2000/svg" 
+                        xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" >
                         <circle  wire:loading wire:target="auth" class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path  wire:loading wire:target="auth" class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -170,13 +170,13 @@
                   </div>
                   @elseif($varview == 'create-account')
                  <div class="fv-row mb-10 relative">
-                    <button id="signup" wire:click='signup' wire.target='signup' type="button" 
+                    <button id="signup" wire:click='signup' wire.target='signup' type="button"
                     class=" font-bold btn btn-lg btn-primary inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md hover:bg-blue-300 ease-in-out duration-150 "  wire:loading.class= "cursor-not-allowed"
                     wire:loading.attr="disabled" >
-                        <svg wire.loading wire.target='signup' 
-                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white" 
+                        <svg wire.loading wire.target='signup'
+                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         wire:loading.class.remove= "hidden"
-                        xmlns="http://www.w3.org/2000/svg" 
+                        xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" >
                         <circle  wire:loading wire:target="signup" class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path  wire:loading wire:target="signup" class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -185,36 +185,36 @@
                     </button>
                   </div>
                   @endif
-                 
+
 
                 </form>
               </div>
             </div>
             @elseif($centerView == 'resend-link')
             <div class="flex justify-center align-center flex-col flex-column-fluid">
-           
+
                 <div class="text-center mb-10">
                     <h1 class="text-dark mb-3 font-bold text-3xl">
-                      Check your inbox 
+                      Check your inbox
                     </h1>
                     <div class="text-gray-400 font-bold text-md pb-2">
-                      Verification link has been sent to your email {{ $email}}. Click the link to activate your account. 
+                      Verification link has been sent to your email {{ $email}}. Click the link to activate your account.
                     </div>
-                    <button id="" wire:click='resendLink' wire.target='resendLink' type="button" 
+                    <button id="" wire:click='resendLink' wire.target='resendLink' type="button"
                         class=" font-bold btn btn-md btn-primary inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md hover:bg-blue-300 ease-in-out duration-150 "  wire:loading.class= "cursor-not-allowed"
                         wire:loading.attr="disabled" >
-                        <svg wire.loading wire.target='resendLink' 
-                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white" 
+                        <svg wire.loading wire.target='resendLink'
+                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         wire:loading.class.remove= "hidden"
-                        xmlns="http://www.w3.org/2000/svg" 
+                        xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" >
                         <circle  wire:loading wire:target="resendLink" class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path  wire:loading wire:target="resendLink" class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                         Resend link to my email
                     </button>
-                    <div class="text-gray-400 font-bold text-md pt-2">
-                        Want to register with another email? 
+                    <div class="text-gray-400 font-bold text-md pt-2 bg-primary">
+                        Want to register with another email?
                    </div>
                    <div class="text-gray-400 font-bold text-md">
                        <a wire:click.prevent='createAccount' href="#" class="link-primary font-bolder no-underline hover:underline"
@@ -222,8 +222,8 @@
                       >
                    </div>
                   </div>
-                   
-                </div>   
+
+                </div>
                 {{-- @livewire('writer.components.resend-link') --}}
             @endif
 
@@ -246,10 +246,10 @@
               </div>
               <!--end::Links-->
             </div>
-          </div> 
+          </div>
         </div>
 
-       
+
         <script>
             document.addEventListener("keyup", function(event) {
                 var signin = document.getElementById('signin');
@@ -260,4 +260,4 @@
             });
         </script>
     </div>
-   
+
