@@ -1,8 +1,8 @@
-
+<div>
     <div wire:loading wire:target='gotToOrder, progress, completed, revisions'>
         @livewire('general.loader')
     </div>
-    <div wire:ignore class="top-bar" {{--  x-data='' x-init="Livewire.emit('fire-notification-bar')" --}}>
+    <div class="top-bar" {{--  x-data='' x-init="Livewire.emit('fire-notification-bar')" --}}>
          <!-- BEGIN: Breadcrumb -->
          <div class="-intro-x breadcrumb mr-auto hidden sm:flex"> <a href="">Application</a> <i data-feather="chevron-right" class="breadcrumb__icon"></i> <a href="" class="breadcrumb--active">Dashboard</a> </div>
          <!-- END: Breadcrumb -->
@@ -33,7 +33,8 @@
                 <div class="notification-content__box dropdown-menu__content box dark:bg-dark-6">
                     <div class="notification-content__title">Messages</div>
                     @foreach ($receivedMsgs as $item)
-                    <div class="cursor-pointer relative flex items-center ">
+                    <div wire:click="chatbox('{{ $item->fromable_type }}', '{{ $this->getId($item->fromable_id,
+                        $item->fromable_type) }}')" class="cursor-pointer relative flex items-center zoom-in">
                         <div class="w-12 h-12 flex-none image-fit mr-1">
                             <img alt="img" class="rounded-full" src="{{ Avatar::create($this->getUsername($item->fromable_id, $item->fromable_type))->toBase64() }}">
                             <div class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
@@ -44,7 +45,7 @@
                                 }}</a>
                                 <div class="text-xs text-gray-500 ml-auto whitespace-nowrap">{{ $item->created_at->diffForHumans() }}</div>
                             </div>
-                            <div class="w-full truncate text-gray-600 mt-0.5">T{{ strlen($item->message) >30? substr($item->message, 0, 30).'...':$item->message }} </div>
+                            <div class="w-full truncate text-gray-600 mt-0.5">{{ strlen($item->message) >30? substr($item->message, 0, 30).'...':$item->message }} </div>
                         </div>
                     </div>
                     @endforeach
@@ -55,16 +56,14 @@
          <!-- END: MessageNotification -->
           <!-- BEGIN: Notifications -->
           <div class="intro-x dropdown mr-auto sm:mr-6">
-            <div class="dropdown-toggle notification {{$notificationsCounts > 0? 'notification--bullet ':''}} cursor-pointer" role="button" aria-expanded="false"> <i data-feather="bell" class="notification__icon dark dark:text-gray-300"></i> </div>
+            <div class="dropdown-toggle notification {{$notificationsCounts > 0? 'notification--bullet ':''}} cursor-pointer" role="button" aria-expanded="false">
+                <i class="bi bi-bell-fill fs-4 notification__icon dark:text-gray-300" style="font-size: x-large;"></i>
+            </div>
             <div class="notification-content pt-2 dropdown-menu">
                 <div class="notification-content__box dropdown-menu__content box dark:bg-dark-6">
                     <div class="notification-content__title">Notifications</div>
                     @foreach ($notifications as $notification)
                     <div class="cursor-pointer relative flex items-center ">
-                        {{-- <div class="w-12 h-12 flex-none image-fit mr-1">
-                            <img alt="img" class="rounded-full" src="dist/images/profile-11.jpg">
-                            <div class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div> --}}
                         <div class="ml-2 overflow-hidden">
                             <div class="flex items-center">
                                 <a href="javascript:;" class="font-medium truncate mr-5">{{ $notification->title }}</a>
@@ -133,4 +132,4 @@
         </div>
         <!-- END: Account Menu -->
     </div>
-
+</div>

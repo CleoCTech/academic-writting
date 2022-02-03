@@ -5,8 +5,9 @@
 
 <nav wire:ignore class="side-nav">
     <a href="" class="intro-x flex items-center pl-5 pt-4">
-        <img alt="img" class="w-6" src="dist/images/logo.svg">
-        <span class="hidden xl:block text-white text-lg ml-3"> Ru<span class="font-medium">bick</span> </span>
+        <img alt="Logo" src="{{ asset('dash-assets/img/logo_full.svg')}}" class="w-6 max-h-50px logo-default" />
+        <img alt="Logo" src="{{ asset('dash-assets/img/logo_short.svg')}}" class="w-6 max-h-50px logo-minimize" />
+        <span class="hidden xl:block text-white text-lg ml-3"> <span class="font-medium">{{ config('app.name') }}</span> </span>
     </a>
     <div class="side-nav__devider my-6"></div>
     <ul>

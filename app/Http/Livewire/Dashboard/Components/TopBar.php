@@ -121,18 +121,18 @@ class TopBar extends Component
         event(new NoticationTopBarRefreshedEvent());
     }
     public function getUsername($userId, $userType)
-   {
-       if ($userType == 'App\Models\Client') {
-            $getClient = Client::where('id', $userId)->first();
-            return $getClient->username;
-       }elseif($userType == 'App\Models\User'){
-            $getClient = User::where('id', $userId)->first();
-            return $getClient->name;
-       }elseif ($userType == 'App\Models\Writer') {
-            $getClient = Writer::where('id', $userId)->first();
-            return $getClient->firstname;
-       }
-   }
+    {
+        if ($userType == 'App\Models\Client') {
+                $getClient = Client::where('id', $userId)->first();
+                return $getClient->username;
+        }elseif($userType == 'App\Models\User'){
+                $getClient = User::where('id', $userId)->first();
+                return $getClient->name;
+        }elseif ($userType == 'App\Models\Writer') {
+                $getClient = Writer::where('id', $userId)->first();
+                return $getClient->firstname;
+        }
+    }
    public function getId($userId, $userType)
    {
        if ($userType == 'App\Models\Client') {
@@ -175,4 +175,5 @@ class TopBar extends Component
         $mark_as_read = $notificationService->markAsRead($notification_id);
         $this->emit('Incoming-Request', $order_no);
    }
+
 }

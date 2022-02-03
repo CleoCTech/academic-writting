@@ -94,4 +94,5 @@ class Home extends Component
         $this->editorderId =  $value;
         $this->varView='edit-paper';
     }
+
 }

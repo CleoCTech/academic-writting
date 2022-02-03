@@ -71,7 +71,7 @@ class Chat extends Component
         $this->getMesssage($this->openId, $this->userTypeFro);
     }
     public function setOnread($id)
-    {
+    {   
         Messaging::where('id', $id)->update(['is_read' => 1]);
     }
     public function getMesssage($userId, $model)

@@ -203,6 +203,9 @@
                         @foreach ($messages as $item)
                         @if ($item->fromable_type != $userType)
                         <div class="chat__box__text-box flex items-end float-left mb-4">
+                            @if ( $item->is_read == 0 )
+                            {{ $this->setOnread($item->id) }}
+                            @endif
                             <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                                 <img alt="img" class="rounded-full"
                                     src="{{ Avatar::create($this->getUsername())->toBase64() }}">
