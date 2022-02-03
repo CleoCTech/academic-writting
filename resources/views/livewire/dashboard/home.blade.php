@@ -421,5 +421,7 @@
     @livewire('dashboard.pages.completed-orders')
     @elseif($varView == 'revisions')
     @livewire('dashboard.pages.revision-orders')
+    @elseif($varView == 'profile')
+    @livewire('dashboard.pages.profile')
     @endif
 </div>

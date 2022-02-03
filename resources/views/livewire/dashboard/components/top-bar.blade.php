@@ -1,5 +1,5 @@
 <div>
-    <div wire:loading wire:target='gotToOrder, progress, completed, revisions'>
+    <div wire:loading wire:target='gotToOrder, progress, completed, revisions, profile'>
         @livewire('general.loader')
     </div>
     <div class="top-bar" {{--  x-data='' x-init="Livewire.emit('fire-notification-bar')" --}}>
@@ -120,9 +120,8 @@
                         <div class="text-xs text-theme-28 mt-0.5 dark:text-gray-600">Client</div>
                     </div>
                     <div class="p-2" style=" ">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
+                        <a href="#" wire:click='profile' class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                        <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
                     </div>
                     <div class="p-2 border-t border-theme-27 dark:border-dark-3">
                         <a href="{{ route('client-logout') }}" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>

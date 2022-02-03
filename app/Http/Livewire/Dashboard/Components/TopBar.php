@@ -175,5 +175,8 @@ class TopBar extends Component
         $mark_as_read = $notificationService->markAsRead($notification_id);
         $this->emit('Incoming-Request', $order_no);
    }
-
+   public function profile()
+   {
+        $this->emit('update_varView', 'profile');
+   }
 }
