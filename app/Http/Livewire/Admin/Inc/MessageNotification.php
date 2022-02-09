@@ -9,6 +9,7 @@ use App\Models\Msg;
 use App\Models\MsgTo;
 use App\Models\User;
 use App\Models\Writer;
+use App\Services\MessageService;
 use Livewire\Component;
 use PhpParser\Node\Expr\List_;
 
@@ -78,55 +79,58 @@ class MessageNotification extends Component
             'receivedMsgs'=>$receivedMsgs
         ]);
 
-   }
-
-   public function getUsername($userId, $userType)
-   {
-       if ($userType == 'App\Models\Client') {
-            $getClient = Client::where('id', $userId)->first();
-            return $getClient->username;
-       }elseif($userType == 'App\Models\User'){
-            $getClient = User::where('id', $userId)->first();
-            return $getClient->name;
-       }elseif ($userType == 'App\Models\Writer') {
-            $getClient = Writer::where('id', $userId)->first();
-            return $getClient->firstname;
-       }
-   }
-   public function getId($userId, $userType)
-   {
-       if ($userType == 'App\Models\Client') {
-            $getClient = Client::where('id', $userId)->first();
-            $this->userTypeFro = $userType;
-            return $getClient->id;
-            // return  [$getClient->id, $userType];
-       }elseif($userType == 'App\Models\User'){
-            $getClient = User::where('id', $userId)->first();
-            $this->userTypeFro = $userType;
-            return $getClient->id;
-            // return  [$getClient->id, $userType];
-       }elseif ($userType == 'App\Models\Writer') {
-            $getClient = Writer::where('id', $userId)->first();
-            $this->userTypeFro = $userType;
-            return $getClient->id;
-            // return  [$getClient->id, $userType];
-       }
-   }
-   public function chatbox($fromable_type, $user_id_from)
-   {
-        $model = explode("Models",$fromable_type);
-        $model = $model[0]."\\Models\\".$model[1];
-
-        session()->put('userIdN', $user_id_from);
-        session()->put('userTypeFro', $model);
-
-        if (auth()->user()!=null) {
-            return redirect()->route('admin-chat');
-        }elseif(session()->get('LoggedClient')!=null){
-            return redirect()->route('client-chat');
-        }elseif(session()->get('AuthWriter') != null){
-            return redirect()->route('writer-chat');
+    }
+    public function markAsRead($message_id, MessageService $messageService)
+    {
+        $messageService->markAsRead($message_id);
+    }
+    public function getUsername($userId, $userType)
+    {
+        if ($userType == 'App\Models\Client') {
+                $getClient = Client::where('id', $userId)->first();
+                return $getClient->username;
+        }elseif($userType == 'App\Models\User'){
+                $getClient = User::where('id', $userId)->first();
+                return $getClient->name;
+        }elseif ($userType == 'App\Models\Writer') {
+                $getClient = Writer::where('id', $userId)->first();
+                return $getClient->firstname;
         }
+    }
+    public function getId($userId, $userType)
+    {
+        if ($userType == 'App\Models\Client') {
+                $getClient = Client::where('id', $userId)->first();
+                $this->userTypeFro = $userType;
+                return $getClient->id;
+                // return  [$getClient->id, $userType];
+        }elseif($userType == 'App\Models\User'){
+                $getClient = User::where('id', $userId)->first();
+                $this->userTypeFro = $userType;
+                return $getClient->id;
+                // return  [$getClient->id, $userType];
+        }elseif ($userType == 'App\Models\Writer') {
+                $getClient = Writer::where('id', $userId)->first();
+                $this->userTypeFro = $userType;
+                return $getClient->id;
+                // return  [$getClient->id, $userType];
+        }
+    }
+    public function chatbox($fromable_type, $user_id_from)
+    {
+            $model = explode("Models",$fromable_type);
+            $model = $model[0]."\\Models\\".$model[1];
 
-   }
+            session()->put('userIdN', $user_id_from);
+            session()->put('userTypeFro', $model);
+
+            if (auth()->user()!=null) {
+                return redirect()->route('admin-chat');
+            }elseif(session()->get('LoggedClient')!=null){
+                return redirect()->route('client-chat');
+            }elseif(session()->get('AuthWriter') != null){
+                return redirect()->route('writer-chat');
+            }
+
+    }
 }

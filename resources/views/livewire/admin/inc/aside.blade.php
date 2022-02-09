@@ -153,7 +153,7 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                 </span>
-                                <span class="menu-title">My Orders <span>(2)</span></span>
+                                <span class="menu-title">My Orders <span>({{ $activeOrders }})</span></span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -181,18 +181,6 @@
                             </a>
                         </div>
 
-                        <div class="menu-item">
-                            <a class="menu-link" href="#">
-                                <span class="menu-icon">
-                                    <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
-                                    <span class="svg-icon svg-icon-3">
-                                        <i class="bi bi-inboxes"></i>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </span>
-                                <span class="menu-title">Emails</span>
-                            </a>
-                        </div>
                         @else
                         <div class="menu-item">
                             <a class="menu-link active" href="#">
@@ -208,7 +196,7 @@
                         </div>
                         @endif
                         <div class="menu-item">
-                            <a wire:click='invoice' class="menu-link" href="{{ route('writer-settings')}}">
+                            <a  class="menu-link" href="{{ route('writer-settings')}}">
                                 <span class="menu-icon">
                                     <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                     <span class="svg-icon svg-icon-3">

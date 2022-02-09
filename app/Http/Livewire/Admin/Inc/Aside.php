@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Admin\Inc;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
+use App\Models\Order;
 use App\Models\Writer;
+use App\Models\WriterOrder;
 use Livewire\Component;
 
 class Aside extends Component
@@ -34,11 +36,20 @@ class Aside extends Component
     }
     public function render()
     {
-        return view('livewire.admin.inc.aside');
+        if (session()->get('AuthWriter') !=null) {
+            $activeOrders = WriterOrder::whereHas('writer')
+            ->where('status', 'Active')
+            ->orWhere('status', 'Revision')
+            ->get()->count();
+        }else{
+            $activeOrders = "";
+        }
+        return view('livewire.admin.inc.aside', [
+            'activeOrders' => $activeOrders,
+        ]);
     }
     public function jobs()
     {
-        // dd("jobs");
         $this->emitUp('update_varView', 'jobs');
     }
     public function invoice()

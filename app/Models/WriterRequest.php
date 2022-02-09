@@ -6,14 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class WriterOrder extends Model
+class WriterRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable =['writer_id', 'order_id', 'status'];
+    protected $fillable = ['title', 'writer_id','client_id', 'order_id', 'status', 'time_limit', 'is_read' ];
 
     /**
-     * Get the user that owns the WriterOrder
+     * Get the client that owns the WriterRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
+    /**
+     * Get the writer that owns the WriterRequest
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -22,7 +31,7 @@ class WriterOrder extends Model
         return $this->belongsTo(Writer::class, 'writer_id', 'id');
     }
     /**
-     * Get the order that owns the WriterOrder
+     * Get the order that owns the WriterRequest
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -30,5 +39,4 @@ class WriterOrder extends Model
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
-
 }

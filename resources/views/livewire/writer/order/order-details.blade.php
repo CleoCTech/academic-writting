@@ -112,7 +112,7 @@
         <div class="max-w-full  bg-white flex flex-col rounded overflow-hidden shadow-lg" id="kt_post" style="margin: 2rem; ">
             <div class="flex flex-row items-baseline flex-nowrap bg-gray-100 p-2">
                 {{-- <h1 class="ml-2 uppercase font-bold text-gray-500"> Messages </h1> --}}
-                <nav class="flex flex-col sm:flex-row">
+                <nav class="flex sm:flex-row">
                     <button wire:click='messagesTab'
                     class="text-gray-600
                      py-4 px-6 block
@@ -175,7 +175,7 @@
                             <div class="col-span-2">
                                 <div class="flex flex-col bg-white">
                                     <div id="chat" class="flex mt-2 flex-col overflow-y-scroll	 space-y-3 mb-20 pb-3 " style="max-height: 300px">
-                                        @foreach ($messages as $item)
+                                        @foreach ($txtMessages as $item)
                                             @if ($item->fromable_type != "App\Models\Writer")
                                                  <div class="other break-all mt-2  ml-5 rounded-bl-none float-none bg-gray-300 mr-auto rounded-2xl p-2">
                                                     {{ $item->message }}
@@ -211,12 +211,12 @@
                                 </div>
                             </div>
                          </div>
-
-                    <!--     tab end -->
+                        <!--     tab end -->
                     @endif
                     @if ($option2)
                         <!-- tab start -->
-                         <div class="grid grid-cols-3 gap-4">
+                        @if ($approved)
+                         <div class="grid grid-cols-3 gap-4 mt-5">
                             <div class="flex flex-col bg-gray-200">
 
                             </div>
@@ -262,6 +262,62 @@
                                 </div>
                             </div>
                          </div>
+                         @else
+
+                         <div class="grid grid-cols-3 gap-4 mt-5">
+                            <div class="flex flex-col bg-gray-200">
+
+                                <div class="flex justify-center mt-3">
+                                    <label for="" class="font-semibold mr-3 mt-2">Select Admin:</label>
+                                    <div class="mb-3 xl:w-96">
+                                        <select wire:model.defer='admin_id' class="form-select appearance-none
+                                        block
+                                        w-full
+                                        px-3
+                                        py-1.5
+                                        text-base
+                                        font-normal
+                                        text-gray-700
+                                        bg-white bg-clip-padding bg-no-repeat
+                                        border border-solid border-gray-300
+                                        rounded
+                                        transition
+                                        ease-in-out
+                                        m-0
+                                        focus:text-gray-700 focus:bg-white focus:border-blue-600  @error('admin_id'): border-red-600 outline-red-600 @enderror" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            @foreach ($supports as $item)
+                                                <option  value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('admin_id')
+                                        <div class="block w-full text-red-500">{{  $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-span-2">
+                                <div class="flex flex-col">
+                                    <button wire:click='makeClientChatRequest' wire.target='makeClientChatRequest'
+                                    wire:loading.class= "cursor-not-allowed"
+                                    wire:loading.attr="disabled"
+                                    type="button" class="rounded btn btn-primary" >
+                                        <i style="font-size: 1rem !important;" class="bi bi-info-square fa-2x"></i>
+                                        <svg wire.loading wire.target='makeClientChatRequest'
+                                        class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                        wire:loading.class.remove= "hidden"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" >
+                                        <circle wire:loading wire:target="makeClientChatRequest" class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path wire:loading wire:target="makeClientChatRequest" class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Request to chat with the client
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                         @endif
                     @endif
                 </div>
             </div>

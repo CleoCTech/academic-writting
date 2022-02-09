@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AwardOrderEvent implements ShouldBroadcast
+class AccessGrantedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,10 +31,10 @@ class AwardOrderEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('order-awarded');
+        return new Channel('access-granted');
     }
     public function broadcastAs()
     {
-        return 'order-awarded-event';
+        return 'access-granted-event';
     }
 }

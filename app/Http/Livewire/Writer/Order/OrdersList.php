@@ -71,12 +71,12 @@ class OrdersList extends Component
                     AND `writer_orders`.`writer_id` =?);', [$writerId]);
 
         return view('livewire.writer.order.orders-list')
-                        ->with([
-                            'bids'=>$bids,
-                            'activeOrders'=>$activeOrders,
-                            'active'=>$active
-                        ])
-                        ->layout('layouts.client');
+        ->with([
+            'bids'=>$bids,
+            'activeOrders'=>$activeOrders,
+            'active'=>$active
+        ])
+        ->layout('layouts.client');
     }
 
     public function bids()
@@ -91,7 +91,7 @@ class OrdersList extends Component
    {
        $current_date = now();
        $date = Carbon::parse($toDate)->addHours($toTime);
-       $diff = $current_date->shortAbsoluteDiffForHumans($date);
+       $diff = $current_date->DiffForHumans($date);
 
        return $diff;
    }
@@ -105,7 +105,7 @@ class OrdersList extends Component
    {
        session()->put('orderId', $orderId);
        $this->varView = "order-details";
-       $this->dispatchBrowserEvent('swal', ['title' => 'Feedback Saved']);
+    //    $this->dispatchBrowserEvent('swal', ['title' => 'Feedback Saved']);
    }
    public function progress()
    {

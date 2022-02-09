@@ -77,5 +77,14 @@ class Order extends Model
     {
         return $this->hasMany(WriterBid::class, 'order_id', 'id');
     }
+    /**
+     * Get the writer_order associated with the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function writer_order(): HasOne
+    {
+        return $this->hasOne(WriterOrder::class, 'order_id', 'id');
+    }
 
 }

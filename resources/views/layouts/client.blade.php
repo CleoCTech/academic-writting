@@ -25,6 +25,11 @@
         <link href="{{ asset('dash-assets/plugins/quill/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('dash-assets/css/main.bundle.css') }}" rel="stylesheet" type="text/css" />
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+
         <!--end::Global Stylesheets Bundle-->
         <script src="https://kit.fontawesome.com/e1b0575b51.js" crossorigin="anonymous"></script>
         {{-- <script src="https://cdn.jsdelivr.net/gh/alpinej
@@ -285,6 +290,8 @@
         <script src="https://unpkg.com/filepond/dist/filepond.js" ></script>
         <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
         <!--end::Page Custom Javascript-->
         <script>
             document.addEventListener("DOMContentLoaded", function(event) {
@@ -313,6 +320,18 @@
                 Echo.channel(`invoice-accepted`)
                 .listen('.invoice-accepted-event', (e) => {
                     window.livewire.emit('invoice-accepted');
+                });
+                Echo.channel(`client-access`)
+                .listen('.client-access-event', (e) => {
+                    window.livewire.emit('client-access');
+                });
+                Echo.channel(`access-granted`)
+                .listen('.access-granted-event', (e) => {
+                    window.livewire.emit('access-granted');
+                });
+                Echo.channel(`order-awarded`)
+                .listen('.order-awarded-event', (e) => {
+                    window.livewire.emit('order-awarded');
                 });
 
             });
