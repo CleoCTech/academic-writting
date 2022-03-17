@@ -424,4 +424,11 @@
     @elseif($varView == 'profile')
     @livewire('dashboard.pages.profile')
     @endif
+
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        livewire.emitTo('dashboard.inc.side-menu', 'update_SelectedItem', 'dashboard');
+        // livewire.emit('update_SelectedItem', 'dashboard');
+    })
+</script>

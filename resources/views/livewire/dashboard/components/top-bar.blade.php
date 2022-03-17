@@ -67,7 +67,7 @@
                         <div class="ml-2 overflow-hidden">
                             <div class="flex items-center">
                                 <a href="javascript:;" class="font-medium truncate mr-5">{{ $notification->title }}</a>
-                                <div class="text-xs text-gray-500 ml-auto whitespace-nowrap">{{ $item->created_at->diffForHumans() }}</div>
+                                <div class="text-xs text-gray-500 ml-auto whitespace-nowrap">{{ $notification->created_at->diffForHumans() }}</div>
                             </div>
                             <div class="w-full truncate text-gray-600 mt-0.5">
                                 @if ($notification->title == 'Order Submitted')

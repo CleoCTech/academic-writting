@@ -4,12 +4,12 @@
         <h2 class="text-lg font-medium truncate mr-5">
             General Report
         </h2>
-        <a href="{{ route('create-order') }}" class="ml-auto flex items-center text-theme-1 dark:text-theme-10"> <i data-feather="plus-circle"
+        <a href="{{ route('create-order') }}" class="ml-auto flex items-center text-theme-1 dark:text-theme-10 md:no-underline md:hover:underline"> <i data-feather="plus-circle"
                 class="w-4 h-4 mr-3"></i> Create New Order </a>
     </div>
     @livewire('dashboard.components.how-it-works')
     <div class="grid grid-cols-12 gap-6 mt-5">
-        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+        <div wire:click='pendingOrders' class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
             <div class="report-box zoom-in">
                 <div class="box p-5">
                     <div class="flex">
@@ -21,11 +21,11 @@
                         </div>
                     </div>
                     <div class="text-3xl font-medium leading-8 mt-6">{{ $pending_orders }}</div>
-                    <div class="text-base text-gray-600 mt-1">Pending Orders</div>
+                    <div class="text-base text-gray-600 mt-1 md:no-underline md:hover:underline">Pending Orders</div>
                 </div>
             </div>
         </div>
-        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+        <div wire:click='progress' class="md:no-underline md:hover:underline col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
             <div class="report-box zoom-in">
                 <div class="box p-5">
                     <div class="flex">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+        <div wire:click='allorders' class="md:no-underline md:hover:underline col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
             <div class="report-box zoom-in">
                 <div class="box p-5">
                     <div class="flex">
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+        <div wire:click='transactions' class="md:no-underline md:hover:underline col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
             <div class="report-box zoom-in">
                 <div class="box p-5">
                     <div class="flex">

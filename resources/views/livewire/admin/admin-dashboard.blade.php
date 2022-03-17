@@ -51,7 +51,7 @@
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Newly Created Orders Are Under Pending Orders</div>
+                <div class="text-md text-center md:text-base">Newly Created Orders Are Under Pending Orders</div>
               </div>
 
               <div class="w-1/4">
@@ -69,7 +69,7 @@
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Confirm Order By Clicking <strong>"View"</strong> Button</div>
+                <div class="text-md text-center md:text-base">Confirm Order By Clicking <strong>"View"</strong> Button</div>
               </div>
 
               <div class="w-1/4">
@@ -87,7 +87,7 @@
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Negotiate Price Under Chat Section</div>
+                <div class="text-md text-center md:text-base">Negotiate Price Under Chat Section</div>
               </div>
 
               <div class="w-1/4">
@@ -105,7 +105,7 @@
                   </div>
                 </div>
 
-                <div class="text-xs text-center md:text-base">Send Invoice For Client To Confirm</div>
+                <div class="text-md text-center md:text-base">Send Invoice For Client To Confirm</div>
               </div>
             </div>
         </div>

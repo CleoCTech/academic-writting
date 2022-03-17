@@ -101,7 +101,6 @@ class ApplicationDetails extends Component
     {
         $this->IdentityKey = IdVerification::where('writer_id', $id)
                                             ->first();
-                                            // dd($this->IdentityKey->id);
         $this->IdentityDetails = VerificationDetails::where('verify_id', $this->IdentityKey->id)
                                                     ->get();
     }

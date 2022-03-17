@@ -4,10 +4,12 @@ namespace App\Http\Livewire\Admin\Inc;
 
 use App\Events\AccessGrantedEvent;
 use App\Models\Activity;
+use App\Models\GeneralNotification;
 use App\Models\Notification as ModelsNotification;
 use App\Models\Order;
 use App\Models\Writer;
 use App\Models\WriterRequest;
+use App\Services\GeneralNotificationService;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +38,7 @@ class Notification extends Component
         'client-access' => '$refresh',
         'access-granted' => '$refresh',
         'order-awarded' => '$refresh',
+        'bid-created' => '$refresh',
         // 'open-order-from-notification' => 'test',
     ];
 
@@ -62,6 +65,7 @@ class Notification extends Component
             ->where('status', 'waiting')
             ->latest()
             ->get();
+            $generalNotifications='';
 
 
         } elseif (auth()->user() != null) {
@@ -77,6 +81,16 @@ class Notification extends Component
                 ->latest()
                 ->get()->count();
 
+            $more = GeneralNotification::where(function ($q){
+                $q->where('user_group', 'Admin_Editor')
+                ->orWhere('user_group', 'Admin')
+                ->orWhere('user_group', 'Editor');
+            })
+            ->where('is_read', 0)
+            ->get()->count();
+
+            $counts = $counts + $more;
+
             $activities = ModelsNotification::
             where('toable_id', $this->user_id)
             ->where('toable_type', $this->user_type)
@@ -88,6 +102,14 @@ class Notification extends Component
             })
             ->latest()
             ->get();
+
+            $generalNotifications = GeneralNotification::where(function ($q){
+                $q->where('user_group', 'Admin_Editor')
+                ->orWhere('user_group', 'Admin')
+                ->orWhere('user_group', 'Editor');
+            })
+            ->where('is_read', 0)
+            ->latest()->get();
 
         } elseif (session()->get('AuthWriter') !=null){
             $counts = ModelsNotification::
@@ -101,6 +123,12 @@ class Notification extends Component
                 })
                 ->get()->count();
 
+            $more = GeneralNotification::where('user_group', 'Writer')
+            ->where('is_read', 0)
+            ->get()->count();
+
+            $counts = $counts + $more;
+
             $activities = ModelsNotification::
             where('toable_id', $this->user_id)
             ->where('toable_type', $this->user_type)
@@ -112,11 +140,16 @@ class Notification extends Component
             })
             ->latest()
             ->get();
+
+            $generalNotifications = GeneralNotification::where('user_group', 'Writer')
+            ->where('is_read', 0)
+            ->latest()->get();
         }
 
         return view('livewire.admin.inc.notification', [
             'counts' => $counts,
             'notifications' => $activities,
+            'generalNotifications' => $generalNotifications,
         ]);
     }
     public function gotToOrder($order_no, $notification_id, NotificationService $notificationService)
@@ -125,9 +158,19 @@ class Notification extends Component
         $this->emit('open-order-from-notification', $order_no);
 
     }
+    public function goToNewOrder($order_no, $notification_id, GeneralNotificationService $notificationService)
+    {
+        $notificationService->markAsRead($notification_id);
+        $this->emit('open-order-from-notification', $order_no);
+
+    }
     public function markAsRead($notification_id, NotificationService $notificationService)
     {
         $mark_as_read = $notificationService->markAsRead($notification_id);
+    }
+    public function markAsReadGeneral($notification_id, GeneralNotificationService $notificationService)
+    {
+        $notificationService->markAsRead($notification_id);
     }
     public function test($value)
     {

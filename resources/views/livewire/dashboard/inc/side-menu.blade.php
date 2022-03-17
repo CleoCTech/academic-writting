@@ -3,7 +3,9 @@
     @livewire('general.loader')
 </div>
 
-<nav wire:ignore class="side-nav">
+<nav wire:ignore
+    x-data="{ selected: @entangle('selectedItem') }"
+    class="side-nav">
     <a href="" class="intro-x flex items-center pl-5 pt-4">
         <img alt="Logo" src="{{ asset('dash-assets/img/logo_full.svg')}}" class="w-6 max-h-50px logo-default" />
         <img alt="Logo" src="{{ asset('dash-assets/img/logo_short.svg')}}" class="w-6 max-h-50px logo-minimize" />
@@ -12,7 +14,10 @@
     <div class="side-nav__devider my-6"></div>
     <ul>
         <li>
-            <a href="{{ route('dash-test') }}" class="side-menu side-menu--active">
+            <a href="{{ route('dash-test') }}"
+                x-bind:class="{ 'side-menu--active': selected === 'dashboard' }"
+                @click="selected = 'dashboard'"
+                class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                 <div class="side-menu__title">
                     Dashboard
@@ -21,7 +26,10 @@
             </a>
         </li>
         <li>
-            <a href="javascript:;" class="side-menu">
+            <a href="javascript:;"
+                @click="selected = 'orders'"
+                :class="{ 'side-menu--active': selected === 'orders' }"
+                class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="edit"></i> </div>
                 <div class="side-menu__title">
                     Orders
@@ -56,13 +64,19 @@
             </ul>
         </li>
         <li>
-            <a href="{{ route('c-invoice') }}" class="side-menu">
+            <a href="{{ route('c-invoice') }}"
+                @click="selected = 'invoice'"
+                :class="{ 'side-menu--active': selected === 'invoice' }"
+                class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="inbox"></i> </div>
                 <div class="side-menu__title"> Invoices </div>
             </a>
         </li>
         <li>
-            <a href="{{ route('c-chat') }}" class="side-menu">
+            <a href="{{ route('c-chat') }}"
+                @click="selected = 'chat'"
+                :class="{ 'side-menu--active': selected === 'chat' }"
+                class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="message-square"></i> </div>
                 <div class="side-menu__title"> Chat </div>
             </a>

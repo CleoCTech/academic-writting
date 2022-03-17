@@ -6,6 +6,7 @@ use App\Events\AuthenticateExistingClientEvent;
 use App\Events\ClientHasLoggedInEvent;
 use App\Events\OrderSubmittedEvent;
 use App\Models\ClientFile;
+use App\Models\GeneralNotification;
 use App\Models\TemporaryFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -57,6 +58,12 @@ class StoreFilesListener
 
                     session()->forget('files');
                     //send notification
+                    // GeneralNotification::create([
+                    //     'title'=>'Bid Created',
+                    //     'description'=> $event->order->order_no,
+                    //     'user_group'=>'Admin_Editor',
+                    // ]);
+                    // event( new Orde)
                     return redirect('client/dashboard');
                 }else{
                     $from = 'client';

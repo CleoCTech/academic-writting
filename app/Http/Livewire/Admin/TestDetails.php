@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Test;
+use App\Services\WriterApplicationCompletionService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class TestDetails extends Component
@@ -18,8 +21,7 @@ class TestDetails extends Component
     {
         $id =  session()->pull('writerId');
         $this->writerId = $id;
-        $this->testDetails = Test::where('writer_id', $id)
-                                    ->first();
+        $this->testDetails = Test::where('writer_id', $id)->first();
     }
     public function render()
     {
@@ -42,21 +44,26 @@ class TestDetails extends Component
             $this->emit('alert_remove');
             // $this->emit('Refresh');
             return redirect()->route('applications');
-        }               
+        }
     }
-    public function rejectTest()
+    public function rejectTest(WriterApplicationCompletionService $writerService)
     {
-        $update = Test::where('writer_id', $this->writerId)
+        // Rule_1
+        DB::beginTransaction();
+        try {
+            Test::where('writer_id', $this->writerId)
                        ->update([
                             'status' => 'Pending',
                             'remarks' => $this->remarks,
                             'reviewed_by' => auth()->user()->id,
                        ]);
-        if ($update) {
+            $writerService->deactivateWriter($this->writerId);
+            DB::commit();
             session()->flash('success', 'Verified Successfully');
             $this->emit('alert_remove');
-            return redirect()->route('applications');
-            // $this->emit('Refresh');
-        }               
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error($th);
+        }
     }
 }

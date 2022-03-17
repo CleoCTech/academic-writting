@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Writer\Order;
 
+use App\Events\BidCreatedEvent;
 use App\Models\ClientFile;
+use App\Models\GeneralNotification;
 use App\Models\Order;
 use App\Models\WriterBid;
 use Carbon\Carbon;
@@ -14,7 +16,7 @@ class ViewOrderDetails extends Component
     public $orderId;
     public $writerId;
     public $orderFiles =[];
-    public $orderDetails =[];
+    public $orderDetails;
 
     public $bidPrice, $message;
     protected $listeners = ['orderId' => 'mount'];
@@ -60,26 +62,26 @@ class ViewOrderDetails extends Component
     public function bid()
     {
 
-            DB::transaction(function () {
-                try {
-                    WriterBid::create([
-                        'writer_id'=>$this->writerId,
-                        'order_id'=>$this->orderId[0],
-                        'bid'=>$this->message,
-                        'price'=>$this->bidPrice
-                    ]);
-                    session()->flash('success', 'Bid Made Successfully');
-                    // $this->emitUp('centerView', '');
-                } catch (\Exception $th) {
-                    // session()->flash('error', $th->getMessage());
-                    session()->flash('error', 'Oops! Something went wrong');
-
-                    // $this->emitUp('centerView', '');
-                    // return $th->getMessage();
-                }
-
-            });
-
+        DB::beginTransaction();
+        try {
+            WriterBid::create([
+                'writer_id'=>$this->writerId,
+                'order_id'=>$this->orderId[0],
+                'bid'=>$this->message,
+                'price'=>$this->bidPrice
+            ]);
+            GeneralNotification::create([
+                'title'=>'Bid Created',
+                'description'=> $this->orderDetails->order_no,
+                'user_group'=>'Admin_Editor',
+            ]);
+            DB::commit();
+            session()->flash('success', 'Bid Made Successfully');
+            event( new BidCreatedEvent());
+        } catch (\Exception $th) {
+            DB::rollback();
+            session()->flash('error', 'Oops! Something went wrong');
+        }
 
     }
 }

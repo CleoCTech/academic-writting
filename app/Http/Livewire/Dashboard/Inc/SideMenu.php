@@ -6,6 +6,11 @@ use Livewire\Component;
 
 class SideMenu extends Component
 {
+    public $selectedItem = '';
+
+    protected $listeners = [
+        'update_SelectedItem'=> 'updateSelectedItem'
+    ];
     public function render()
     {
         return view('livewire.dashboard.inc.side-menu');
@@ -25,5 +30,9 @@ class SideMenu extends Component
     public function completed()
     {
         $this->emit('update_varView', 'completed');
+    }
+    public function updateSelectedItem($value)
+    {
+        $this->selectedItem = $value;
     }
 }

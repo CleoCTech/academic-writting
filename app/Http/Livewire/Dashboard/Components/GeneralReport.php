@@ -32,6 +32,29 @@ class GeneralReport extends Component
             ]);
 
         }
-        
+    }
+    public function pendingOrders()
+    {
+        $this->emit('update_varView', 'pending-orders');
+    }
+    public function progress()
+    {
+        $this->emit('update_varView', 'progress');
+    }
+    public function revisions()
+    {
+        $this->emit('update_varView', 'revisions');
+    }
+    public function completed()
+    {
+        $this->emit('update_varView', 'completed');
+    }
+    public function transactions()
+    {
+        // $this->emit('update_varView', 'completed');
+    }
+    public function allorders()
+    {
+        // $this->emit('update_varView', 'completed');
     }
 }

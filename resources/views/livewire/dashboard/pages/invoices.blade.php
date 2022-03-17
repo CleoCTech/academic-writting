@@ -226,3 +226,9 @@
     @livewire('order.billing')
     @endif
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        livewire.emitTo('dashboard.inc.side-menu', 'update_SelectedItem', 'invoice');
+        // livewire.emit('update_SelectedItem', 'dashboard');
+    })
+</script>

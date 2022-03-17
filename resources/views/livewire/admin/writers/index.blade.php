@@ -9,7 +9,7 @@
                 <!--begin::Info-->
                 <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                     <!--begin::Title-->
-                    <h1 class="text-dark fw-bolder my-1 fs-2">Applications</h1>
+                    <h1 class="text-dark fw-bolder my-1 fs-2">{{ $pageTitle }}</h1>
                     <!--end::Title-->
                 </div>
                 <!--end::Info-->
@@ -40,7 +40,7 @@
                         <!--begin::Title-->
                         <div class="card-title">
                             <h3 class="fw-bolder fs-2 m-0 text-gray-800">
-                                Aplication
+                                {{ $pageTitle }} List
                             </h3>
                         </div>
                     </div>
@@ -61,12 +61,15 @@
 
                                             @if ($col['colCaption'] == 'Date')
                                             <th class="min-w-150px ps-9">{{$col['colCaption']}}</th>
+                                            @elseif($col['colCaption'] == 'Order No')
+                                            <th class="min-w-150px px-0">{{$col['colCaption']}}</th>
                                             @elseif($col['colCaption'] == 'About')
                                             <th class="min-w-200px p-3">{{$col['colCaption']}}</th>
+                                            @elseif($col['colCaption'] == 'Total Amount')
+                                            <th class="min-w-125px">{{$col['colCaption']}}</th>
                                             @else
                                             <th class="min-w-125px text-start">{{$col['colCaption']}}</th>
                                             @endif
-
                                             @endif
                                             @endforeach
                                             <th class="min-w-125px text-start">Actions</th>
@@ -108,6 +111,16 @@
                                                         <td class = "d-flex flex-column align-items-start text-start p-3">
                                                             {{$record[$col['colName']]}}
                                                         </td>
+                                                        @elseif($col['colCaption'] == 'Online')
+                                                            @if ($record[$col['colName']] == 0)
+                                                            <td class = "p-3 text-red-400">
+                                                                No
+                                                            </td>
+                                                            @else
+                                                            <td class = "text-green-400 p-3 ">
+                                                                Yes
+                                                            </td>
+                                                            @endif
                                                         @else
                                                         <td>
                                                             {{$record[$col['colName']]}}
@@ -117,19 +130,29 @@
                                                 @endif
                                                 @endforeach
                                                 <td class="text-start">
-
-                                                    <button class="btn btn-sm btn-light btn-active-light-primary" {{$Accountstatus? 'disabled':''}}
-                                                    x-on:click="$wire.viewApplication('{{$record[$keyCol]}}')">
+                                                    <button class="btn btn-sm btn-light btn-active-light-primary"
+                                                    x-on:click="$wire.view('{{$record[$keyCol]}}')">
                                                         View
                                                     </button>
-                                                    <button class="btn btn-sm btn-light btn-active-light-primary" {{$Accountstatus? 'disabled':''}}
-                                                    x-on:click="$wire.approve('{{$record[$keyCol]}}')">
-                                                        Approve
+                                                    @if ($this->getWriterStatus($record[$keyCol]) == 'Active')
+                                                    <button class="btn btn-sm btn-light btn-active-light-primary"
+                                                    x-on:click="$wire.deactivateWriter('{{$record[$keyCol]}}')">
+                                                        Deactivate
+                                                    </button>
+                                                    @elseif ($this->getWriterStatus($record[$keyCol]) == 'Inactive')
+                                                    <button class="btn btn-sm btn-light btn-active-light-primary"
+                                                    x-on:click="$wire.activateWriter('{{$record[$keyCol]}}')">
+                                                        Activate
+                                                    </button>
+                                                    @endif
+                                                    <button class="btn btn-sm btn-light btn-active-light-primary"
+                                                    x-on:click="$wire.chatbox('{{$record[$keyCol]}}')">
+                                                        Message
                                                     </button>
                                                     <span>
-                                                    <button class="btn btn-sm btn-light btn-active-light-danger">
+                                                    {{-- <button class="btn btn-sm btn-light btn-active-light-danger">
                                                         Delete
-                                                    </button>
+                                                    </button> --}}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -157,10 +180,7 @@
 
     </div>
 
-    @elseif($varView == "application-details")
-        {{-- @include('livewire.admin.application-details'); --}}
-        @livewire('admin.application-details')
+    @elseif($varView == "writer-details")
+        {{-- @livewire('admin.writer-details') --}}
     @endif
 </div>
-
-

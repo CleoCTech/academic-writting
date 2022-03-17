@@ -39,9 +39,6 @@
             </div>
         </div>
     </div>
-
-    @livewire('dashboard.pages.components.oder-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles, $confirm_invoice, $total_fee, $user_type, $orderId])
-
     @guest
     @if (!$orderStatus)
     <div class="intro-y box mt-5">
@@ -311,6 +308,10 @@
 
     @endif
     @endguest
+
+    @livewire('dashboard.pages.components.oder-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles, $confirm_invoice, $total_fee, $user_type, $orderId])
+
+
     <style>
         .link-download:hover {
             text-decoration: underline !important;

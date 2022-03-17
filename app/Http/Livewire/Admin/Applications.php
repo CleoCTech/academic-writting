@@ -7,6 +7,7 @@ use App\Models\IdVerification;
 use App\Models\Test;
 use App\Models\WorkExperience;
 use App\Models\Writer;
+use App\Services\WriterApplicationCompletionService;
 use Livewire\Component;
 use App\Traits\SearchTrait;
 use App\Traits\LayoutTrait;
@@ -44,7 +45,12 @@ class Applications extends Component
     }
     public function mount(){
 
-        $this->varView;
+        if (session()->has('varView')) {
+            $this->varView = session()->get('varView');
+        } else {
+            $this->varView;
+        }
+
         $this->pageTitle = "Applications";
         $this->xScope = "xCurrent";
         $this->loadingTargets = "list,create,view,edit,store,destroyPrompt,destroy,select";
@@ -80,52 +86,58 @@ class Applications extends Component
         return view('livewire.admin.applications')->with('data',$data)->layout('layouts.client');
     }
 
-    public function viewApplication($id)
+    public function viewApplication($id, WriterApplicationCompletionService $writerService)
     {
         session()->put('viewId', $id);
-        $this->emit('viewId', $id);
-        $this->varView = "application-details";
+        if (!$writerService->checkPersonalDetails($id)
+        || !$writerService->checkTasksWriterHandles($id)
+        || !$writerService->checkSubjectsWriterHandles($id)
+        || !$writerService->checkServicesWriterHandles($id)
+        || !$writerService->checkIdentity($id)
+        || !$writerService->checkEducationDetails($id)
+        || !$writerService->checkWorkExperience($id)
+        ) {
+            session()->flash('error', 'Application Not Complete');
+            $this->emit('alert_remove');
+        } else {
+            $this->emit('viewId', $id);
+            $this->varView = "application-details";
+        }
+
     }
     public function varView($view)
     {
         $this->varView = $view;
     }
-    public function approve($id)
+    public function approve($id, WriterApplicationCompletionService $writerService)
     {
-
-        if ($this->checkOtherVerifications($id)) {
-            Writer::where('id', $id)
-                    ->update([
-                        'status' => 'Active',
-                    ]);
-            session()->flash('success', 'Verified Successfully.');
+        if (!$writerService->checkPersonalDetails($id)
+        || !$writerService->checkTasksWriterHandles($id)
+        || !$writerService->checkSubjectsWriterHandles($id)
+        || !$writerService->checkServicesWriterHandles($id)
+        || !$writerService->checkIdentity($id)
+        || !$writerService->checkEducationDetails($id)
+        || !$writerService->checkWorkExperience($id)
+        ) {
+            session()->flash('error', 'Cannot Approve Incomplete Application');
             $this->emit('alert_remove');
-            redirect()->route('applications');
-        }else{
-            session()->flash('success', 'Verification Failed.');
-            $this->emit('alert_remove');
+            return;
+        }
+        if ($writerService->IsIdentityVerified($id)
+        && $writerService->IsEducationVerified($id)
+        && $writerService->IsSampleTestVerified($id)
+        && $writerService->IsWorkExperienceVerified($id)
+        ) {
+            if ($writerService->activateWriter($id)) {
+                session()->flash('success', 'Verified Successfully.');
+                $this->emit('alert_remove');
+                redirect()->route('applications');
+            } else {
+                session()->flash('error', 'Verification Failed.');
+                $this->emit('alert_remove');
+            }
         }
 
     }
-   public function checkOtherVerifications($id)
-   {
-        $idVerification = IdVerification::where('writer_id', $id)
-                                        ->where('status', 'verified')->first();
-
-        $education = EducationCert::where('writer_id', $id)
-                                 ->where('status', 'verified')->first();
-        $cv = WorkExperience::where('writer_id', $id)
-                            ->where('status', 'verified')->first();
-
-        $test = Test::where('writer_id', $id)
-                    ->where('status', 'verified')->first();
-
-        if (! $idVerification || $education || $cv || $test) {
-            return true;
-        }else{
-            return false;
-        }
-
-   }
 
 }

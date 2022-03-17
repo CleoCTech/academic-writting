@@ -333,6 +333,10 @@
                 .listen('.order-awarded-event', (e) => {
                     window.livewire.emit('order-awarded');
                 });
+                Echo.channel(`bid-created`)
+                .listen('.bid-created-event', (e) => {
+                    window.livewire.emit('bid-created');
+                });
 
             });
 

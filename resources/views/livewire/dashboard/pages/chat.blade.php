@@ -304,3 +304,9 @@
         <!-- END: Chat Content -->
     </div>
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        livewire.emitTo('dashboard.inc.side-menu', 'update_SelectedItem', 'chat');
+        // livewire.emit('update_SelectedItem', 'dashboard');
+    })
+</script>
