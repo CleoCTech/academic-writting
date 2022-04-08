@@ -1,5 +1,7 @@
 <div>
-    {{-- The best athlete wants his opponent at his best. --}}
+    <div wire:loading>
+        @livewire('general.loader')
+    </div>
     <!-- Start Navigation -->
     <div class="header header-transparent dark-text">
         <div class="container">
@@ -32,7 +34,7 @@
                                         <i class="ti-user mr-1"></i> Order Now
                                     </a>
                                 </li>
-                                @elseif(session()->get('AuthWriter') != null) 
+                                @elseif(session()->get('AuthWriter') != null)
                                 <li class="add-listing dark-bg">
                                     <a href="{{route('writer-dashboard')}}" >
                                         <i class="ti-user mr-1"></i> Dashboard
@@ -43,18 +45,30 @@
                                         <i class="ti-user mr-1"></i> Order Now
                                     </a>
                                 </li>
-                                @elseif(auth()->user() != null) 
-                                <li class="add-listing dark-bg">
-                                    <a href="{{route('admin-dashboard')}}" >
-                                        <i class="ti-user mr-1"></i> Dashboard
-                                    </a>
-                                </li>
-                                <li class="order add-listing dark-bg">
-                                    <a href="{{route('create-order')}}" >
-                                        <i class="ti-user mr-1"></i> Order Now
-                                    </a>
-                                </li>
-                                @else 
+                                @elseif(auth()->user() != null)
+                                @if (session()->has('InactiveAccount'))
+                                    @if (session()->get('InactiveAccount'))
+                                    <li class="add-listing dark-bg">
+                                        <form action="{{ route('logout') }}" method="post">
+                                            @csrf
+                                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                                <i class="ti-user mr-1"></i> Logout
+                                            </a>
+                                        </form>
+                                    </li>
+                                    @else
+                                    <li class="add-listing dark-bg">
+                                        <a href="{{route('admin-dashboard')}}" >
+                                            <i class="ti-user mr-1"></i> Dashboard
+                                        </a>
+                                    </li>
+                                    @endif
+                                @else
+
+                                @endif
+
+                                @else
                                 <li>
                                     <a href="{{route('writer-login')}}" style="color: black !important;">
                                         <i class="fa fa-upload mr-1"></i>For Writers
@@ -71,15 +85,12 @@
                                     </a>
                                 </li>
                                 @endif
-                                
+
                             </ul>
                         </div>
                     </nav>
                 </div>
             </div>
-        </div>
-        <div wire:loading>
-            @livewire('general.loader')
         </div>
     </div>
     <!-- End Navigation -->

@@ -32,16 +32,26 @@ class ClientAuthentication extends Component
         if (!$this->AutheniticateExistingUser($this->email, $this->password)) {
             return;
         }
+        dd('her1');
         return redirect('client/dashboard');
     }
     public function AutheniticateExistingUser($email, $password)
     {
         try {
             $user = Client::where('email', $email)->firstOrFail();
+            dd('her');
+            if ($user->status == 'Inactive'){
+                dd('false');
+                return false;
+            }
             if (!Hash::check($password, $user->password)) {
                 session()->flash('message', 'Authentication Failed');
                 return false;
-            }else{
+            }elseif($user->status == 'Inactive'){
+                session()->flash('message', 'Authentication Failed. Verify your account');
+                return false;
+            }
+            else{
                 session()->put('LoggedClient', $user->id);
                 return true;
             }

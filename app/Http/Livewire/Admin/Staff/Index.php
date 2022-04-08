@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Clients;
+namespace App\Http\Livewire\Admin\Staff;
 
-use App\Models\Client;
+use App\Models\User;
+use App\Services\UserService;
 use Livewire\Component;
 use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
@@ -30,35 +31,41 @@ class Index extends Component
     ];
 
     protected $listeners = [
-        'update_C_list_varView' =>'updateVarView'
+        'update_U_list_varView' =>'updateVarView'
     ];
-    public $varView, $client_id, $email, $email_verified_at, $username, $created_at, $updated_at;
+    public $varView, $user_id, $email, $email_verified_at, $username, $role, $status, $is_admin, $created_at, $updated_at;
     public $online = false;
     public function mount(){
 
         $this->varView;
-        $this->pageTitle = "Clients";
+        $this->pageTitle = "Users";
         $this->xScope = "xCurrent";
         $this->loadingTargets = "list,create,view,edit,store,destroyPrompt,destroy,select";
         $this->isList=true;
     }
-
     public function render()
     {
-        $data = Client::search($this->searchKeyword)
-        ->whereNotNull('email_verified_at')
+        $data = User::search($this->searchKeyword)
+        // ->whereNotNull('email_verified_at')
         ->get();
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "id", 'colCaption' => 'ID','type' => 'integer','element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => false, 'isList' => false, 'isView' => false,'isSearch' => false],
             ['colName' => "email",'colCaption' => 'Email Address', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => false,  'isSearch' => true],
-            ['colName' => "username",'colCaption' => 'Username', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => false,  'isSearch' => true],
+            ['colName' => "name",'colCaption' => 'Username', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => false,  'isSearch' => true],
             ['colName' => "online",'colCaption' => 'Online', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
+            ['colName' => "status",'colCaption' => 'Status', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
+            ['colName' => "role",'colCaption' => 'Role', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
+            ['colName' => "is_admin",'colCaption' => 'Admin', 'type' => 'text', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "updated_at",'colCaption' => 'Date Updated', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => false, 'isView' => true,'isSearch' => true],
 
         ];
         $this->keyCol = $this->getKeyCol();
-        return view('livewire.admin.clients.index')->with('data',$data)->layout('layouts.client');
+        return view('livewire.admin.staff.index')->with('data',$data)->layout('layouts.client');
+    }
+    public function getStaffStatus($id)
+    {
+        return User::where('id', $id)->first()->status;
     }
     public function chatbox($id)
     {
@@ -74,11 +81,21 @@ class Index extends Component
     }
     public function view($id)
     {
-        $this->client_id = $id;
-        $this->varView = 'client-details';
+        $this->user_id = $id;
+        $this->varView = 'user-details';
     }
     public function updateVarView($value)
     {
         $this->varView = $value;
+    }
+    public function deactivateAccount(UserService $userService, $id)
+    {
+        $userService->deactivateAccount($id);
+        session()->flash('success', 'Deactivated Successfully');
+    }
+    public function activateAccount(UserService $userService, $id)
+    {
+        $userService->activateAccount($id);
+        session()->flash('success', 'Activated Successfully');
     }
 }

@@ -25,27 +25,40 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" ></script>
-
+        <style>
+            .topbar {
+                width: 100%;
+                height: 50px;
+                display: flex;
+                flex-wrap: wrap;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 3px;
+                z-index: 1;
+            }
+        </style>
         @livewireStyles
 
     </head>
     <body class="blue-skin">
-        <div id="main-wrapper">
+        <div class="topbar">
+            <div class="container">
+                <div class="text">Now it's up to us: help us make positive change a priority Now it's up to us: help us make positive change a priority  </div>
 
+            </div><!-- end container -->
+        </div>
+        <div id="main-wrapper">
             @livewire('inc.nav-menu')
-            
                 <!-- Page Content -->
                 <main style="margin-top: 5rem;">
                     {{ $slot }}
                 </main>
-
             @livewire('inc.footer')
-
             @stack('modals')
-
         </div>
         @livewireScripts
-       
+
 
 
         <script src="{{ asset('js/app.js') }}" ></script>

@@ -106,6 +106,16 @@
                                                                 Yes
                                                             </td>
                                                             @endif
+                                                        @elseif($col['colCaption'] == 'Admin')
+                                                            @if ($record[$col['colName']] == 0)
+                                                            <td class = "p-3 text-red-400">
+                                                                No
+                                                            </td>
+                                                            @else
+                                                            <td class = "text-green-400 p-3 ">
+                                                                Yes
+                                                            </td>
+                                                            @endif
                                                         @else
                                                         <td>
                                                             {{$record[$col['colName']]}}
@@ -119,17 +129,17 @@
                                                     x-on:click="$wire.view('{{$record[$keyCol]}}')">
                                                         View
                                                     </button>
-                                                    {{-- @if ($this->getWriterStatus($record[$keyCol]) == 'Active')
+                                                    @if ($this->getStaffStatus($record[$keyCol]) == 'Active')
                                                     <button class="btn btn-sm btn-light btn-active-light-primary"
-                                                    x-on:click="$wire.deactivateWriter('{{$record[$keyCol]}}')">
+                                                    x-on:click="$wire.deactivateAccount('{{$record[$keyCol]}}')">
                                                         Deactivate
                                                     </button>
-                                                    @elseif ($this->getWriterStatus($record[$keyCol]) == 'Inactive')
+                                                    @elseif ($this->getStaffStatus($record[$keyCol]) == 'Inactive')
                                                     <button class="btn btn-sm btn-light btn-active-light-primary"
-                                                    x-on:click="$wire.activateWriter('{{$record[$keyCol]}}')">
+                                                    x-on:click="$wire.activateAccount('{{$record[$keyCol]}}')">
                                                         Activate
                                                     </button>
-                                                    @endif --}}
+                                                    @endif
                                                     <button class="btn btn-sm btn-light btn-active-light-primary"
                                                     x-on:click="$wire.chatbox('{{$record[$keyCol]}}')">
                                                         Message
@@ -164,7 +174,7 @@
         </div>
 
     </div>
-    @elseif($varView == "client-details")
-        @livewire('admin.clients.show', ['id' => $client_id])
+    @elseif($varView == "user-details")
+        @livewire('admin.staff.show', ['id' => $user_id])
     @endif
 </div>

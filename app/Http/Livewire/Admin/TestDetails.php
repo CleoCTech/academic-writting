@@ -59,7 +59,7 @@ class TestDetails extends Component
                        ]);
             $writerService->deactivateWriter($this->writerId);
             DB::commit();
-            session()->flash('success', 'Verified Successfully');
+            session()->flash('success', 'Rejected Successfully');
             $this->emit('alert_remove');
         } catch (\Throwable $th) {
             DB::rollback();

@@ -347,7 +347,7 @@
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link" href="{{ route('staff') }}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
                                 <span class="svg-icon svg-icon-3">

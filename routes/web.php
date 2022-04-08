@@ -5,6 +5,7 @@ use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\Applications;
 use App\Http\Livewire\Admin\Clients\Index as ClientsIndex;
 use App\Http\Livewire\Admin\Job;
+use App\Http\Livewire\Admin\Staff\Index as StaffIndex;
 use App\Http\Livewire\Admin\Writers\Index;
 use App\Http\Livewire\Client\ClientAuth;
 use App\Http\Livewire\Client\ClientAuthentication;
@@ -100,7 +101,7 @@ Route::group(['middleware' => ['AuthWriter']], function(){
 //     return view('dashboard');
 // })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+Route::middleware(['auth:sanctum', 'verified', 'activated'])->group(function(){
     // Route::get('/client/dashboard', Dashboard::class);
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin-dashboard');
     Route::get('/admin/orders', Job::class)->name('view-orders');
@@ -110,4 +111,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/admin/applications', Applications::class)->name('applications');
     Route::get('/admin/writers', Index::class)->name('writers');
     Route::get('/admin/clients', ClientsIndex::class)->name('clients');
+    Route::get('/admin/staff', StaffIndex::class)->name('staff');
 });

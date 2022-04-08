@@ -41,7 +41,11 @@ class ClientAuth extends Component
             if (!Hash::check($password, $user->password)) {
                 session()->flash('message', 'Authentication Failed');
                 return false;
-            }else{
+            }elseif($user->status == 'Inactive'){
+                session()->flash('message', 'Authentication Failed. Verify your account');
+                return false;
+            }
+            else{
                 session()->put('LoggedClient', $user->id);
                 return true;
             }
