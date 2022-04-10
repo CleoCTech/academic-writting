@@ -516,19 +516,19 @@
                                 <div class="card-body p-0">
                                     <!--begin::Header-->
                                     <div class="px-9 pt-6 card-rounded h-250px w-100 bgi-no-repeat bgi-size-cover bgi-position-y-top h-200px"
-                                        style="background-image: url('img/bg-green.png')">
+                                        style="background-image: url('img/bg-green.png'); background-color: #00a3ff">
                                         <!--begin::Heading-->
-                                        <div class="d-flex flex-stack">
+                                        <div class="flex flex-stack">
                                             <h3 class="m-0 text-white fw-bolder fs-3">
                                                 Quick Stats
                                             </h3>
                                         </div>
                                         <!--end::Heading-->
                                         <!--begin::Balance-->
-                                        <div class="fw-bolder fs-7 text-center text-white pt-5">
+                                        {{-- <div class="fw-bolder fs-7 text-center text-white pt-5">
                                             You Balance
                                             <span class="fw-boldest fs-2hx d-block mt-n1">KES. 37,562.00</span>
-                                        </div>
+                                        </div> --}}
                                         <!--end::Balance-->
                                     </div>
                                     <!--end::Header-->
@@ -537,7 +537,7 @@
                                         style="margin-top: -100px">
                                         <!--begin::Item-->
                                         <div class="d-flex align-items-center mb-9">
-                                            {{-- <!--begin::Symbol-->
+                                            <!--begin::Symbol-->
                                             <div class="symbol symbol-40px me-5">
                                                 <span class="symbol-label">
                                                     <!--begin::Svg Icon | path: icons/stockholm/Home/Globe.svg-->
@@ -552,18 +552,17 @@
                                             <div class="d-flex align-items-center flex-wrap w-100">
                                                 <!--begin::Title-->
                                                 <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#"
-                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
-                                                        Globe</a>
+                                                    <a href="{{route('clients')}}"
+                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Clients</a>
                                                     <div class="text-gray-400 fw-bold">
-                                                        508 Pages
+
                                                     </div>
                                                 </div>
                                                 <!--end::Title-->
                                                 <!--begin::Label-->
                                                 <div class="d-flex align-items-center">
                                                     <div class="fw-bolder fs-4 text-gray-800 pe-1">
-                                                        KES. 2,000.00
+                                                        {{ $onlineClients }}
                                                     </div>
                                                     <a href="#" class="btn btn-icon btn-sm me-n2">
                                                         <!--begin::Svg Icon | path: icons/stockholm/Navigation/Right-2.svg-->
@@ -575,11 +574,11 @@
                                                 </div>
                                                 <!--end::Label-->
                                             </div>
-                                            <!--end::Description--> --}}
+                                            <!--end::Description-->
                                         </div>
                                         <!--end::Item-->
                                         <!--begin::Item-->
-                                        {{-- <div class="d-flex align-items-center mb-9">
+                                        <div class="d-flex align-items-center mb-9">
                                             <!--begin::Symbol-->
                                             <div class="symbol symbol-40px me-5">
                                                 <span class="symbol-label">
@@ -595,18 +594,17 @@
                                             <div class="d-flex align-items-center flex-wrap w-100">
                                                 <!--begin::Title-->
                                                 <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#"
-                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
-                                                        Focus</a>
+                                                    <a href="{{route('writers')}}"
+                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Writers</a>
                                                     <div class="text-gray-400 fw-bold">
-                                                        957 Pages
+
                                                     </div>
                                                 </div>
                                                 <!--end::Title-->
                                                 <!--begin::Label-->
                                                 <div class="d-flex align-items-center">
                                                     <div class="fw-bolder fs-4 text-gray-800 pe-1">
-                                                        KES. 4,700.00
+                                                        {{ $onlineWriters }}
                                                     </div>
                                                     <a href="#" class="btn btn-icon btn-sm me-n2">
                                                         <!--begin::Svg Icon | path: icons/stockholm/Navigation/Right-2.svg-->
@@ -638,18 +636,17 @@
                                             <div class="d-flex align-items-center flex-wrap w-100">
                                                 <!--begin::Title-->
                                                 <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#"
-                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
-                                                        Timing</a>
+                                                    <a href="{{route('staff')}}"
+                                                        class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Staff</a>
                                                     <div class="text-gray-400 fw-bold">
-                                                        82 Pages
+
                                                     </div>
                                                 </div>
                                                 <!--end::Title-->
                                                 <!--begin::Label-->
                                                 <div class="d-flex align-items-center">
                                                     <div class="fw-bolder fs-4 text-gray-800 pe-1">
-                                                        KES. 4,254.00
+                                                        {{ $onlineStaff }}
                                                     </div>
                                                     <a href="#" class="btn btn-icon btn-sm me-n2">
                                                         <!--begin::Svg Icon | path: icons/stockholm/Navigation/Right-2.svg-->
@@ -665,7 +662,7 @@
                                         </div>
                                         <!--end::Item-->
                                         <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-">
+                                        {{-- <div class="d-flex align-items-center mb-">
                                             <!--begin::Symbol-->
                                             <div class="symbol symbol-40px me-5">
                                                 <span class="symbol-label">

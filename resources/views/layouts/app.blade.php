@@ -44,7 +44,7 @@
     <body class="blue-skin">
         <div class="topbar">
             <div class="container">
-                <div class="text">Now it's up to us: help us make positive change a priority Now it's up to us: help us make positive change a priority  </div>
+                {{-- <div class="text">Now it's up to us: help us make positive change a priority Now it's up to us: help us make positive change a priority  </div> --}}
 
             </div><!-- end container -->
         </div>

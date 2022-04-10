@@ -5,8 +5,8 @@
         <div class="container-fluid d-flex flex-column flex-md-row flex-stack">
             <!--begin::Copyright-->
             <div class="text-dark order-2 order-md-1">
-                <span class="text-muted fw-bold me-2">2021©</span>
-                <a href="" target="_blank" class="text-gray-800 text-hover-primary">Writer Craft</a>
+                <span class="text-muted fw-bold me-2">© {{now()->year}}</span>
+                <a href="{{ config('app.company.website') }}" target="_blank" class="text-gray-800 text-hover-primary">{{config('app.company.name')}}</a>
             </div>
             <!--end::Copyright-->
             <!--begin::Menu-->
@@ -19,6 +19,9 @@
                 </li>
                 <li class="menu-item">
                     <a href="#" target="_blank" class="menu-link px-2">Terms</a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{config('app.developer.website')}}" target="_blank" class="menu-link underline hover:color-primary px-2">By {{config('app.developer.name')}}</a>
                 </li>
             </ul>
             <!--end::Menu-->

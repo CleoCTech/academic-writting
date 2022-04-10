@@ -2,6 +2,23 @@
 
 return [
 
+     /*
+    |--------------------------------------------------------------------------
+    | Custom Variables
+    |--------------------------------------------------------------------------
+    |*/
+    'maxRecsPerPage' => 30,
+
+    'company' => [
+        'name' => env('COMPANY_NAME'),
+        'shortName' => env('COMPANY_SHORT_NAME'),
+        'website' => env('APP_URL'),
+    ],
+    'developer' => [
+        'name' => env('DEV_COMPANY_NAME'),
+        'shortName' => env('DEV_COMPANY_SHORT_NAME'),
+        'website' => env('DEV_URL'),
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application Name

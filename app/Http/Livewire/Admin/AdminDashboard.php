@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderBilling;
 use App\Models\RejectedOrder;
+use App\Models\User;
+use App\Models\Writer;
 use Livewire\Component;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
@@ -75,6 +78,10 @@ class AdminDashboard extends Component
         $progress_orders = $progress_ordersZ->forPage($this->page, $perPage);
         $progress_orders = new LengthAwarePaginator($progress_orders, $progress_ordersZ->count(), $perPage, $this->page);
 
+        $onlineClients = Client::where('online', 1)->get()->count();
+        $onlineWriters = Writer::where('online', 1)->get()->count();
+        $onlineStaff = User::where('online', 1)->get()->count();
+
         // $active =  DB::select('SELECT * FROM `order_billings`  INNER JOIN `orders`
         //                                     ON (`order_billings`.`order_id` = `orders`.`id`);');
 
@@ -100,10 +107,14 @@ class AdminDashboard extends Component
         ->with([
             'pending_orders'=>$pending_orders,
             'progress_orders'=>$progress_orders,
-            'complete'=>$complete, 'orders'=>$orders,
+            'complete'=>$complete,
+            'orders'=>$orders,
             'revisions'=>$revisions,
             'cancelled'=>$cancelled,
-            'active'=>$active
+            'active'=>$active,
+            'onlineClients'=>$onlineClients,
+            'onlineStaff'=>$onlineStaff,
+            'onlineWriters'=>$onlineWriters,
             ])
         ->layout('layouts.client');
     }

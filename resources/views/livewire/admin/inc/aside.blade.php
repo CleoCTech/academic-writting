@@ -70,7 +70,7 @@
                                 <span class="menu-title">Invoices</span>
                             </a>
                         </div>
-                        <div class="menu-item">
+                        {{-- <div class="menu-item">
                             <a class="menu-link" href="#">
                                 <span class="menu-icon">
                                     <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
@@ -81,7 +81,7 @@
                                 </span>
                                 <span class="menu-title">Emails</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="menu-item">
                             <div class="menu-content">
                                 <div class="separator mx-1 my-4"></div>
@@ -329,7 +329,7 @@
                             <span class="menu-title">Invoices</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
@@ -340,7 +340,7 @@
                             </span>
                             <span class="menu-title">Emails</span>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="menu-item">
                         <div class="menu-content">
                             <div class="separator mx-1 my-4"></div>
