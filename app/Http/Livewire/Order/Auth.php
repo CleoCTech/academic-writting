@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Order;
 use App\Events\ClientHasRegisteredEvent;
 use App\Events\ClientHasLoggedInEvent;
 use App\Models\Client;
+use App\Services\Accounting\AccountService;
+use App\Services\ClientService;
 use App\Traits\SendAlerts;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -96,7 +98,7 @@ class Auth extends Component
         }
 
     }
-    public function store()
+    public function store(AccountService $accountService, ClientService $clientService)
     {
       if ($this->option1) {
 
@@ -118,6 +120,8 @@ class Auth extends Component
             'username'=>$this->full_name,
             'password'=>$hash_pass,
         ]);
+
+        $accountService->createAccount('', $client->username, $client->id, $clientService->getClientModelPath(), 0, '');
         $this->storeInSession($client->id);
         session()->put('LoggedClient', $client->id);
         event( new ClientHasRegisteredEvent($client));
@@ -131,7 +135,7 @@ class Auth extends Component
         }
         // $this->storeData('AuthClient', 'email', $this->email);
         // $this->storeData('AuthClient', 'password', $this->password);
-        $this->emitUp('update_varView', 'success'); 
+        $this->emitUp('update_varView', 'success');
         event( new ClientHasLoggedInEvent($this->auth_email, $this->auth_pass));
 
       }

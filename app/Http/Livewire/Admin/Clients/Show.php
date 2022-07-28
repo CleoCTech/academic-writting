@@ -11,7 +11,6 @@ use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
-;
 
 class Show extends Component
 {

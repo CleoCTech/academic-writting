@@ -58,7 +58,7 @@ class InvoiceNotification extends Component
     }
     public function rejectInvoice(InvoiceService $invoiceService)
     {
-        $reject = $invoiceService->rejetcInvoice($this->notification->id);
+        $reject = $invoiceService->rejetcInvoice($this->notification);
         if ($reject) {
             event(new InvoiceRejectedEvent());
         }
@@ -69,6 +69,7 @@ class InvoiceNotification extends Component
         $confirm = $invoiceService->confirmInvoice($this->notification);
         if ($confirm) {
             session()->flash('success', 'Invoice Confirmed successfully.');
+
             event(new InvoiceAcceptedEvent());
         }
     }

@@ -18,7 +18,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">@</span>
                         </div>
-                        <input type="number" class="form-control" wire:model.defer="pages"/>@error('pages') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <input type="number" class="form-control" wire:model.defer="pages" />@error('pages') <span
+                            class="error" style="color:red">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
@@ -30,7 +31,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Date</span>
                         </div>
-                        <input type="date" class="form-control" wire:model.defer='deadline_date'/>@error('deadline_date') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <input type="date" class="form-control"
+                            wire:model.defer='deadline_date' />@error('deadline_date') <span class="error"
+                            style="color:red">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
@@ -41,7 +44,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Time</span>
                         </div>
-                        <input type="time" class="form-control" wire:model.defer='deadline_time'/>@error('deadline_time') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <input type="time" class="form-control"
+                            wire:model.defer='deadline_time' />@error('deadline_time') <span class="error"
+                            style="color:red">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
@@ -52,8 +57,8 @@
                 <div class="form-group">
                     <label>Select your Subject</label>
                     <select class="form-control" wire:model.defer="category_id">
-                        <option disabled selected>Select Category</option>
-                        @foreach ($categories  as $category)
+                        <option>Select Category</option>
+                        @foreach ($categories as $category)
                         <option value="{{$category->id}}">{{$category->subject}}</option>
                         @endforeach
                     </select>
@@ -63,7 +68,8 @@
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="form-group">
                     <label>What is your topic?</label>
-                    <input type="text" class="form-control" wire:model.defer="topic"/>@error('topic') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                    <input type="text" class="form-control" wire:model.defer="topic" />@error('topic') <span
+                        class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
         </div>
@@ -73,43 +79,41 @@
                 <div class="form-group">
                     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script> --}}
                     <label>Paper Instructions</label>
-                    <textarea class="form-control" rows="3" id="body" wire:model.defer="instructions"></textarea>@error('instructions') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                    <textarea class="form-control" rows="3" id="body"
+                        wire:model.defer="instructions"></textarea>@error('instructions') <span class="error"
+                        style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
         </div>
 
         <h4 class="text-blue-400 " style="margin-top: 1rem;">Add Files (Optional)
-            <span
-                class="svg-icon svg-icon-4 ">
+            <span class="svg-icon svg-icon-4 ">
                 <i class="bi bi-paperclip text-blue-400"></i>
             </span>
         </h4>
-        <div  class="row">
+        <div class="row">
 
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <input type="file" name="paperFile"  id="test" multiple>
+            <div wire:ignore class="col-lg-6 col-md-12 col-sm-12">
+                <input type="file" name="paperFile[]" id="test" multiple>
                 {{-- <div class="custom-file">
-                    <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
+                    <input type="file" name="paperFile[]" class="custom-file-input" id="uploadfiles" />
                 </div> --}}
             </div>
-           
+
         </div>
         <hr>
         <div class="btn-group text-center" role="group" aria-label="Basic example" style='display: block;'>
             {{-- <button type="button" class="btn mr-2"><a class="btn btn-themex dark mr-2">Previous</a></button> --}}
             @guest
-                <button type="button"
-                    wire:click='store'
-                    wire:loading.class.remove="btn-themex dark"
-                    wire:loading.class="bg-gray-300"
-                    class="btn mr-2"><a class="btn btn-themex dark mr-2">Next</a></button>
+            <button type="button" wire:click='store' wire:loading.class.remove="btn-themex dark"
+                wire:loading.class="bg-gray-300" class="btn mr-2"><a class="btn btn-themex dark mr-2">Next</a></button>
             @endguest
 
         </div>
         <div wire:loading>
             @livewire('general.loader')
         </div>
-</fieldset>
+    </fieldset>
 </div>
 
 @section('scripts')

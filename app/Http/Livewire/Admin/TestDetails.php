@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Test;
+use App\Services\Accounting\AccountService;
 use App\Services\WriterApplicationCompletionService;
+use App\Services\WriterService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -31,22 +33,32 @@ class TestDetails extends Component
     {
         return redirect()->route('applications');
     }
-    public function verifyTest()
+    public function verifyTest(WriterApplicationCompletionService $writerApplicationService, AccountService $accountService, WriterService $writerService)
     {
-        $update = Test::where('writer_id', $this->writerId)
+        DB::beginTransaction();
+        try {
+            $update = Test::where('writer_id', $this->writerId)
                        ->update([
                             'status' => 'verified',
                             'remarks' => $this->remarks,
                             'reviewed_by' => auth()->user()->id,
                        ]);
-        if ($update) {
+
+            $writerApplicationService->activateWriter($this->writerId);
+            $writer = $writerService->getWriter($this->writerId);
+            $accountService->createAccount('', $writer->firstname. ' '.$writer->lastname, $this->writerId, $writerService->getWriterModelPath(), 0, '');
+            DB::commit();
             session()->flash('success', 'Verified Successfully');
             $this->emit('alert_remove');
             // $this->emit('Refresh');
             return redirect()->route('applications');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error($th);
         }
+
     }
-    public function rejectTest(WriterApplicationCompletionService $writerService)
+    public function rejectTest(WriterApplicationCompletionService $writerApplicationService)
     {
         // Rule_1
         DB::beginTransaction();
@@ -57,7 +69,7 @@ class TestDetails extends Component
                             'remarks' => $this->remarks,
                             'reviewed_by' => auth()->user()->id,
                        ]);
-            $writerService->deactivateWriter($this->writerId);
+            $writerApplicationService->deactivateWriter($this->writerId);
             DB::commit();
             session()->flash('success', 'Rejected Successfully');
             $this->emit('alert_remove');

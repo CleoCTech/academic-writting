@@ -17,11 +17,16 @@ use App\Models\OrderStatus;
 use App\Models\RejectedOrder;
 use App\Models\WriterFile;
 use App\Models\WriterOrder;
+use App\Services\Accounting\AccountService;
+use App\Services\ClientService;
+use App\Services\CompanyService;
+use App\Services\WriterService;
 use Illuminate\Support\Facades\DB;
 use App\Traits\LayoutTrait;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\SearchFilterTrait;
 use App\Traits\SearchTrait;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ChatOrderSumry extends Component
@@ -242,14 +247,13 @@ class ChatOrderSumry extends Component
     }
     public function getDownload($value)
     {
-        // dd('here');
         if (session()->has('LoggedClient')) {
             // $file= 'storage/writer_files/' .$value;
             $file= 'storage/client_files/' .$value;
             if (file_exists($file)) {
                 return response()->download($file);
             } else {
-                $this->alert('error', 'File Does Not Exist.', [
+                $this->alert('error', 'File Does Not Exist', [
                     'position' => 'top-end',
                     'timer' =>  3000,
                     'toast' =>  true,
@@ -281,23 +285,28 @@ class ChatOrderSumry extends Component
     }
     public function getAnswer($value)
     {
-        // dd('here');
         if (session()->has('LoggedClient')) {
             $file= 'storage/writer_files/' .$value;
             // $file= 'storage/client_files/' .$value;
             if (file_exists($file)) {
                 return response()->download($file);
             } else {
-                $this->alert('error', 'File Does Not Exist.', [
-                    'position' => 'top-end',
-                    'timer' =>  3000,
-                    'toast' =>  true,
-                    'text' =>  '',
-                    'confirmButtonText' =>  'Ok',
-                    'cancelButtonText' =>  'Cancel',
-                    'showCancelButton' =>  false,
-                    'showConfirmButton' =>  false,
-                ]);
+                $file= 'storage/client_files/' .$value;
+                if (file_exists($file)) {
+                    return response()->download($file);
+                } else {
+                    $this->alert('error', config('app.errors.client.FileNotFound'), [
+                        'position' => 'top-end',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                }
+
             }
         } else {
             $file= 'storage/client_files/' .$value;
@@ -481,87 +490,157 @@ class ChatOrderSumry extends Component
             });
         }
     }
-    public function accept($value)
+    public function accept($value, CompanyService $companyService, ClientService $clientService, WriterService $writerService, AccountService $accountService)
     {
         $order = Order::where('order_no', $value)->first();
+        if ($order->status == 'Complete') {
+            $this->alert('error', 'Oops! You already accept your order', [
+                'position' => 'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            return;
+        }
         $this->orderPK = $order->id;
         if ($this->comment == '') {
             $this->comment = 'Accepted';
         }
         if (session()->has('LoggedClient')) {
-            DB::transaction(function () {
-                try {
-                    AcceptedOrder::create([
-                        'order_id'=>$this->orderPK,
-                        'comment'=>$this->comment,
-                        'from'=>'Client',
-                        'from_id'=>$this->orderDetails->client_id,
-                    ]);
+            DB::beginTransaction();
+            try {
+                AcceptedOrder::create([
+                    'order_id'=>$this->orderPK,
+                    'comment'=>$this->comment,
+                    'from'=>'Client',
+                    'from_id'=>$this->orderDetails->client_id,
+                ]);
 
-                    WriterOrder::where('order_id', $this->orderPK)
-                                ->update([
-                                    'status' => 'Completed'
-                                ]);
-                    Order::where('id', $this->orderPK)
-                         ->update([
-                             'status'=>'Complete'
-                         ]);
-                    $this->accept_section=false;
-                    session()->flash('success', 'Order Accepted Successfully.');
-                    // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
-                } catch (\Throwable $th) {
-                    session()->flash('success', $th->getMessage());
+                $writerOrder = WriterOrder::where('order_id', $this->orderPK)
+                            ->update([
+                                'status' => 'Completed'
+                            ]);
+                Order::where('id', $this->orderPK)
+                     ->update([
+                         'status'=>'Complete'
+                     ]);
+                /**customer accepts order;
+                *🖊customer pays me for the service and that is an Expense(falls in Debit Account) to customer;
+                *🖊Increase in expense i will debit customer account;
+                *🖊I will credit my account because now debt --money that people owe me(asset=> falls in Debit Account)
+                * has reduced or in other words mi Income(falls in Credit account) as increased and increase in income we credit;
+                */
+
+                /**In the same event
+                 *🖊Writer's account will be credited. Since it's an income, or the debt outside has reduced per say
+                 *🖊I will debit my account(Company Account) since I paying/purchasing writer's services. And it's an Expense
+                */
+
+
+                //ledger double entry ['Debit customer_account, Credit company_account]
+                if (!$clientService->ledgerDebitEntry($this->orderDetails->client_id, $this->orderPK, $accountService)) {
+                    Log::info('Client Service Error');
+                    $this->alert('error', 'Oops! Something went wrong', [
+                        'position' => 'top-end',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
+                }
+                if (!$companyService->ledgerCreditEntry($this->orderPK, $accountService)) {
+                    Log::info('Company Service Error');
+                    $this->alert('error', 'Oops! Something went wrong!', [
+                        'position' => 'top-end',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
                 }
 
-            });
+                /**
+                 * check if order was done by writer or management
+                */
+                if ($writerOrder) {
+                    //ledger double entry ['Credit writer_account, Debit company_account]
+                    if (!$companyService->ledgerDebitEntry($this->orderPK, $accountService)) {
+                        Log::info('Company with writer Service Error');
+                        $this->alert('error', 'Oops! Something went wrong!', [
+                            'position' => 'top-end',
+                            'timer' =>  3000,
+                            'toast' =>  true,
+                            'text' =>  '',
+                            'confirmButtonText' =>  'Ok',
+                            'cancelButtonText' =>  'Cancel',
+                            'showCancelButton' =>  false,
+                            'showConfirmButton' =>  false,
+                        ]);
+                        return;
+                    }
+                    if (!$writerService->ledgerCreditEntry($writerOrder, $accountService)) {
+                        Log::info('Writer Service Error');
+                        $this->alert('error', 'Oops! Something went wrong!', [
+                            'position' => 'top-end',
+                            'timer' =>  3000,
+                            'toast' =>  true,
+                            'text' =>  '',
+                            'confirmButtonText' =>  'Ok',
+                            'cancelButtonText' =>  'Cancel',
+                            'showCancelButton' =>  false,
+                            'showConfirmButton' =>  false,
+                        ]);
+                        return;
+
+                    }
+                    // $companyService->ledgerDebitEntry($this->orderPK, $accountService);
+                    // $writerService->ledgerCreditEntry($writerOrder, $accountService);
+                }
+
+                $this->accept_section=false;
+                DB::commit();
+                session()->flash('success', 'Order Accepted Successfully.');
+                $this->alert('success', 'Order Accepted Successfully', [
+                    'position' => 'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+                ]);
+                // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+            } catch (\Throwable $th) {
+                Log::error($th);
+                DB::rollBack();
+                session()->flash('success', $th->getMessage());
+                $this->alert('error', $th->getMessage(), [
+                    'position' => 'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+                ]);
+            }
+
 
         }
-        if (auth()->user()!=null && auth()->user()->role == 'Editor') {
-            DB::transaction(function () {
-                try {
-                    AcceptedOrder::create([
-                        'order_id'=>$this->orderPK,
-                        'comment'=>$this->comment,
-                        'from'=>auth()->user()->role,
-                        'from_id'=>auth()->user()->id,
-                    ]);
-                    $orderStatus = OrderStatus::updateOrCreate(
-                        ['order_id' =>  $this->orderPK],
-                        ['current_position' => 'Admin']
-                    );
-                    $this->accept_section=false;
-                    session()->flash('success', 'Order Accepted Successfully.');
-                } catch (\Throwable $th) {
-                    session()->flash('success', $th->getMessage());
-                }
-            });
 
-        } elseif (auth()->user()!=null && auth()->user()->is_admin == 1 && auth()->user()->role == 'Admin') {
-
-            DB::transaction(function () {
-                try {
-
-                    AcceptedOrder::create([
-                        'order_id'=>$this->orderPK,
-                        'comment'=>$this->comment,
-                        'from'=>auth()->user()->role,
-                        'from_id'=>auth()->user()->id,
-                    ]);
-                    $orderStatus = OrderStatus::updateOrCreate(
-                        ['order_id' =>  $this->orderPK],
-                        ['current_position' => 'Client']
-                    );
-                    WriterFile::where('order_id', $this->orderPK)
-                                ->update([
-                                    'status' => 'Accepted'
-                                ]);
-                    $this->accept_section=false;
-                    session()->flash('success', 'Order Accepted Successfully.');
-                } catch (\Throwable $th) {
-                    session()->flash('success', $th->getMessage());
-                }
-            });
-
-        }
-    }
+   }
 }

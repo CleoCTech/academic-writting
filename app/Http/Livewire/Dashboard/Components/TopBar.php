@@ -163,7 +163,7 @@ class TopBar extends Component
         if (auth()->user()!=null) {
             return redirect()->route('admin-chat');
         }elseif(session()->get('LoggedClient')!=null){
-            return redirect()->route('c-chat');
+            return redirect()->route('client-chat');
         }elseif(session()->get('AuthWriter') != null){
             return redirect()->route('writer-chat');
         }

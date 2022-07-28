@@ -317,18 +317,7 @@
                             <span class="menu-title">Chat</span>
                         </a>
                     </div>
-                    <div class="menu-item">
-                        <a class="menu-link" href="{{ route('invoices')}}">
-                            <span class="menu-icon">
-                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
-                                <span class="svg-icon svg-icon-3">
-                                    <i class="bi bi-receipt"></i>
-                                </span>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-title">Invoices</span>
-                        </a>
-                    </div>
+
                     {{-- <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
@@ -392,6 +381,90 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">Apllications</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-content">
+                            <div class="separator mx-1 my-4">Accounting</div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('invoices')}}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-receipt"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Invoices</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Trial Balance</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Income Statement</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('ledger') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Ledger</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-content">
+                            <div class="separator mx-1 my-4">Company Settings</div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('company') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Company Details</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="{{ route('account') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotone/Interface/Settings-02.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="bi bi-people"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Company Accounts</span>
                         </a>
                     </div>
                 </div>

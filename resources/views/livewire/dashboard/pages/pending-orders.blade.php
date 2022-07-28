@@ -1,6 +1,7 @@
 <div>
 
-    @livewire('dashboard.components.top-bar', ['user_id' => session()->get('LoggedClient'), 'user_type' => 'App\Models\Client', 'activity' => ''])
+    @livewire('dashboard.components.top-bar', ['user_id' => session()->get('LoggedClient'), 'user_type' =>
+    'App\Models\Client', 'activity' => ''])
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">
             Pending Orders
@@ -10,12 +11,11 @@
             <button wire:click="back" wire.target="back" type="button"
                 class="btn btn-lg btn-primary inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md hover:bg-blue-300 ease-in-out duration-150 "
                 wire:loading.class="cursor-not-allowed" wire:loading.attr="disabled">
-                <svg wire.loading wire.target="back"
-                    class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    wire:loading.class.remove="hidden" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle wire:loading wire:target="back" class="opacity-25" cx="12" cy="12"
-                        r="10" stroke="currentColor" stroke-width="4"></circle>
+                <svg wire.loading wire.target="back" class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    wire:loading.class.remove="hidden" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle wire:loading wire:target="back" class="opacity-25" cx="12" cy="12" r="10"
+                        stroke="currentColor" stroke-width="4"></circle>
                     <path wire:loading wire:target="back" class="opacity-75" fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                     </path>
@@ -24,12 +24,17 @@
             </button>
             <div class="dropdown ml-auto sm:ml-0">
                 <button class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300" aria-expanded="false">
-                    <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-feather="plus"></i> </span>
+                    <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-feather="plus"></i>
+                    </span>
                 </button>
                 <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="users" class="w-4 h-4 mr-2"></i> Create Group </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="settings" class="w-4 h-4 mr-2"></i> Settings </a>
+                        <a href=""
+                            class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                            <i data-feather="users" class="w-4 h-4 mr-2"></i> Create Group </a>
+                        <a href=""
+                            class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                            <i data-feather="settings" class="w-4 h-4 mr-2"></i> Settings </a>
                     </div>
                 </div>
             </div>
@@ -118,7 +123,7 @@
                                 <td class="p-0" x-on:click="$wire.view('{{$pending_order[$keyCol]}}')">
                                     <div class="d-flex align-items-center">
                                         <div class="ps-3">
-                                            <a href="#" class="text-gray-400 mb-1">{{$pending_order[$col['colName']]}}
+                                            <a href="#" class="text-gray-900 mb-1">{{$pending_order[$col['colName']]}}
                                             </a>
                                         </div>
                                     </div>
@@ -142,7 +147,7 @@
                                 <td class="p-0">
                                     <div class="d-flex align-items-center">
                                         <div class="ps-3">
-                                            <a href="#" class="text-gray-400 mb-1">
+                                            <a href="#" class="text-gray-900 mb-1">
                                                 {{$pending_order[$col['relName']][$col['colName']]}}
                                             </a>
                                         </div>
@@ -159,7 +164,7 @@
                                 <td class="p-0">
                                     <div class="d-flex align-items-center">
                                         <div class="ps-3">
-                                            <a href="#" class="text-gray-400 mb-1">
+                                            <a href="#" class="text-gray-900 mb-1">
                                                 {{$pending_order[$col['colName']]}}
                                             </a>
                                         </div>
@@ -171,17 +176,19 @@
                                 @endforeach
 
                                 <td class="pe-0 text-end" wire:key="{{ $pending_order[$keyCol] }}">
-                                    <button wire:click="chat('{{$pending_order[$keyCol]}}')" wire.target="chat('{{$pending_order[$keyCol]}}')"
-                                        type="button"
+                                    <button wire:click="chat('{{$pending_order[$keyCol]}}')"
+                                        wire.target="chat('{{$pending_order[$keyCol]}}')" type="button"
                                         class="btn btn-lg btn-primary inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md hover:bg-blue-300 ease-in-out duration-150 "
                                         wire:loading.class="cursor-not-allowed" wire:loading.attr="disabled">
                                         <svg wire.loading wire.target="chat('{{$pending_order[$keyCol]}}')"
                                             class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                                             wire:loading.class.remove="hidden" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24">
-                                            <circle wire:loading wire:target="chat('{{$pending_order[$keyCol]}}')" class="opacity-25" cx="12" cy="12"
-                                                r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path wire:loading wire:target="chat('{{$pending_order[$keyCol]}}')" class="opacity-75" fill="currentColor"
+                                            <circle wire:loading wire:target="chat('{{$pending_order[$keyCol]}}')"
+                                                class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4"></circle>
+                                            <path wire:loading wire:target="chat('{{$pending_order[$keyCol]}}')"
+                                                class="opacity-75" fill="currentColor"
                                                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                             </path>
                                         </svg>

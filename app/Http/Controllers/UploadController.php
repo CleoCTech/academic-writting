@@ -15,26 +15,29 @@ class UploadController extends Controller
     {
         if ($request->hasFile('paperFile')) {
             // dd('yes');
-            $file = $request->file('paperFile');
-            $filename = $file->getClientOriginalName();
-            $folder = uniqid() . '-' .now()->timestamp;
-            $file->storeAs('clients/tmp/' . $folder, $filename);
+            $files= $request->file('paperFile');
+            foreach ($files as $key => $file) {
+                $filename = $file->getClientOriginalName();
+                $folder = uniqid() . '-' .now()->timestamp;
+                $file->storeAs('clients/tmp/' . $folder, $filename);
 
-            $tempFile =TemporaryFile::Create([
-                'folder' =>$folder,
-                'filename' => $filename
-            ]);
+                $tempFile =TemporaryFile::Create([
+                    'folder' =>$folder,
+                    'filename' => $filename
+                ]);
 
-            if(session('files') == null){
-                $files = [];
-            }else{
-                $files = session('files');
+                if(session('files') == null){
+                    $xfiles = [];
+                }else{
+                    $xfiles = session('files');
+                }
+                $xfile = ['filename' => $filename,'folder' => $folder];
+                array_push($xfiles, $xfile);
+                session(['files' => $xfiles]);
+
+                return $folder;
             }
-            $file = ['filename' => $filename,'folder' => $folder];
-            array_push($files, $file);
-            session(['files' => $files]);
 
-            return $folder;
         }
 
         return '';

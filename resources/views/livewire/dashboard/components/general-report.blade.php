@@ -4,7 +4,7 @@
         <h2 class="text-lg font-medium truncate mr-5">
             General Report
         </h2>
-        <a href="{{ route('create-order') }}" class="ml-auto flex items-center text-theme-1 dark:text-theme-10 md:no-underline md:hover:underline"> <i data-feather="plus-circle"
+        <a href="{{ route('create-order') }}" class="ml-auto flex items-center text-theme-1 dark:text-theme-10 md:no-underline md:hover:underline" style="font-size: xx-large;"> <i data-feather="plus-circle"
                 class="w-4 h-4 mr-3"></i> Create New Order </a>
     </div>
     @livewire('dashboard.components.how-it-works')

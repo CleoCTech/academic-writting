@@ -458,7 +458,7 @@ class OrderDetails extends Component
         return $result;
     }
     public function default()
-   {
-       $this->emit('update_varView', 'my-orders');
-   }
+    {
+        $this->emit('update_varView', 'my-orders');
+    }
 }

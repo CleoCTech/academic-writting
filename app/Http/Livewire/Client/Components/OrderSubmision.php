@@ -5,12 +5,21 @@ namespace App\Http\Livewire\Client\Components;
 use App\Events\OrderAnswerUploadEvent;
 use App\Models\OrderStatus;
 use App\Models\AcceptedOrder;
+use App\Models\Accounting\Journal;
+use App\Models\Accounting\LedgerAccount;
 use App\Models\Order;
 use App\Models\RejectedOrder;
 use App\Models\WriterFile;
 use App\Models\WriterOrder;
 use App\Models\ClientFile;
+use App\Models\CompanyInfomation;
+use App\Models\OrderBilling;
+use App\Services\Accounting\AccountService;
+use App\Services\ClientService;
+use App\Services\CompanyService;
+use App\Services\WriterService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
@@ -56,12 +65,38 @@ class OrderSubmision extends Component
     }
     public function store()
     {
-        $this->emit('saved');
-        Order::where('id', $this->orderDetails->id)
-                ->update(['status' => 'Complete']);
-        event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
-        $this->reset('companyFile');
-        session()->flash('success', 'Order Submited Successfully.');
+
+        // Order::where('id', $this->orderDetails->id)
+        //         ->update(['status' => 'Complete']);
+
+
+        DB::beginTransaction();
+        try {
+
+            $this->emit('saved');
+            AcceptedOrder::create([
+                'order_id'=>$this->orderPK,
+                'comment'=>$this->comment,
+                'from'=>auth()->user()->role,
+                'from_id'=>auth()->user()->id,
+            ]);
+            $orderStatus = OrderStatus::updateOrCreate(
+                ['order_id' =>  $this->orderPK],
+                ['current_position' => 'Client']
+            );
+
+            event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+            $this->reset('companyFile');
+
+
+            $this->accept_section=false;
+            DB::commit();
+            session()->flash('success', 'Order Submited Successfully.');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            session()->flash('success', $th->getMessage());
+        }
+
 
     }
     public function orderCurrentStatus($orderId)
@@ -80,6 +115,13 @@ class OrderSubmision extends Component
             if (file_exists($file)) {
                 return response()->download($file);
             } else {
+                $file= 'storage/client_files/' .$value;
+                if (file_exists($file)) {
+                    return response()->download($file);
+                } else {
+                    session()->flash('message', 'File Does Not Exist2.');
+                }
+
                 session()->flash('message', 'File Does Not Exist.');
             }
         } else {
@@ -216,7 +258,7 @@ class OrderSubmision extends Component
             });
         }
     }
-    public function accept($value)
+    public function accept($value, CompanyService $companyService, ClientService $clientService, WriterService $writerService, AccountService $accountService)
     {
         $order = Order::where('order_no', $value)->first();
         $this->orderPK = $order->id;
@@ -224,31 +266,58 @@ class OrderSubmision extends Component
             $this->comment = 'Accepted';
         }
         if (session()->has('LoggedClient')) {
-            DB::transaction(function () {
-                try {
-                    AcceptedOrder::create([
-                        'order_id'=>$this->orderPK,
-                        'comment'=>$this->comment,
-                        'from'=>'Client',
-                        'from_id'=>$this->orderDetails->client_id,
-                    ]);
+            DB::beginTransaction();
+            try {
+                AcceptedOrder::create([
+                    'order_id'=>$this->orderPK,
+                    'comment'=>$this->comment,
+                    'from'=>'Client',
+                    'from_id'=>$this->orderDetails->client_id,
+                ]);
 
-                    WriterOrder::where('order_id', $this->orderPK)
-                                ->update([
-                                    'status' => 'Completed'
-                                ]);
-                    Order::where('id', $this->orderPK)
-                         ->update([
-                             'status'=>'Complete'
-                         ]);
-                    $this->accept_section=false;
-                    session()->flash('success', 'Order Accepted Successfully.');
-                    // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
-                } catch (\Throwable $th) {
-                    session()->flash('success', $th->getMessage());
+                $writerOrder = WriterOrder::where('order_id', $this->orderPK)
+                            ->update([
+                                'status' => 'Completed'
+                            ]);
+                Order::where('id', $this->orderPK)
+                     ->update([
+                         'status'=>'Complete'
+                     ]);
+                /**customer accepts order;
+                *🖊customer pays me for the service and that is an Expense(falls in Debit Account) to customer;
+                *🖊Increase in expense i will debit customer account;
+                *🖊I will credit my account because now debt --money that people owe me(asset=> falls in Debit Account)
+                * has reduced or in other words mi Income(falls in Credit account) as increased and increase in income we credit;
+                */
+
+                /**In the same event
+                 *🖊Writer's account will be credited. Since it's an income, or the debt outside has reduced per say
+                 *🖊I will debit my account(Company Account) since I paying/purchasing writer's services. And it's an Expense
+                */
+
+
+                //ledger double entry ['Debit customer_account, Credit company_account]
+                $clientService->ledgerDebitEntry($this->orderDetails->client_id, $this->orderPK, $accountService);
+                $companyService->ledgerCreditEntry($this->orderPK, $accountService);
+
+                /**
+                 * check if order was done by writer or management
+                */
+                if ($writerOrder) {
+                    //ledger double entry ['Credit writer_account, Debit company_account]
+                    $companyService->ledgerDebitEntry($this->orderPK, $accountService);
+                    $writerService->ledgerCreditEntry($writerOrder, $accountService);
                 }
 
-            });
+                $this->accept_section=false;
+                DB::commit();
+                session()->flash('success', 'Order Accepted Successfully.');
+                // event( new OrderAnswerUploadEvent($this->orderDetails, $this->orderDetails->client_id));
+            } catch (\Throwable $th) {
+                Log::error($th);
+                DB::rollBack();
+                session()->flash('success', $th->getMessage());
+            }
 
         }
         if (auth()->user()!=null && auth()->user()->role == 'Editor') {

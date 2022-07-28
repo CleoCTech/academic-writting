@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Accounting\Account;
 use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,4 +23,8 @@ class Writer extends Model
     public function fromable(){
         return $this->morphMany(Messaging::class, 'fromable');
     }
+    public function account(){
+        return $this->morphOne(Account::class, 'accountable');
+    }
+
 }

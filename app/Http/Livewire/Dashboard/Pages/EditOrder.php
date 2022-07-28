@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Dashboard\Pages;
 
+use App\Events\ClientEditedOrderEvent;
 use App\Models\PaperCategory;
 use App\Models\Order;
 use App\Models\ClientFile;
 use Illuminate\Support\Facades\DB;
 use App\Events\OrderRegisteredEvent;
 use App\Events\OrderHasBeenUpdatedEvent;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
@@ -59,31 +61,35 @@ class EditOrder extends Component
     public function store()
     {
         $this->validate();
-        dd($this->instructions);
+        // dd($this->orderId);
         $success = false; //flag
         DB::beginTransaction();
         try {
-           Order::where('order_no',  $this->orderId)
+            $deadline_date = Carbon::parse($this->deadline_date)->format('Y-m-d');
+           Order::where('id',  $this->orderId)
             ->update([
                 'subject_id' => $this->category_id,
                 'topic' => $this->topic,
                 'pages' => $this->pages,
-                'deadline_date' => $this->deadline_date,
+                'deadline_date' => $deadline_date,
                 'deadline_time' => $this->deadline_time,
                 'instructions' => $this->instructions,
-                ]);
+            ]);
 
             $order = Order::where('order_no',  $this->orderId)->first();
             $success = true;
             if($success){
                 DB::Commit();
+                event( new ClientEditedOrderEvent($order, 'Updated Successfully'));
                 event( new OrderRegisteredEvent($order, $this->user_id));
-                session()->flash('success', 'Updated Successfully.');
+                //session()->flash('success', 'Updated Successfully.');
+                // dd('true');
             }
         } catch (\Exception $e) {
             DB::rollback();
             $success = false;
-            session()->flash('error',$e);
+            event( new ClientEditedOrderEvent($order, $e->getMessage()));
+            // session()->flash('error',$e);
         }
 
     }

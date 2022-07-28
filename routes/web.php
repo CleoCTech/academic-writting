@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\VerifyWriterEmailController;
+use App\Http\Livewire\Admin\Account\Index as AccountIndex;
 use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\Applications;
-use App\Http\Livewire\Admin\Clients\Index as ClientsIndex;
-use App\Http\Livewire\Admin\Job;
 use App\Http\Livewire\Admin\Staff\Index as StaffIndex;
 use App\Http\Livewire\Admin\Writers\Index;
+use App\Http\Livewire\Admin\Clients\Index as ClientsIndex;
+use App\Http\Livewire\Admin\Company\Index as CompanyIndex;
+use App\Http\Livewire\Admin\Job;
+use App\Http\Livewire\Admin\Ledger\Index as LedgerIndex;
 use App\Http\Livewire\Client\ClientAuth;
 use App\Http\Livewire\Client\ClientAuthentication;
 use App\Http\Livewire\Client\ClientLogout;
@@ -29,6 +32,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Mail\VerifyAccountMail;
 use BugHonorFileTimeTest\BugHonorFileTimeTest;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -41,6 +45,11 @@ use Illuminate\Support\Facades\Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/config-cache', function() {
+     Artisan::call('config:cache');
+	 Artisan::call('cache:clear');
+     return 'Config cache cleared';
+ });
 
 Route::get('/email', function () {
     Mail::to('cleoctech@gmail.com')->send(new VerifyAccountMail('cleoctech@gmail.com'));
@@ -69,12 +78,12 @@ Route::group(['middleware' => ['AuthCheck']], function(){
     Route::get('/client/login', ClientAuth::class)->name('client-login');
     // Route::get('/c/login', ClientAuth::class)->name('client-auth');
     Route::get('/client/logout', ClientLogout::class)->name('client-logout');
-    Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
-    Route::get('/c/dashboard', DashboardHome::class)->name('dash-test');
-    Route::get('/client/invoice', Invoice::class)->name('client-invoice');
-    Route::get('/c/invoice', Invoices::class)->name('c-invoice');
-    Route::get('/client/chat', Chat::class)->name('client-chat');
-    Route::get('/c/chat', PagesChat::class)->name('c-chat');
+    // Route::get('/client/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/client/dashboard', DashboardHome::class)->name('dashboard');
+    // Route::get('/client/invoice', Invoice::class)->name('client-invoice');
+    Route::get('/client/invoice', Invoices::class)->name('client-invoice');
+    // Route::get('/client/chat', Chat::class)->name('client-chat');
+    Route::get('/client/chat', PagesChat::class)->name('client-chat');
     Route::post('/confirm-payment',[\App\Http\Controllers\StripePaymentController::class, 'store'])->name('confirm-payment');
 
 });
@@ -101,15 +110,20 @@ Route::group(['middleware' => ['AuthWriter']], function(){
 //     return view('dashboard');
 // })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified', 'activated'])->group(function(){
+Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     // Route::get('/client/dashboard', Dashboard::class);
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin-dashboard');
     Route::get('/admin/orders', Job::class)->name('view-orders');
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
     Route::get('/admin/invoice', Invoice::class)->name('invoices');
     Route::get('/admin/chat', Chat::class)->name('admin-chat');
+
     Route::get('/admin/applications', Applications::class)->name('applications');
     Route::get('/admin/writers', Index::class)->name('writers');
     Route::get('/admin/clients', ClientsIndex::class)->name('clients');
     Route::get('/admin/staff', StaffIndex::class)->name('staff');
+    Route::get('/admin/ledger', LedgerIndex::class)->name('ledger');
+    Route::get('/admin/company-information', CompanyIndex::class)->name('company');
+    Route::get('/admin/accounts', AccountIndex::class)->name('account');
+
 });

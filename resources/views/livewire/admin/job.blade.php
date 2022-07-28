@@ -48,9 +48,9 @@
                                                 <span class="card-label fw-boldest text-gray-800 fs-2">Pending
                                                     Orders</span>
 
-                                                    <span class="text-gray-400 fw-bold mt-2 fs-6">
-                                                        {{count($pending_orders)}} Pending Orders
-                                                    </span>
+                                                <span class="text-gray-900 fw-bold mt-2 fs-6">
+                                                    {{count($pending_orders)}} Pending Orders
+                                                </span>
 
                                             </h3>
                                             <!--end::Heading-->
@@ -79,7 +79,7 @@
                                             <div class="table-responsive">
                                                 <table
                                                     class="table align-middle table-row-bordered table-row-dashed gy-5"
-                                                    id="kt_table_widget_1"  x-data=''>
+                                                    id="kt_table_widget_1" x-data=''>
                                                     <thead
                                                         class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                                         <tr>
@@ -109,18 +109,20 @@
                                                                 <div
                                                                     class="form-check form-check-sm form-check-custom form-check-solid">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                        value="1"  x-on:click="$wire.select('{{$pending_order[$keyCol]}}')"
-                                                                        {{$isSelectAll? 'checked':''}}/>
+                                                                        value="1"
+                                                                        x-on:click="$wire.select('{{$pending_order[$keyCol]}}')"
+                                                                        {{$isSelectAll? 'checked' :''}} />
                                                                 </div>
                                                             </td>
                                                             @foreach($cols as $col)
                                                             @if($col['isList'] == true)
                                                             @if(isset($col['isKey']))
-                                                            <td class="p-0" x-on:click="$wire.view('{{$pending_order[$keyCol]}}')">
+                                                            <td class="p-0"
+                                                                x-on:click="$wire.view('{{$pending_order[$keyCol]}}')">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
                                                                         <a href="#"
-                                                                            class="text-gray-400 mb-1" >{{$pending_order[$col['colName']]}}
+                                                                            class="text-gray-900 mb-1">{{$pending_order[$col['colName']]}}
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -131,16 +133,22 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
                                                                         <a href="#"
-                                                                            class="text-gray-500  fs-5  mb-1">{!! htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y', strtotime($pending_order[$col['colName']]))) !!}
+                                                                            class="text-gray-500  fs-5  mb-1">{!!
+                                                                            htmlspecialchars_decode(date('j<\s\up>S
+                                                                            </\s\up> F Y',
+                                                                            strtotime($pending_order[$col['colName']])))
+                                                                            !!}
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            @elseif(isset($col['isRelationship']) && $col['isRelationship'] == true)
+                                                            @elseif(isset($col['isRelationship']) &&
+                                                            $col['isRelationship'] == true)
                                                             <td class="p-0">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
-                                                                        <a href="#" class="text-gray-400 mb-1"> {{$pending_order[$col['relName']][$col['colName']]}}
+                                                                        <a href="#" class="text-gray-900 mb-1">
+                                                                            {{$pending_order[$col['relName']][$col['colName']]}}
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -156,7 +164,8 @@
                                                             <td class="p-0">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
-                                                                        <a href="#" class="text-gray-400 mb-1"> {{$pending_order[$col['colName']]}}
+                                                                        <a href="#" class="text-gray-900 mb-1">
+                                                                            {{$pending_order[$col['colName']]}}
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -167,13 +176,15 @@
                                                             @endforeach
 
                                                             <td class="pe-0 text-end">
-                                                                <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$pending_order[$keyCol]}}')">View</a>
+                                                                <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                                                    x-on:click="$wire.chat('{{$pending_order[$keyCol]}}')">View</a>
                                                             </td>
                                                         </tr>
                                                         @endforeach
                                                         @else
                                                         <tr>
-                                                            <td class="italic text-center" colspan="{{count($cols)}}"><br>*** No records
+                                                            <td class="italic text-center" colspan="{{count($cols)}}">
+                                                                <br>*** No records
                                                                 found ***</td>
                                                         </tr>
                                                         @endif
@@ -200,7 +211,7 @@
                                             <!--begin::Heading-->
                                             <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-boldest text-gray-800 fs-2">Orders</span>
-                                                <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($others)}}
+                                                <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($others)}}
                                                     Orders</span>
                                             </h3>
                                             <!--end::Heading-->
@@ -276,7 +287,10 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
                                                                         <a href="#"
-                                                                            class="text-gray-500  fs-5  mb-1">{!! htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y', strtotime($other->created_at))) !!}
+                                                                            class="text-gray-500  fs-5  mb-1">{!!
+                                                                            htmlspecialchars_decode(date('j<\s\up>S
+                                                                            </\s\up> F Y',
+                                                                            strtotime($other->created_at))) !!}
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -285,7 +299,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
                                                                         <a href="#"
-                                                                            class="text-gray-400 mb-1">{{$other->order_no}}
+                                                                            class="text-gray-900 mb-1">{{$other->order_no}}
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -293,33 +307,38 @@
                                                             <td class="p-0">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="ps-3">
-                                                                        <a href="#" class="text-gray-400 mb-1">{{$other->topic}}
+                                                                        <a href="#"
+                                                                            class="text-gray-900 mb-1">{{$other->topic}}
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                {{-- <span class="text-gray-400 fw-bold">
+                                                                {{-- <span class="text-gray-900 fw-bold">
                                                                     Darknight transparency 36 Icons Pack</span> --}}
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                                                      @if ($other->status=='In progress')
-                                                                        <span wire:class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
-                                                                        <div class="progress bg-light-info w-100 h-5px">
-                                                                            <div class="progress-bar bg-info"
-                                                                                role="progressbar" style="width: 85%"></div>
-                                                                        </div>
-                                                                      @elseif($other->status=='Complete')
-                                                                      <span class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
-                                                                      <div class="progress bg-light-primary w-100 h-5px">
+                                                                    @if ($other->status=='In progress')
+                                                                    <span
+                                                                        wire:class="text-gray-900 me-2 fw-boldest mb-2">85%</span>
+                                                                    <div class="progress bg-light-info w-100 h-5px">
+                                                                        <div class="progress-bar bg-info"
+                                                                            role="progressbar" style="width: 85%"></div>
+                                                                    </div>
+                                                                    @elseif($other->status=='Complete')
+                                                                    <span
+                                                                        class="text-gray-900 me-2 fw-boldest mb-2">100%</span>
+                                                                    <div class="progress bg-light-primary w-100 h-5px">
                                                                         <div class="progress-bar bg-primary"
-                                                                            role="progressbar" style="width: 100%"></div>
+                                                                            role="progressbar" style="width: 100%">
                                                                         </div>
-                                                                      @endif
+                                                                    </div>
+                                                                    @endif
                                                                 </div>
                                                             </td>
                                                             <td class="pe-0 text-end">
-                                                                <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$other->order_no}}')">View</a>
+                                                                <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                                                    x-on:click="$wire.chat('{{$other->order_no}}')">View</a>
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -359,7 +378,7 @@
                                             <div class="d-flex flex-column text-end">
                                                 <span class="fw-boldest text-gray-800 fs-2">Essay
                                                     Orders</span>
-                                                <span class="text-gray-400 fw-bold fs-6">April 1 - May
+                                                <span class="text-gray-900 fw-bold fs-6">April 1 - May
                                                     5</span>
                                             </div>
                                             <!--end::Text-->
@@ -538,7 +557,7 @@
                                             <!--begin::Text-->
                                             <div class="d-flex flex-column text-end">
                                                 <span class="fw-boldest text-gray-800 fs-2">Earnings</span>
-                                                <span class="text-gray-400 fw-bold fs-6">April 8 - May
+                                                <span class="text-gray-900 fw-bold fs-6">April 8 - May
                                                     5</span>
                                             </div>
                                             <!--end::Text-->
@@ -576,7 +595,7 @@
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-bold align-items-center mb-3">
                                                     <div class="bullet bg-primary me-3"></div>
-                                                    <div class="text-gray-400">Active</div>
+                                                    <div class="text-gray-900">Active</div>
                                                     <div class="ms-auto fw-boldest text-gray-700">
                                                         30
                                                     </div>
@@ -585,7 +604,7 @@
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-bold align-items-center mb-3">
                                                     <div class="bullet bg-success me-3"></div>
-                                                    <div class="text-gray-400">Completed</div>
+                                                    <div class="text-gray-900">Completed</div>
                                                     <div class="ms-auto fw-boldest text-gray-700">
                                                         45
                                                     </div>
@@ -594,7 +613,7 @@
                                                 <!--begin::Label-->
                                                 <div class="d-flex fs-6 fw-bold align-items-center">
                                                     <div class="bullet bg-gray-300 me-3"></div>
-                                                    <div class="text-gray-400">Yet to start</div>
+                                                    <div class="text-gray-900">Yet to start</div>
                                                     <div class="ms-auto fw-boldest text-gray-700">
                                                         25
                                                     </div>
@@ -662,7 +681,7 @@
                                                 <a href="#"
                                                     class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
                                                     Globe</a>
-                                                <div class="text-gray-400 fw-bold">
+                                                <div class="text-gray-900 fw-bold">
                                                     508 Pages
                                                 </div>
                                             </div>
@@ -705,7 +724,7 @@
                                                 <a href="#"
                                                     class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
                                                     Focus</a>
-                                                <div class="text-gray-400 fw-bold">
+                                                <div class="text-gray-900 fw-bold">
                                                     957 Pages
                                                 </div>
                                             </div>
@@ -748,7 +767,7 @@
                                                 <a href="#"
                                                     class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
                                                     Timing</a>
-                                                <div class="text-gray-400 fw-bold">
+                                                <div class="text-gray-900 fw-bold">
                                                     82 Pages
                                                 </div>
                                             </div>
@@ -791,7 +810,7 @@
                                                 <a href="#"
                                                     class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
                                                     Report</a>
-                                                <div class="text-gray-400 fw-bold">
+                                                <div class="text-gray-900 fw-bold">
                                                     100 Pages
                                                 </div>
                                             </div>

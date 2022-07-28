@@ -44,7 +44,7 @@ class WriterAuth extends Component
             $this->email = $email;
         }
     }
-    
+
     public function render()
     {
         return view('livewire.writer.writer-auth')->layout('layouts.plain');
@@ -94,8 +94,7 @@ class WriterAuth extends Component
             'password'=>$hash_pass,
         ]);
 
-        if ($writer) {
-        }else{
+        if (!$writer) {
             return  session()->flash('fail', 'Something went wrong, try again later');
         }
         Mail::to($this->email)->send(new VerifyAccountMail($this->email));

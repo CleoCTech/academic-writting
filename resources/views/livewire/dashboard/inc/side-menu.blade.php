@@ -14,7 +14,7 @@
     <div class="side-nav__devider my-6"></div>
     <ul>
         <li>
-            <a href="{{ route('dash-test') }}"
+            <a href="{{ route('dashboard') }}"
                 x-bind:class="{ 'side-menu--active': selected === 'dashboard' }"
                 @click="selected = 'dashboard'"
                 class="side-menu">
@@ -64,7 +64,7 @@
             </ul>
         </li>
         <li>
-            <a href="{{ route('c-invoice') }}"
+            <a href="{{ route('client-invoice') }}"
                 @click="selected = 'invoice'"
                 :class="{ 'side-menu--active': selected === 'invoice' }"
                 class="side-menu">
@@ -73,7 +73,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('c-chat') }}"
+            <a href="{{ route('client-chat') }}"
                 @click="selected = 'chat'"
                 :class="{ 'side-menu--active': selected === 'chat' }"
                 class="side-menu">

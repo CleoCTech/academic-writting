@@ -1,12 +1,12 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" >
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto">
         <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
-           Back
+            Back
         </button>
         <h2 class="text-2xl text-gray-700 font-bold hover:text-gray-600">
-           Work Experience
+            Work Experience
         </h2>
         <hr>
         <div class="mt-2">
@@ -25,9 +25,9 @@
         <div wire:ignore class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <input type="file" name="paperFile"  id="test" accept=".pdf,.doc">
+                <input type="file" name="paperFile[]" id="test" accept=".pdf,.doc">
                 {{-- <div class="custom-file">
-                    <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
+                    <input type="file" name="paperFile[]" class="custom-file-input" id="uploadfiles" />
                 </div> --}}
             </div>
         </div>
@@ -45,8 +45,8 @@
         </div>
     </div>
     <style>
-        ol{
-            list-style:auto !important;
+        ol {
+            list-style: auto !important;
         }
     </style>
     <script type="text/javascript">

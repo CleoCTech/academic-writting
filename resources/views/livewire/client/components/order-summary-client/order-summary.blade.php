@@ -35,8 +35,7 @@
                 <div class="card-header align-items-center px-9 py-3" id="kt_chat_content_header">
                     <div class="text-start flex-grow-1">
                         <!--begin::Aside Mobile Toggle-->
-                        <button type="button"
-                            class="btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none"
+                        <button type="button" class="btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none"
                             id="kt_app_chat_toggle">
                             <!--begin::Svg Icon | path: icons/stockholm/Communication/Adress-book2.svg-->
                             <span class="svg-icon svg-icon-1">
@@ -77,7 +76,8 @@
                                             <a wire:click="getDownload('{{$writerFile->folder}}')"
                                                 class="text-gray-600 text-hover-primary  fw-bold fs-8 mb-3 link-download"
                                                 title="Click to download">
-                                                {{strlen($writerFile->filename) > 20? substr($writerFile->filename,0,20).'...':$writerFile->filename}}
+                                                {{strlen($writerFile->filename) > 20?
+                                                substr($writerFile->filename,0,20).'...':$writerFile->filename}}
                                                 ?>
                                             </a>
                                         </div>
@@ -108,15 +108,15 @@
                                             <a wire:click="getDownload('{{$writerFile->folder}}/{{$writerFile->filename}}')"
                                                 class="text-gray-600 text-hover-primary  fw-bold fs-8 mb-3 link-download"
                                                 title="Click to download">
-                                                {{strlen($writerFile->filename) > 20? substr($writerFile->filename,0,20).'...':$writerFile->filename}}
+                                                {{strlen($writerFile->filename) > 20?
+                                                substr($writerFile->filename,0,20).'...':$writerFile->filename}}
                                                 ?>
                                             </a>
                                         </div>
                                         <div class="col-md-2 p-3">
                                             <a wire:click="getDownload('{{$writerFile->folder}}/{{$writerFile->filename}}')"
                                                 type="button" class="btn-floating btn-small"
-                                                download="{{$writerFile->filename}}"> <span
-                                                    class="svg-icon svg-icon-3">
+                                                download="{{$writerFile->filename}}"> <span class="svg-icon svg-icon-3">
                                                     <i class="bi bi-download"></i>
                                                 </span>
                                             </a>
@@ -139,15 +139,15 @@
                                                     <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
                                                         Accepting Order From Writer
                                                         <span class="svg-icon svg-icon-3 text-yellow-500">
-                                                            <i
-                                                                class="bi bi-exclamation-triangle text-yellow-500"></i>
+                                                            <i class="bi bi-exclamation-triangle text-yellow-500"></i>
                                                         </span>
                                                     </h4>
                                                     <p
                                                         class="mb-10 font-sans md:font-serif text-gray-400 text-hover-primary ">
                                                         Before accepting the order, preview the work and
                                                         assertain that everything is okay.</p>
-                                                    {{-- <a wire:click='activateAcceptSection' class="btn btn-primary">Accept Order</a> --}}
+                                                    {{-- <a wire:click='activateAcceptSection'
+                                                        class="btn btn-primary">Accept Order</a> --}}
                                                     @if ($acceptBtn)
                                                     <div class="justify-around" x-data=''>
 
@@ -162,9 +162,8 @@
                                                                     x-show="show"
                                                                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                     style="display: none;">
-                                                                    <circle class="opacity-25" cx="12" cy="12"
-                                                                        r="10" stroke="currentColor"
-                                                                        stroke-width="4"></circle>
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                                        stroke="currentColor" stroke-width="4"></circle>
                                                                     <path class="opacity-75" fill="currentColor"
                                                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                     </path>
@@ -180,11 +179,12 @@
                                                         <h4 class="text-blue-400 " style="margin-top: 1rem;">
                                                             Leave a comment (Optional)
                                                             <span class="svg-icon svg-icon-4 ">
-                                                                <i
-                                                                    class="bi bi-chat-left-text-fill text-blue-400"></i>
+                                                                <i class="bi bi-chat-left-text-fill text-blue-400"></i>
                                                             </span>
                                                         </h4>
-                                                        {{-- <label for="Instructions" class="block text-md font-medium text-gray-700">Leave a comment (Optional)</label> --}}
+                                                        {{-- <label for="Instructions"
+                                                            class="block text-md font-medium text-gray-700">Leave a
+                                                            comment (Optional)</label> --}}
                                                         <div class="mt-1 relative rounded-md shadow-sm">
                                                             <textarea wire:model.defer='comment'
                                                                 class="bg-white focus:shadow-outline text-gray-700 appearance-none inline-block w-full border border-emerald-300 rounded-lg py-3 px-4 focus:outline-none "
@@ -206,9 +206,8 @@
                                                                     x-show="show"
                                                                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                     style="display: none;">
-                                                                    <circle class="opacity-25" cx="12" cy="12"
-                                                                        r="10" stroke="currentColor"
-                                                                        stroke-width="4"></circle>
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                                        stroke="currentColor" stroke-width="4"></circle>
                                                                     <path class="opacity-75" fill="currentColor"
                                                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                     </path>
@@ -228,8 +227,7 @@
                                                     <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
                                                         Rejecting Order
                                                         <span class="svg-icon svg-icon-4 text-yellow-500">
-                                                            <i
-                                                                class="bi bi-exclamation-triangle text-yellow-500"></i>
+                                                            <i class="bi bi-exclamation-triangle text-yellow-500"></i>
                                                         </span>
                                                     </h4>
                                                     <p
@@ -237,7 +235,8 @@
                                                         Before rejecting the order, preview the work and
                                                         assertain that instructions you gave were not followed.
                                                     </p>
-                                                    {{-- <a  wire:click='activateRejectSection' class="btn btn-danger">Reject Order</a> --}}
+                                                    {{-- <a wire:click='activateRejectSection'
+                                                        class="btn btn-danger">Reject Order</a> --}}
                                                     @if ($rejectBtn)
 
 
@@ -254,9 +253,8 @@
                                                                     x-show="show"
                                                                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                     style="display: none;">
-                                                                    <circle class="opacity-25" cx="12" cy="12"
-                                                                        r="10" stroke="currentColor"
-                                                                        stroke-width="4"></circle>
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                                        stroke="currentColor" stroke-width="4"></circle>
                                                                     <path class="opacity-75" fill="currentColor"
                                                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                     </path>
@@ -286,7 +284,7 @@
                                                     </h4>
                                                     <div wire:ignore class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12">
-                                                            <input type="file" name="paperFile" id="test" multiple>
+                                                            <input type="file" name="paperFile[]" id="test" multiple>
                                                         </div>
                                                         <script type="text/javascript">
                                                             const inputElement = document.querySelector('input[id="test"]');
@@ -315,9 +313,8 @@
                                                                     x-show="show"
                                                                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                     style="display: none;">
-                                                                    <circle class="opacity-25" cx="12" cy="12"
-                                                                        r="10" stroke="currentColor"
-                                                                        stroke-width="4"></circle>
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                                        stroke="currentColor" stroke-width="4"></circle>
                                                                     <path class="opacity-75" fill="currentColor"
                                                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                     </path>
@@ -336,16 +333,18 @@
                                         </div>
 
                                         @else
-                                        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+                                        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+                                            role="alert">
                                             <div class="flex">
-                                                <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20">
+                                                <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                         <path
                                                             d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                                                     </svg></div>
                                                 <div>
                                                     <p class="font-bold">
-                                                        {{ $this->checkIfOrderPassedStage($orderDetails->id, 'Client') }}
+                                                        {{ $this->checkIfOrderPassedStage($orderDetails->id, 'Client')
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>

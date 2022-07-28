@@ -131,7 +131,8 @@
         </div>
         <div class="p-3">
             @guest
-            <button wire:click='edit({{ $orderDetails->id }})' class="btn btn-info hover:bg-blue-600 hover:text-white"> Edit
+            <button wire:click='edit({{ $orderDetails->id }})' class="btn btn-info hover:bg-blue-600 hover:text-white">
+                Edit
                 Order
             </button>
             @endguest
@@ -391,7 +392,7 @@
                         <button wire:click='sendMessage' class="{{ ($openId != null) ? '' : 'cursor-not-allowed' }} outline-none focus:outline-none
                         hover:bg-green-500 rounded-md translate-x-1 ease-in-out " type="submit" id="sendMessage" {{
                             ($openId !=null) ? '' : 'disabled' }}>
-                            <svg class="text-gray-400 h-7 w-7 origin-center transform rotate-90"
+                            <svg class="text-gray-900 h-7 w-7 origin-center transform rotate-90"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path
                                     d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />

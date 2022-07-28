@@ -7,62 +7,61 @@
 
 
         <!--begin ::Toolbar-->
-            @livewire('client.components.toolbar', [$confirm_invoice])
+        @livewire('client.components.toolbar', [$confirm_invoice])
         <!--end ::Toolbar-->
-            <!-- Alert Info -->
-            @if (session()->get('LoggedClient') != null)
-                @if (session()->has('success'))
-                <div class="m-auto">
-                    <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
-                        <div class="flex flex-row">
-                            <div class="px-2">
-                                <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1299 813l-422 422q-19 19-45 19t-45-19l-294-294q-19-19-19-45t19-45l102-102q19-19 45-19t45 19l147 147 275-275q19-19 45-19t45 19l102 102q19 19 19 45t-19 45zm141 83q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
-                                </svg>
-                            </div>
-                            <div class="">
-                                <span class="font-semibold"> {{ session('success-modal') }}</span>
-                                {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
-                            </div>
-                        </div>
+        <!-- Alert Info -->
+        @if (session()->get('LoggedClient') != null)
+        @if (session()->has('success'))
+        <div class="m-auto">
+            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+                <div class="flex flex-row">
+                    <div class="px-2">
+                        <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M1299 813l-422 422q-19 19-45 19t-45-19l-294-294q-19-19-19-45t19-45l102-102q19-19 45-19t45 19l147 147 275-275q19-19 45-19t45 19l102 102q19 19 19 45t-19 45zm141 83q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" />
+                        </svg>
+                    </div>
+                    <div class="">
+                        <span class="font-semibold"> {{ session('success-modal') }}</span>
+                        {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
                     </div>
                 </div>
-                @endif
-                @if (session()->has('error'))
-                <div class="m-auto">
-                    <div class="bg-danger rounded-lg border-gray-300 border p-3 shadow-lg"
-                        style="background-color: rgba(224,52,18,.1) !important; color: rgba(224,52,18,.5);">
-                        <div class="flex flex-row">
-                            <div class="px-2 text-damger">
-                                <i class="text-danger fas fa-times-circle fa-2x"></i>
-                            </div>
-                            <div class="">
-                                <span class="font-semibold text-danger"> {{ session('error-modal') }}</span>
-                                {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
-                            </div>
-                        </div>
+            </div>
+        </div>
+        @endif
+        @if (session()->has('error'))
+        <div class="m-auto">
+            <div class="bg-danger rounded-lg border-gray-300 border p-3 shadow-lg"
+                style="background-color: rgba(224,52,18,.1) !important; color: rgba(224,52,18,.5);">
+                <div class="flex flex-row">
+                    <div class="px-2 text-damger">
+                        <i class="text-danger fas fa-times-circle fa-2x"></i>
+                    </div>
+                    <div class="">
+                        <span class="font-semibold text-danger"> {{ session('error-modal') }}</span>
+                        {{-- <span class="block text-gray-500">Anyone with a link can now view this file</span> --}}
                     </div>
                 </div>
-                @endif
-                @if ($activity != '' )
-                <div class="bg-blue-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
-                    <svg viewBox="0 0 24 24" class="text-blue-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
-                        <path fill="currentColor"
-                            d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
-                        </path>
-                    </svg>
-                    <span class="text-blue-800"> Confirm Invoice of ${{ $activity->value }} per page for this task </span>
-                    <span class="flex justify-end" style=" margin-left: 2rem;">
-                    <button wire:click='confrimInvoice'
-                        class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
-                        " >
+            </div>
+        </div>
+        @endif
+        @if ($activity != '' )
+        <div class="bg-blue-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
+            <svg viewBox="0 0 24 24" class="text-blue-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
+                <path fill="currentColor"
+                    d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
+                </path>
+            </svg>
+            <span class="text-blue-800"> Confirm Invoice of ${{ $activity->value }} per page for this task </span>
+            <span class="flex justify-end" style=" margin-left: 2rem;">
+                <button wire:click='confrimInvoice'
+                    class=" btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md" " >
                         Confirm
                     </button>
-                    <span class="flex justify-end" style=" margin-left: 2rem;">
+                    <span class=" flex justify-end" style=" margin-left: 2rem;">
                     <button wire:click='rejectInvoice'
-                        class=" btn-danger transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
-                        " >
+                        class=" btn-danger transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md" " >
                         Reject
                     </button>
                     </span>
@@ -71,41 +70,44 @@
             @elseif(auth()->user() != null)
                 <!-- Alert Success -->
                     @if ($InvoiceAccepted)
-                    <div class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
+                    <div class=" bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4
+                        xl:w-2/4">
                         <svg viewBox="0 0 24 24" class="text-green-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
                             <path fill="currentColor"
                                 d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
                             </path>
                         </svg>
                         <span class="text-green-800"> Invoice Accepted. </span>
-                    </div>
-                    @endif
-                    @if ($InvoiceRejected)
-                        <!-- Alert Error -->
-                        <div class="bg-red-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
-                            <svg viewBox="0 0 24 24" class="text-red-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
-                                <path fill="currentColor"
-                                    d="M11.983,0a12.206,12.206,0,0,0-8.51,3.653A11.8,11.8,0,0,0,0,12.207,11.779,11.779,0,0,0,11.8,24h.214A12.111,12.111,0,0,0,24,11.791h0A11.766,11.766,0,0,0,11.983,0ZM10.5,16.542a1.476,1.476,0,0,1,1.449-1.53h.027a1.527,1.527,0,0,1,1.523,1.47,1.475,1.475,0,0,1-1.449,1.53h-.027A1.529,1.529,0,0,1,10.5,16.542ZM11,12.5v-6a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Z">
-                                </path>
-                            </svg>
-                            <span class="text-red-800"> Your was invoice rejected. </span>
-                        </div>
-                    <!-- End Alert Error -->
-                    @endif
+        </div>
+        @endif
+        @if ($InvoiceRejected)
+        <!-- Alert Error -->
+        <div class="bg-red-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
+            <svg viewBox="0 0 24 24" class="text-red-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
+                <path fill="currentColor"
+                    d="M11.983,0a12.206,12.206,0,0,0-8.51,3.653A11.8,11.8,0,0,0,0,12.207,11.779,11.779,0,0,0,11.8,24h.214A12.111,12.111,0,0,0,24,11.791h0A11.766,11.766,0,0,0,11.983,0ZM10.5,16.542a1.476,1.476,0,0,1,1.449-1.53h.027a1.527,1.527,0,0,1,1.523,1.47,1.475,1.475,0,0,1-1.449,1.53h-.027A1.529,1.529,0,0,1,10.5,16.542ZM11,12.5v-6a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Z">
+                </path>
+            </svg>
+            <span class="text-red-800"> Your was invoice rejected. </span>
+        </div>
+        <!-- End Alert Error -->
+        @endif
 
-                    <!-- End Alert Success -->
-            @endif
+        <!-- End Alert Success -->
+        @endif
 
 
-                <!-- End Alert Info -->
+        <!-- End Alert Info -->
         <!--begin::Chat-->
-            @livewire('client.components.order-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles, $confirm_invoice, $total_fee, $user_type, $orderId ])
+        @livewire('client.components.order-sum-with-chatbox', [$orderDetails, $revisions, $clientFiles,
+        $confirm_invoice, $total_fee, $user_type, $orderId ])
 
         <!--end::Chat-->
 
-            <br>
+        <br>
         <!--begin::Order Submision section-->
-            {{-- @livewire('client.components.order-submision', [$orderDetails, $revisions, $clientFiles, $orderStatus, $companyFiles, $writerFiles]) --}}
+        {{-- @livewire('client.components.order-submision', [$orderDetails, $revisions, $clientFiles, $orderStatus,
+        $companyFiles, $writerFiles]) --}}
         @guest
         @if (!$orderStatus)
         <div class="d-flex flex-column flex-lg-row">
@@ -114,7 +116,8 @@
                     <div class="card-header align-items-center px-9 py-3" id="kt_chat_content_header">
                         <div class="text-start flex-grow-1">
                             <!--begin::Aside Mobile Toggle-->
-                            <button type="button" class="btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none"
+                            <button type="button"
+                                class="btn btn-active-light-primary btn-sm btn-icon btn-icon-md d-lg-none"
                                 id="kt_app_chat_toggle">
                                 <!--begin::Svg Icon | path: icons/stockholm/Communication/Adress-book2.svg-->
                                 <span class="svg-icon svg-icon-1">
@@ -195,7 +198,8 @@
                                             <div class="col-md-2 p-3">
                                                 <a wire:click="getDownload('{{$writerFile->folder}}/{{$writerFile->filename}}')"
                                                     type="button" class="btn-floating btn-small"
-                                                    download="{{$writerFile->filename}}"> <span class="svg-icon svg-icon-3">
+                                                    download="{{$writerFile->filename}}"> <span
+                                                        class="svg-icon svg-icon-3">
                                                         <i class="bi bi-download"></i>
                                                     </span>
                                                 </a>
@@ -218,7 +222,8 @@
                                                         <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
                                                             Accepting Order From Writer
                                                             <span class="svg-icon svg-icon-3 text-yellow-500">
-                                                                <i class="bi bi-exclamation-triangle text-yellow-500"></i>
+                                                                <i
+                                                                    class="bi bi-exclamation-triangle text-yellow-500"></i>
                                                             </span>
                                                         </h4>
                                                         <p
@@ -239,8 +244,9 @@
                                                                         x-show="show"
                                                                         x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                         style="display: none;">
-                                                                        <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                                            stroke="currentColor" stroke-width="4"></circle>
+                                                                        <circle class="opacity-25" cx="12" cy="12"
+                                                                            r="10" stroke="currentColor"
+                                                                            stroke-width="4"></circle>
                                                                         <path class="opacity-75" fill="currentColor"
                                                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                         </path>
@@ -256,7 +262,8 @@
                                                             <h4 class="text-blue-400 " style="margin-top: 1rem;">
                                                                 Leave a comment (Optional)
                                                                 <span class="svg-icon svg-icon-4 ">
-                                                                    <i class="bi bi-chat-left-text-fill text-blue-400"></i>
+                                                                    <i
+                                                                        class="bi bi-chat-left-text-fill text-blue-400"></i>
                                                                 </span>
                                                             </h4>
                                                             <div class="mt-1 relative rounded-md shadow-sm">
@@ -280,8 +287,9 @@
                                                                         x-show="show"
                                                                         x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                         style="display: none;">
-                                                                        <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                                            stroke="currentColor" stroke-width="4"></circle>
+                                                                        <circle class="opacity-25" cx="12" cy="12"
+                                                                            r="10" stroke="currentColor"
+                                                                            stroke-width="4"></circle>
                                                                         <path class="opacity-75" fill="currentColor"
                                                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                         </path>
@@ -301,7 +309,8 @@
                                                         <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
                                                             Rejecting Order
                                                             <span class="svg-icon svg-icon-4 text-yellow-500">
-                                                                <i class="bi bi-exclamation-triangle text-yellow-500"></i>
+                                                                <i
+                                                                    class="bi bi-exclamation-triangle text-yellow-500"></i>
                                                             </span>
                                                         </h4>
                                                         <p
@@ -325,8 +334,9 @@
                                                                         x-show="show"
                                                                         x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                         style="display: none;">
-                                                                        <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                                            stroke="currentColor" stroke-width="4"></circle>
+                                                                        <circle class="opacity-25" cx="12" cy="12"
+                                                                            r="10" stroke="currentColor"
+                                                                            stroke-width="4"></circle>
                                                                         <path class="opacity-75" fill="currentColor"
                                                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                         </path>
@@ -356,7 +366,8 @@
                                                         </h4>
                                                         <div wire:ignore class="row">
                                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                <input type="file" name="paperFile" id="test" multiple>
+                                                                <input type="file" name="paperFile[]" id="test"
+                                                                    multiple>
                                                             </div>
                                                             <script type="text/javascript">
                                                                 const inputElement = document.querySelector('input[id="test"]');
@@ -385,8 +396,9 @@
                                                                         x-show="show"
                                                                         x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                         style="display: none;">
-                                                                        <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                                            stroke="currentColor" stroke-width="4"></circle>
+                                                                        <circle class="opacity-25" cx="12" cy="12"
+                                                                            r="10" stroke="currentColor"
+                                                                            stroke-width="4"></circle>
                                                                         <path class="opacity-75" fill="currentColor"
                                                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                                                         </path>
@@ -408,14 +420,16 @@
                                             <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
                                                 role="alert">
                                                 <div class="flex">
-                                                    <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4"
+                                                    <div class="py-1"><svg
+                                                            class="fill-current h-6 w-6 text-teal-500 mr-4"
                                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                             <path
                                                                 d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
                                                         </svg></div>
                                                     <div>
                                                         <p class="font-bold">
-                                                            {{ $this->checkIfOrderPassedStage($orderDetails->id, 'Client')
+                                                            {{ $this->checkIfOrderPassedStage($orderDetails->id,
+                                                            'Client')
                                                             }}
                                                         </p>
                                                     </div>
@@ -430,11 +444,11 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        @endif
-        @endguest
+            </div>
+            @endif
+            @endguest
 
-        @auth
+            @auth
             @if (!$orderStatus)
             <div class="d-flex flex-column flex-lg-row">
                 <div class="flex-lg-row-fluid">
@@ -514,7 +528,7 @@
                                             </h4>
                                             <div wire:ignore class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <input type="file" wire:model.defer='companyFile' name="paperFile"
+                                                    <input type="file" wire:model.defer='companyFile' name="paperFile[]"
                                                         id="test" multiple>
                                                 </div>
                                                 <script type="text/javascript">
@@ -607,7 +621,8 @@
                                                                                     download="{{$writerFile->filename}}">
                                                                                     <span
                                                                                         class="svg-icon svg-icon-8 text-hover-primary">
-                                                                                        <i class="bi bi-download fs-4"></i>
+                                                                                        <i
+                                                                                            class="bi bi-download fs-4"></i>
                                                                                     </span></a>
                                                                             </span>
                                                                         </div>
@@ -628,7 +643,8 @@
                                                             </div>
                                                             @if ($showOperationSection)
 
-                                                            <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
+                                                            <h4 class="text-blue-400 uppercase "
+                                                                style="margin-top: -1rem;">
                                                                 Accepting Order From
                                                                 Writer
                                                                 <span class="svg-icon svg-icon-3 text-yellow-500">
@@ -645,13 +661,14 @@
 
                                                                 <span class="relative inline-flex rounded-lg shadow-sm">
 
-                                                                    <button wire:click='activateAcceptSection' type="button"
+                                                                    <button wire:click='activateAcceptSection'
+                                                                        type="button"
                                                                         class="btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
 
                                                                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                            viewBox="0 0 24 24" x-data="{show: false}"
-                                                                            x-show="show"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            x-data="{show: false}" x-show="show"
                                                                             x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                             style="display: none;">
                                                                             <circle class="opacity-25" cx="12" cy="12"
@@ -692,9 +709,9 @@
                                                                         x-on:click="$wire.accept('{{$orderDetails->order_no}}')">
 
                                                                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                            viewBox="0 0 24 24" x-data="{show: false}"
-                                                                            x-show="show"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            x-data="{show: false}" x-show="show"
                                                                             x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                             style="display: none;">
                                                                             <circle class="opacity-25" cx="12" cy="12"
@@ -717,7 +734,8 @@
                                                 <div class="col-sm-6">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4 class="text-blue-400 uppercase " style="margin-top: -1rem;">
+                                                            <h4 class="text-blue-400 uppercase "
+                                                                style="margin-top: -1rem;">
                                                                 Rejecting Order
                                                                 <span class="svg-icon svg-icon-4 text-yellow-500">
                                                                     <i
@@ -736,13 +754,14 @@
 
                                                                 <span class="relative inline-flex rounded-lg shadow-sm">
 
-                                                                    <button wire:click='activateRejectSection' type="button"
+                                                                    <button wire:click='activateRejectSection'
+                                                                        type="button"
                                                                         class="btn-danger transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md">
 
                                                                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                            viewBox="0 0 24 24" x-data="{show: false}"
-                                                                            x-show="show"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            x-data="{show: false}" x-show="show"
                                                                             x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                             style="display: none;">
                                                                             <circle class="opacity-25" cx="12" cy="12"
@@ -777,7 +796,8 @@
                                                             </h4>
                                                             <div wire:ignore class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    <input type="file" name="paperFile" id="test" multiple>
+                                                                    <input type="file" name="paperFile[]" id="test"
+                                                                        multiple>
                                                                 </div>
                                                                 <script type="text/javascript">
                                                                     const inputElement = document.querySelector('input[id="test"]');
@@ -801,9 +821,9 @@
                                                                         x-on:click="$wire.reject('{{$orderDetails->order_no}}')">
 
                                                                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                            viewBox="0 0 24 24" x-data="{show: false}"
-                                                                            x-show="show"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            x-data="{show: false}" x-show="show"
                                                                             x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
                                                                             style="display: none;">
                                                                             <circle class="opacity-25" cx="12" cy="12"
@@ -855,8 +875,8 @@
                 </div>
             </div>
             @endif
-        @endauth
-        <!--end::Order Submision section-->
+            @endauth
+            <!--end::Order Submision section-->
 
             <script>
                 // window.checkScroll = false;
@@ -893,8 +913,8 @@
                 }
             </script>
 
+        </div>
     </div>
-</div>
     <style>
         .link-download:hover {
             text-decoration: underline !important;

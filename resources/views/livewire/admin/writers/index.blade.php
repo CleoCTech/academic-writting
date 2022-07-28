@@ -181,6 +181,6 @@
     </div>
 
     @elseif($varView == "writer-details")
-        {{-- @livewire('admin.writer-details') --}}
+        @livewire('admin.writers.show', ['id' => $writer_id])
     @endif
 </div>

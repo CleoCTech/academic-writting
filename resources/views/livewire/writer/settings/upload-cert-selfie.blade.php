@@ -1,9 +1,9 @@
 <div>
     {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
-    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto" >
+    <div class="px-10 my-4 py-6 rounded shadow-xl bg-white w-5/5 mx-auto">
         <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
-           Back
+            Back
         </button>
         <h2 class="text-2xl text-gray-700 font-bold hover:text-gray-600">
             Upload your selfie photo of you holding your certificate
@@ -22,9 +22,9 @@
         <div wire:ignore class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <input type="file" name="paperFile"  id="test" accept="image/x-png,image/gif,image/jpeg">
+                <input type="file" name="paperFile[]" id="test" accept="image/x-png,image/gif,image/jpeg">
                 {{-- <div class="custom-file">
-                    <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
+                    <input type="file" name="paperFile[]" class="custom-file-input" id="uploadfiles" />
                 </div> --}}
             </div>
         </div>
@@ -34,7 +34,8 @@
                 <button wire:click="store" type="button" class="btn btn-primary">
                     Submit
                 </button>
-                {{-- <input type="button" name="next" id="next" value="Next" class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
+                {{-- <input type="button" name="next" id="next" value="Next"
+                    class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
                 <span class="float-right"><i class="fas fa-arrow-right fa-3x"></i></span> --}}
             </div>
             {{-- <a class="px-2 py-1 bg-blue-600 text-gray-100 font-bold

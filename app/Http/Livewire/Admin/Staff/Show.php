@@ -52,7 +52,7 @@ class Show extends Component
                  'role' => $this->role,
                 ]);
              DB::commit();
-             session()->flash('success', 'Saved Successfully');;
+             session()->flash('success', 'Saved Successfully');
          } catch (\Throwable $th) {
              DB::rollBack();
              session()->flash('error', $th->getMessage());

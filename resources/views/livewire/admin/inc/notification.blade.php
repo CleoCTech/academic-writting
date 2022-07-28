@@ -56,7 +56,6 @@
                             @include('livewire.general.global-modal')
                         </div>
                     </a>
-
                     @endif
                     @endforeach
 
@@ -78,6 +77,30 @@
                                 <span class="font-bold text-blue-500"> {{ $item->description }}</span>
                                 <span  x-on:click="$wire.goToNewOrder('{{ $item->description }}', '{{ $item->id }}')"
                                 class="font-extrabold text-blue-500 hover:underline" href="#">Go To Order</span> . {{ $item->created_at->diffForHumans() }}
+                            </p>
+                        </a>
+                        @endif
+                        @if ($item->title == 'Invoice Confirmed')
+                        <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                            <p  class="text-gray-600 text-sm mx-2">
+                                <span class="font-bold" href="#">Invoice for
+                                <span class="font-bold text-blue-500"> {{ $item->description }} </span>
+                                <span class="font-bold"> was </span>
+                                <span class="font-bold text-green-500 mr-1"> accepted </span>
+                                <span  x-on:click="$wire.markAsReadGeneral('{{ $item->id }}')"
+                                class="font-extrabold text-blue-500 hover:underline" href="#">Mark As Read</span> . {{ $item->created_at->diffForHumans() }}
+                            </p>
+                        </a>
+                        @endif
+                        @if ($item->title == 'Invoice Rejected')
+                        <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                            <p  class="text-gray-600 text-sm mx-2">
+                                <span class="font-bold" href="#">Invoice for
+                                <span class="font-bold text-blue-500"> {{ $item->description }} </span>
+                                <span class="font-bold"> was </span>
+                                <span class="font-bold text-red-500 mr-1"> rejected </span>
+                                <span  x-on:click="$wire.markAsReadGeneral('{{ $item->id }}')"
+                                class="font-extrabold text-blue-500 hover:underline" href="#">Mark As Read</span> . {{ $item->created_at->diffForHumans() }}
                             </p>
                         </a>
                         @endif

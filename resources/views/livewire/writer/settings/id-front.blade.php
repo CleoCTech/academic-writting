@@ -25,7 +25,7 @@
         @endif
         <button wire:click="settings('')" type="button" class="btn btn-primary">
             <i style="font-size: 1rem !important;" class="bi bi-arrow-bar-left fa-2x"></i>
-           Back
+            Back
         </button>
         <h2 class="text-2xl text-gray-700 font-bold hover:text-gray-600">
             Upload front side of your ID
@@ -44,9 +44,9 @@
         <div wire:ignore class="row">
 
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <input type="file" name="paperFile"  id="test">
+                <input type="file" name="paperFile[]" id="test">
                 {{-- <div class="custom-file">
-                    <input type="file" name="paperFile" class="custom-file-input" id="uploadfiles" />
+                    <input type="file" name="paperFile[]" class="custom-file-input" id="uploadfiles" />
                 </div> --}}
             </div>
         </div>
@@ -57,7 +57,8 @@
                     Next
                     <i style="font-size: 2rem !important;" class="fas fa-arrow-right fa-3x"></i>
                 </button>
-                {{-- <input type="button" name="next" id="next" value="Next" class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
+                {{-- <input type="button" name="next" id="next" value="Next"
+                    class="p-3 rounded-lg bg-purple-600 outline-none text-white shadow justify-center focus:bg-purple-700 hover:bg-purple-500">
                 <span class="float-right"><i class="fas fa-arrow-right fa-3x"></i></span> --}}
             </div>
             {{-- <a class="px-2 py-1 bg-blue-600 text-gray-100 font-bold
@@ -68,7 +69,6 @@
     </div>
 
     <script type="text/javascript">
-
         // sessionStorage.setItem("path", "writers/tmp");
         const inputElement = document.querySelector('input[id="test"]');
         const pond = FilePond.create( inputElement );

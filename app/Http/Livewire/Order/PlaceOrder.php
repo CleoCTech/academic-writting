@@ -21,8 +21,8 @@ class PlaceOrder extends Component
     public $status='Pending';
 
     protected $rules = [
-        'pages' => ['required'],
-        'deadline_date' => ['required'],
+        'pages' => ['required', 'numeric', 'min:1', 'not_in:1'],
+        'deadline_date' => ['required', 'after:yesterday'],
         'deadline_time' => ['required'],
         'category_id' => ['required'],
         'topic' => ['required'],

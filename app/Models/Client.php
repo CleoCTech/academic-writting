@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Accounting\Account;
 use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -60,5 +61,8 @@ class Client extends Model
     public function notificationsfromable()
     {
         return $this->morphMany(Notification::class, 'fromable');
+    }
+    public function account(){
+        return $this->morphOne(Account::class, 'accountable');
     }
 }

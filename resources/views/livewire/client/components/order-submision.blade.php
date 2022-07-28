@@ -165,7 +165,7 @@
                                                             <span class="relative inline-flex rounded-lg shadow-sm">
 
                                                                 <button onclick="resetPond()" type="button"
-                                                                    class="btn-primary transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
+                                                                    class="btn-primary bg-emerald-400 transition duration-150 ease-in-out transform hover:scale-110 bg-emerald-600 text-white font-semibold py-3 px-6 rounded-md"
                                                                     x-on:click="$wire.accept('{{$orderDetails->order_no}}')">
 
                                                                     <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -250,7 +250,7 @@
                                                         </h4>
                                                         <div wire:ignore class="row">
                                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                <input type="file" name="paperFile" id="test" multiple>
+                                                                <input type="file" name="paperFile[]" id="test" multiple>
                                                             </div>
                                                             <script type="text/javascript">
                                                                 const inputElement = document.querySelector('input[id="test"]');
@@ -408,7 +408,7 @@
                                         </h4>
                                         <div wire:ignore class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <input type="file" wire:model.defer='companyFile' name="paperFile"
+                                                <input type="file" wire:model.defer='companyFile' name="paperFile[]"
                                                     id="test" multiple>
                                             </div>
                                             <script type="text/javascript">
@@ -670,7 +670,7 @@
                                                         </h4>
                                                         <div wire:ignore class="row">
                                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                <input type="file" name="paperFile" id="test" multiple>
+                                                                <input type="file" name="paperFile[]" id="test" multiple>
                                                             </div>
                                                             <script type="text/javascript">
                                                                 const inputElement = document.querySelector('input[id="test"]');

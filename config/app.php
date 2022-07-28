@@ -19,6 +19,18 @@ return [
         'shortName' => env('DEV_COMPANY_SHORT_NAME'),
         'website' => env('DEV_URL'),
     ],
+    'errors' =>[
+        'client'=>[
+            'FileNotFound' => 'File not found',
+        ],
+        'admin' => [
+            'FileNotFound' => 'File not found',
+        ],
+        'writer' => [
+            'FileNotFound' => 'File not found',
+        ],
+
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application Name

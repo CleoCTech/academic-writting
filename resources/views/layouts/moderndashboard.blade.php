@@ -25,6 +25,7 @@
 
     <body class="main bg-primary" style="background-color: rgb(0, 163, 255);">
         @livewire('dashboard.components.overlay.invoice-notification', ['user_id' => '', 'user_type' => ''])
+        @livewire('dashboard.components.overlay.non-sticky-notification')
         <div class="flex">
             <!-- BEGIN: Side Menu -->
             @livewire('dashboard.inc.side-menu')
@@ -98,6 +99,11 @@
                 .listen('.order-created-event', (e) => {
                     window.livewire.emit('OrderCreated');
                     // console.log(e.message);
+                });
+                Echo.channel(`client-edited-order`)
+                .listen('.client-edited-order-event', (e) => {
+                    window.livewire.emit('non-sticky-notification', e.message);
+                    console.log(e.message);
                 });
 
             });

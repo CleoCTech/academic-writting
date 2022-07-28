@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-    public $client=[];
+    public $client;
     public $section='';
 
     public function render()
@@ -21,9 +21,12 @@ class Profile extends Component
         }
         $ordersCount = Order::where('client_id', $this->client->id)->get()->count();
         $files = ClientFile::where('client_id', $this->client->id)
-        ->where('from', 'client')
+        ->where(function ($query){
+            $query->orwhere('from', 'company')
+            ->orwhere('from', 'client');
+        })
         ->latest()
-        ->take(3)
+        ->take(4)
         ->get();
         $latestPayments = Payment::whereHas('client')
         ->with('client')

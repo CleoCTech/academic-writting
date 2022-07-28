@@ -8,6 +8,10 @@ use App\Models\OrderBilling;
 use App\Models\RejectedOrder;
 use App\Models\User;
 use App\Models\Writer;
+use App\Services\Accounting\AccountService;
+use App\Services\ClientService;
+use App\Services\CompanyService;
+use App\Services\WriterService;
 use Livewire\Component;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
@@ -54,7 +58,7 @@ class AdminDashboard extends Component
         // $this->varView='home';
     }
 
-    public function render()
+    public function render(CompanyService $companyService, AccountService $accountService, ClientService $clientService, WriterService $writerService)
     {
         $perPage = 6;
 
@@ -103,6 +107,15 @@ class AdminDashboard extends Component
         ];
 
         $this->keyCol = $this->getKeyCol();
+        
+        $companyInfo = $companyService->getCompany();
+        $model = $companyService->getCompanyInformationModelPath();
+        $account = $accountService->getAccount($companyInfo->id, $model);
+        $companyBalance = $accountService->getOpeningBalance($account->account_no);
+        
+        $clientsCashflow = $accountService->getModelCashFlow($clientService->getClientModelPath(), 'Active');
+        $writersCashflow = $accountService->getModelCashFlow($writerService->getWriterModelPath(), 'Active');
+        
         return view('livewire.admin.admin-dashboard')
         ->with([
             'pending_orders'=>$pending_orders,
@@ -115,6 +128,9 @@ class AdminDashboard extends Component
             'onlineClients'=>$onlineClients,
             'onlineStaff'=>$onlineStaff,
             'onlineWriters'=>$onlineWriters,
+            'companyBalance'=>$companyBalance,
+            'clientsCashflow'=>$clientsCashflow,
+            'writersCashflow'=>$writersCashflow,
             ])
         ->layout('layouts.client');
     }

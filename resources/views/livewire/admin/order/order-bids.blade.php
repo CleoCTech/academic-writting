@@ -31,7 +31,7 @@
                             Price:
                         </div>
                         <div class="lead fw-bold flex-auto" style="margin-left: -25rem">
-                           $ {{$orderDetails->bill->proposed_resell_price}}
+                            $ {{$orderDetails->bill->proposed_resell_price}}
                         </div>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                 <div class="card-header border-0 pt-5 pb-3">
                     <div class="flex flex-wrap mt-12 justify-start">
                         <div class="grid grid-cols-1 ">
-                                    <!--begin::Heading-->
+                            <!--begin::Heading-->
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-boldest text-gray-800 fs-2">Bidders</span>
-                                <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($bidders)}}
+                                <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($bidders)}}
                                     Bidders(s)</span>
                             </h3>
                             <!--end::Heading-->
@@ -59,8 +59,7 @@
                                 <i class="bi bi-search"></i>
                             </span>
                             <!--end::Svg Icon-->
-                            <input type="text"
-                                class="form-control form-control-sm form-control-solid ps-10"
+                            <input type="text" class="form-control form-control-sm form-control-solid ps-10"
                                 name="search" value="" placeholder="Search" />
                         </div>
                         <!--end::Search-->
@@ -72,19 +71,14 @@
                 <div class="card-body py-0">
                     <!--begin::Table-->
                     <div class="table-responsive">
-                        <table
-                            class="table align-middle table-row-bordered table-row-dashed gy-5"
+                        <table class="table align-middle table-row-bordered table-row-dashed gy-5"
                             id="kt_table_widget_1" x-data=''>
-                            <thead
-                                class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
+                            <thead class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                 <tr>
                                     <th class="w-20px ps-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                            <input class="form-check-input" type="checkbox"
-                                                data-kt-check="true"
-                                                data-kt-check-target="#kt_table_widget_1 .form-check-input"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                            <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                data-kt-check-target="#kt_table_widget_1 .form-check-input" value="1" />
                                         </div>
                                     </th>
                                     <th class="min-w-125px">Date</th>
@@ -99,17 +93,14 @@
                                 @foreach ($bidders as $bidder)
                                 <tr>
                                     <td class="p-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox" value="1" />
                                         </div>
                                     </td>
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-500  fs-5  mb-1">{!!
+                                                <a href="#" class="text-gray-500  fs-5  mb-1">{!!
                                                     htmlspecialchars_decode(date('j<\s\up>S
                                                     </\s\up> F Y',
                                                     strtotime($bidder->created_at))) !!}
@@ -120,8 +111,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-400 mb-1">{{$bidder->bid}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$bidder->bid}}
                                                 </a>
                                             </div>
                                         </div>
@@ -129,8 +119,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-green-400 mb-1">$ {{$bidder->price}}
+                                                <a href="#" class="text-green-400 mb-1">$ {{$bidder->price}}
                                                 </a>
                                             </div>
                                         </div>
@@ -139,8 +128,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-400 mb-1"> {{$bidder->writer->firstname}}
+                                                <a href="#" class="text-gray-900 mb-1"> {{$bidder->writer->firstname}}
                                                 </a>
                                                 <span>📶</span>
                                             </div>
@@ -163,10 +151,10 @@
                             </tbody>
                         </table>
                         <div x-data="{isDlgModal:false}" :class="{ 'block': isDlgModal, 'hidden': !isDlgModal }"
-                        class="hidden" x-on:dlg-modal.window="isDlgModal = !isDlgModal"
-                        @click.away="isDlgModal = false">
-                        @include('livewire.general.global-modal')
-                    </div>
+                            class="hidden" x-on:dlg-modal.window="isDlgModal = !isDlgModal"
+                            @click.away="isDlgModal = false">
+                            @include('livewire.general.global-modal')
+                        </div>
                     </div>
                     <!--end::Table-->
                 </div>

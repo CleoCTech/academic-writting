@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Order;
 use App\Models\RejectedOrder;
+use App\Services\Accounting\AccountService;
+use App\Services\ClientService;
 use App\Traits\AdminPropertiesTrait;
 use App\Traits\LayoutTrait;
 use App\Traits\SearchFilterTrait;
@@ -31,11 +33,11 @@ class Home extends Component
     {
         $this->varView=$varValue;
     }
-    public function render()
+    public function render(ClientService $clientService, AccountService $accountService)
     {
         $perPage = 4;
 
-        $orders = collect(Order::search($this->searchKeyword)->with('order')->where('client_id', session()->get('LoggedClient'))->get());
+        $orders = collect(Order::search($this->searchKeyword)->with('order')->where('client_id', session()->get('LoggedClient'))->latest()->get());
 
             $pending_ordersZ = $orders->where('status', 'Pending');
             $pending_orders = $pending_ordersZ->forPage($this->page, $perPage);
@@ -60,6 +62,7 @@ class Home extends Component
         $revisions =  RejectedOrder::where('from', 'client')
                                     ->where('from_id', session()->get('LoggedClient'))
                                     ->latest()->paginate(8);
+        $transactions = $clientService->getTransactions(session()->get('LoggedClient'), $accountService);
         $this->cols = [
             ['colName' => "created_at",'colCaption' => 'Date', 'type' => 'date', 'element' => 'input', 'isEdit' => false,'isCreate' => false, 'isList' => true, 'isView' => true,'isSearch' => true],
             ['colName' => "order_no",'colCaption' => 'Order ID', 'type' => 'text', 'element' => 'input', 'isKey' => true, 'isEdit' => false,'isCreate' => true, 'isList' => true, 'isView' => true,'isSearch' => true],
@@ -80,7 +83,9 @@ class Home extends Component
         ->with(['pending_orders'=>$pending_orders,
                 'others'=>$others, 'revisions'=>$revisions,
                 'ongoing'=>$ongoing, 'complete'=>$complete,
-                'cancelled'=>$cancelled])
+                'cancelled'=>$cancelled,
+                'transactions'=>$transactions,
+                ])
         ->layout('layouts.moderndashboard');
     }
 

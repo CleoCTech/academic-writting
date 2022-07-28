@@ -11,7 +11,7 @@
                     <!--begin::Heading-->
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-boldest text-gray-800 fs-2">Revisions</span>
-                        <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($items)}}
+                        <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($items)}}
                             Revisions</span>
                     </h3>
                     <!--end::Heading-->
@@ -24,8 +24,7 @@
                                 <i class="bi bi-search"></i>
                             </span>
                             <!--end::Svg Icon-->
-                            <input type="text"
-                                class="form-control form-control-sm form-control-solid ps-10"
+                            <input type="text" class="form-control form-control-sm form-control-solid ps-10"
                                 name="search" value="" placeholder="Search" />
                         </div>
                         <!--end::Search-->
@@ -37,19 +36,14 @@
                 <div class="card-body py-0">
                     <!--begin::Table-->
                     <div class="table-responsive">
-                        <table
-                            class="table align-middle table-row-bordered table-row-dashed gy-5"
+                        <table class="table align-middle table-row-bordered table-row-dashed gy-5"
                             id="kt_table_widget_1" x-data=''>
-                            <thead
-                                class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
+                            <thead class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                 <tr>
                                     <th class="w-20px ps-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                            <input class="form-check-input" type="checkbox"
-                                                data-kt-check="true"
-                                                data-kt-check-target="#kt_table_widget_1 .form-check-input"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                            <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                data-kt-check-target="#kt_table_widget_1 .form-check-input" value="1" />
                                         </div>
                                     </th>
                                     <th class="min-w-125px">Date</th>
@@ -65,17 +59,16 @@
                                 @foreach ($items as $item)
                                 <tr>
                                     <td class="p-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox" value="1" />
                                         </div>
                                     </td>
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-500  fs-5  mb-1">{!! htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y', strtotime($item->created_at))) !!}
+                                                <a href="#" class="text-gray-500  fs-5  mb-1">{!!
+                                                    htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y',
+                                                    strtotime($item->created_at))) !!}
                                                 </a>
                                             </div>
                                         </div>
@@ -83,8 +76,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-400 mb-1">{{$item->order->order_no}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->order->order_no}}
                                                 </a>
                                             </div>
                                         </div>
@@ -92,45 +84,46 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#" class="text-gray-400 mb-1">{{$item->comment}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->comment}}
                                                 </a>
                                             </div>
                                         </div>
-                                        {{-- <span class="text-gray-400 fw-bold">
+                                        {{-- <span class="text-gray-900 fw-bold">
                                             Darknight transparency 36 Icons Pack</span> --}}
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                              @if ($item->status=='In progress')
-                                                <span wire:class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
-                                                <div class="progress bg-light-info w-100 h-5px">
-                                                    <div class="progress-bar bg-info"
-                                                        role="progressbar" style="width: 85%"></div>
+                                            @if ($item->status=='In progress')
+                                            <span wire:class="text-gray-900 me-2 fw-boldest mb-2">85%</span>
+                                            <div class="progress bg-light-info w-100 h-5px">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 85%">
                                                 </div>
-                                              @elseif($item->status=='Pending')
-                                              <span wire:class="text-gray-400 me-2 fw-boldest mb-2">0%</span>
-                                                <div class="progress bg-light-secondary w-100 h-5px">
-                                                    <div class="progress-bar bg-info"
-                                                        role="progressbar" style="width: 0%"></div>
+                                            </div>
+                                            @elseif($item->status=='Pending')
+                                            <span wire:class="text-gray-900 me-2 fw-boldest mb-2">0%</span>
+                                            <div class="progress bg-light-secondary w-100 h-5px">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 0%">
                                                 </div>
-                                              @elseif($item->status=='Complete')
-                                              <span class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
-                                              <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary"
-                                                    role="progressbar" style="width: 100%"></div>
-                                                </div>
-                                              @endif
+                                            </div>
+                                            @elseif($item->status=='Complete')
+                                            <span class="text-gray-900 me-2 fw-boldest mb-2">100%</span>
+                                            <div class="progress bg-light-primary w-100 h-5px">
+                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                    style="width: 100%"></div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="pe-0 text-end">
-                                        <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
+                                        <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                            x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
                                     </td>
                                 </tr>
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="6" class="pe-0 text-end italic text-center" >
+                                    <td colspan="6" class="pe-0 text-end italic text-center">
                                         *** No records
                                         found ***
                                     </td>
@@ -159,7 +152,7 @@
                     <!--begin::Heading-->
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-boldest text-gray-800 fs-2">Revisions</span>
-                        <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($items)}}
+                        <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($items)}}
                             Revisions</span>
                     </h3>
                     <!--end::Heading-->
@@ -172,8 +165,7 @@
                                 <i class="bi bi-search"></i>
                             </span>
                             <!--end::Svg Icon-->
-                            <input type="text"
-                                class="form-control form-control-sm form-control-solid ps-10"
+                            <input type="text" class="form-control form-control-sm form-control-solid ps-10"
                                 name="search" value="" placeholder="Search" />
                         </div>
                         <!--end::Search-->
@@ -185,19 +177,14 @@
                 <div class="card-body py-0">
                     <!--begin::Table-->
                     <div class="table-responsive">
-                        <table
-                            class="table align-middle table-row-bordered table-row-dashed gy-5"
+                        <table class="table align-middle table-row-bordered table-row-dashed gy-5"
                             id="kt_table_widget_1" x-data=''>
-                            <thead
-                                class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
+                            <thead class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                 <tr>
                                     <th class="w-20px ps-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                            <input class="form-check-input" type="checkbox"
-                                                data-kt-check="true"
-                                                data-kt-check-target="#kt_table_widget_1 .form-check-input"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                            <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                data-kt-check-target="#kt_table_widget_1 .form-check-input" value="1" />
                                         </div>
                                     </th>
                                     <th class="min-w-125px">Date</th>
@@ -212,17 +199,16 @@
                                 @foreach ($items as $item)
                                 <tr>
                                     <td class="p-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox" value="1" />
                                         </div>
                                     </td>
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-500  fs-5  mb-1">{!! htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y', strtotime($item->created_at))) !!}
+                                                <a href="#" class="text-gray-500  fs-5  mb-1">{!!
+                                                    htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y',
+                                                    strtotime($item->created_at))) !!}
                                                 </a>
                                             </div>
                                         </div>
@@ -230,8 +216,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-400 mb-1">{{$item->order->order_no}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->order->order_no}}
                                                 </a>
                                             </div>
                                         </div>
@@ -239,31 +224,32 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#" class="text-gray-400 mb-1">{{$item->comment}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->comment}}
                                                 </a>
                                             </div>
                                         </div>
-                                        {{-- <span class="text-gray-400 fw-bold">
+                                        {{-- <span class="text-gray-900 fw-bold">
                                             Darknight transparency 36 Icons Pack</span> --}}
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                              <span class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
-                                              <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary"
-                                                    role="progressbar" style="width: 100%"></div>
-                                                </div>
+                                            <span class="text-gray-900 me-2 fw-boldest mb-2">100%</span>
+                                            <div class="progress bg-light-primary w-100 h-5px">
+                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                    style="width: 100%"></div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="pe-0 text-end">
-                                        <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
+                                        <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                            x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
                                     </td>
                                 </tr>
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="5" class="pe-0 text-end italic text-center" >
+                                    <td colspan="5" class="pe-0 text-end italic text-center">
                                         *** No records
                                         found ***
                                     </td>
@@ -292,7 +278,7 @@
                     <!--begin::Heading-->
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-boldest text-gray-800 fs-2">Revisions</span>
-                        <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($items)}}
+                        <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($items)}}
                             Revisions</span>
                     </h3>
                     <!--end::Heading-->
@@ -305,8 +291,7 @@
                                 <i class="bi bi-search"></i>
                             </span>
                             <!--end::Svg Icon-->
-                            <input type="text"
-                                class="form-control form-control-sm form-control-solid ps-10"
+                            <input type="text" class="form-control form-control-sm form-control-solid ps-10"
                                 name="search" value="" placeholder="Search" />
                         </div>
                         <!--end::Search-->
@@ -318,19 +303,14 @@
                 <div class="card-body py-0">
                     <!--begin::Table-->
                     <div class="table-responsive">
-                        <table
-                            class="table align-middle table-row-bordered table-row-dashed gy-5"
+                        <table class="table align-middle table-row-bordered table-row-dashed gy-5"
                             id="kt_table_widget_1" x-data=''>
-                            <thead
-                                class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
+                            <thead class="border-bottom border-gray-200 fs-5 fw-bold bg-light bg-opacity-75">
                                 <tr>
                                     <th class="w-20px ps-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                            <input class="form-check-input" type="checkbox"
-                                                data-kt-check="true"
-                                                data-kt-check-target="#kt_table_widget_1 .form-check-input"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                            <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                data-kt-check-target="#kt_table_widget_1 .form-check-input" value="1" />
                                         </div>
                                     </th>
                                     <th class="min-w-125px">Date</th>
@@ -345,17 +325,16 @@
                                 @foreach ($items as $item)
                                 <tr>
                                     <td class="p-0">
-                                        <div
-                                            class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="1" />
+                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <input class="form-check-input" type="checkbox" value="1" />
                                         </div>
                                     </td>
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-500  fs-5  mb-1">{!! htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y', strtotime($item->created_at))) !!}
+                                                <a href="#" class="text-gray-500  fs-5  mb-1">{!!
+                                                    htmlspecialchars_decode(date('j<\s\up>S</\s\up> F Y',
+                                                    strtotime($item->created_at))) !!}
                                                 </a>
                                             </div>
                                         </div>
@@ -363,8 +342,7 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#"
-                                                    class="text-gray-400 mb-1">{{$item->order->order_no}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->order->order_no}}
                                                 </a>
                                             </div>
                                         </div>
@@ -372,32 +350,34 @@
                                     <td class="p-0">
                                         <div class="d-flex align-items-center">
                                             <div class="ps-3">
-                                                <a href="#" class="text-gray-400 mb-1">{{$item->comment}}
+                                                <a href="#" class="text-gray-900 mb-1">{{$item->comment}}
                                                 </a>
                                             </div>
                                         </div>
-                                        {{-- <span class="text-gray-400 fw-bold">
+                                        {{-- <span class="text-gray-900 fw-bold">
                                             Darknight transparency 36 Icons Pack</span> --}}
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column w-100 me-2 mt-2">
 
-                                              <span class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
-                                              <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary"
-                                                    role="progressbar" style="width: 100%"></div>
-                                                </div>
+                                            <span class="text-gray-900 me-2 fw-boldest mb-2">100%</span>
+                                            <div class="progress bg-light-primary w-100 h-5px">
+                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                    style="width: 100%"></div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="pe-0 text-start">
-                                        <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
-                                        <a  class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5" x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
+                                        <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                            x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
+                                        <a class="btn btn-light text-muted fw-boldest text-hover-primary btn-sm px-5"
+                                            x-on:click="$wire.chat('{{$item->order->order_no}}')">View</a>
                                     </td>
                                 </tr>
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="6" class="pe-0 text-end italic text-center" >
+                                    <td colspan="6" class="pe-0 text-end italic text-center">
                                         *** No records
                                         found ***
                                     </td>
@@ -416,8 +396,8 @@
         <!--end::Col-->
     </div>
     @elseif ($currentView=='applications')
-        <div class="">
-            <h2>Applications</h2>
-        </div>
+    <div class="">
+        <h2>Applications</h2>
+    </div>
     @endif
 </div>

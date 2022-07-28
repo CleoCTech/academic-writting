@@ -301,7 +301,7 @@
                                                 <!--begin::Text-->
                                                 <div class="d-flex flex-column text-end">
                                                     <span class="fw-boldest text-gray-800 fs-2">Essay Orders</span>
-                                                    <span class="text-gray-400 fw-bold fs-6">April 1 - May 5</span>
+                                                    <span class="text-gray-900 fw-bold fs-6">April 1 - May 5</span>
                                                 </div>
                                                 <!--end::Text-->
                                             </div>
@@ -415,7 +415,7 @@
                                                 <!--begin::Text-->
                                                 <div class="d-flex flex-column text-end">
                                                     <span class="fw-boldest text-gray-800 fs-2">Earnings</span>
-                                                    <span class="text-gray-400 fw-bold fs-6">April 8 - May 5</span>
+                                                    <span class="text-gray-900 fw-bold fs-6">April 8 - May 5</span>
                                                 </div>
                                                 <!--end::Text-->
                                             </div>
@@ -452,7 +452,7 @@
                                                     <!--begin::Label-->
                                                     <div class="d-flex fs-6 fw-bold align-items-center mb-3">
                                                         <div class="bullet bg-primary me-3"></div>
-                                                        <div class="text-gray-400">Active</div>
+                                                        <div class="text-gray-900">Active</div>
                                                         <div class="ms-auto fw-boldest text-gray-700">
                                                             @php $counter=0; @endphp
                                                             @foreach ($orders as $order)
@@ -467,7 +467,7 @@
                                                     <!--begin::Label-->
                                                     <div class="d-flex fs-6 fw-bold align-items-center mb-3">
                                                         <div class="bullet bg-success me-3"></div>
-                                                        <div class="text-gray-400">Completed</div>
+                                                        <div class="text-gray-900">Completed</div>
                                                         <div class="ms-auto fw-boldest text-gray-700">
                                                             @php $counter=0; @endphp
                                                             @foreach ($orders as $order)
@@ -482,7 +482,7 @@
                                                     <!--begin::Label-->
                                                     <div class="d-flex fs-6 fw-bold align-items-center">
                                                         <div class="bullet bg-gray-300 me-3"></div>
-                                                        <div class="text-gray-400">Yet to start</div>
+                                                        <div class="text-gray-900">Yet to start</div>
                                                         <div class="ms-auto fw-boldest text-gray-700">
                                                             @php $counter=0; @endphp
                                                             @foreach ($orders as $order)
@@ -525,16 +525,25 @@
                                         </div>
                                         <!--end::Heading-->
                                         <!--begin::Balance-->
-                                        {{-- <div class="fw-bolder fs-7 text-center text-white pt-5">
-                                            You Balance
-                                            <span class="fw-boldest fs-2hx d-block mt-n1">KES. 37,562.00</span>
-                                        </div> --}}
+                                        <div class="fw-bolder fs-7 text-center text-white pt-3">
+                                            Company Balance
+                                            <span class="fw-boldest fs-2hx d-block mt-n1">$ {{ $companyBalance }}</span>
+                                        </div>
+                                        <div class="fw-bolder fs-7 text-center text-white pt-3">
+                                            Client's
+                                            <span class="fw-boldest fs-2hx d-block mt-n1">$ {{ $clientsCashflow }}</span>
+                                        </div>
+                                        <div class="fw-bolder fs-7 text-center text-white pt-3">
+                                            Writers
+                                            <span class="fw-boldest fs-2hx d-block mt-n1">$ {{ $writersCashflow }}</span>
+                                        </div>
+
                                         <!--end::Balance-->
                                     </div>
                                     <!--end::Header-->
                                     <!--begin::Items-->
                                     <div class="shadow-xs card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1 bg-white"
-                                        style="margin-top: -100px">
+                                        style="margin-top: 0px">
                                         <!--begin::Item-->
                                         <div class="d-flex align-items-center mb-9">
                                             <!--begin::Symbol-->
@@ -554,7 +563,7 @@
                                                 <div class="mb-1 pe-3 flex-grow-1">
                                                     <a href="{{route('clients')}}"
                                                         class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Clients</a>
-                                                    <div class="text-gray-400 fw-bold">
+                                                    <div class="text-gray-900 fw-bold">
 
                                                     </div>
                                                 </div>
@@ -596,7 +605,7 @@
                                                 <div class="mb-1 pe-3 flex-grow-1">
                                                     <a href="{{route('writers')}}"
                                                         class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Writers</a>
-                                                    <div class="text-gray-400 fw-bold">
+                                                    <div class="text-gray-900 fw-bold">
 
                                                     </div>
                                                 </div>
@@ -638,7 +647,7 @@
                                                 <div class="mb-1 pe-3 flex-grow-1">
                                                     <a href="{{route('staff')}}"
                                                         class="fs-4 text-gray-800 text-hover-primary fw-boldest">Online Staff</a>
-                                                    <div class="text-gray-400 fw-bold">
+                                                    <div class="text-gray-900 fw-bold">
 
                                                     </div>
                                                 </div>
@@ -681,7 +690,7 @@
                                                     <a href="#"
                                                         class="fs-4 text-gray-800 text-hover-primary fw-boldest">Essay
                                                         Report</a>
-                                                    <div class="text-gray-400 fw-bold">
+                                                    <div class="text-gray-900 fw-bold">
                                                         100 Pages
                                                     </div>
                                                 </div>
@@ -727,7 +736,7 @@
                                             <span class="card-label fw-boldest text-gray-800 fs-2">Pending
                                                 Orders</span>
 
-                                            <span class="text-gray-400 fw-bold mt-2 fs-6">
+                                            <span class="text-gray-900 fw-bold mt-2 fs-6">
                                                 {{count($pending_orders)}} Pending Order(s)
                                             </span>
 
@@ -801,7 +810,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$pending_order[$col['colName']]}}
+                                                                        class="text-gray-900 mb-1">{{$pending_order[$col['colName']]}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -826,7 +835,7 @@
                                                         <td class="p-0">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
-                                                                    <a href="#" class="text-gray-400 mb-1">
+                                                                    <a href="#" class="text-gray-900 mb-1">
                                                                         {{$pending_order[$col['relName']][$col['colName']]}}
                                                                     </a>
                                                                 </div>
@@ -843,7 +852,7 @@
                                                         <td class="p-0">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
-                                                                    <a href="#" class="text-gray-400 mb-1">
+                                                                    <a href="#" class="text-gray-900 mb-1">
                                                                         {{$pending_order[$col['colName']]}}
                                                                     </a>
                                                                 </div>
@@ -891,7 +900,7 @@
                                         <!--begin::Heading-->
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="card-label fw-boldest text-gray-800 fs-2">Cancelled Orders</span>
-                                            <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($cancelled)}}
+                                            <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($cancelled)}}
                                                 Order(s)</span>
                                         </h3>
                                         <!--end::Heading-->
@@ -967,7 +976,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$cancel->order_no}}
+                                                                        class="text-gray-900 mb-1">{{$cancel->order_no}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -976,11 +985,11 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$cancel->topic}}
+                                                                        class="text-gray-900 mb-1">{{$cancel->topic}}
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            {{-- <span class="text-gray-400 fw-bold">
+                                                            {{-- <span class="text-gray-900 fw-bold">
                                                                 Darknight transparency 36 Icons Pack</span> --}}
                                                         </td>
                                                         <td>
@@ -1028,7 +1037,7 @@
                                         <!--begin::Heading-->
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="card-label fw-boldest text-gray-800 fs-2">Orders In Progress</span>
-                                            <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($progress_orders)}}
+                                            <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($progress_orders)}}
                                                  Order(s)</span>
                                         </h3>
                                         <!--end::Heading-->
@@ -1105,7 +1114,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$progress_order->order->order_no}}
+                                                                        class="text-gray-900 mb-1">{{$progress_order->order->order_no}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1114,22 +1123,22 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$progress_order->order->topic}}
+                                                                        class="text-gray-900 mb-1">{{$progress_order->order->topic}}
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            {{-- <span class="text-gray-400 fw-bold">
+                                                            {{-- <span class="text-gray-900 fw-bold">
                                                                 Darknight transparency 36 Icons Pack</span> --}}
                                                         </td>
                                                         <td class="p-0">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">$ {{$progress_order->amount}}
+                                                                        class="text-gray-900 mb-1">$ {{$progress_order->amount}}
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            {{-- <span class="text-gray-400 fw-bold">
+                                                            {{-- <span class="text-gray-900 fw-bold">
                                                                 Darknight transparency 36 Icons Pack</span> --}}
                                                         </td>
                                                         <td>
@@ -1137,7 +1146,7 @@
 
                                                                 @if ($progress_order->order->status=='In progress')
                                                                 <span
-                                                                    wire:class="text-gray-400 me-2 fw-boldest mb-2">85%</span>
+                                                                    wire:class="text-gray-900 me-2 fw-boldest mb-2">85%</span>
                                                                 <div class="progress bg-light-info w-100 h-5px">
                                                                     <div class="progress-bar bg-info"
                                                                         role="progressbar" style="width: 85%"></div>
@@ -1193,7 +1202,7 @@
                                         <!--begin::Heading-->
                                         <h3 class="card-title align-items-start flex-column">
                                             <span class="card-label fw-boldest text-gray-800 fs-2">Completed Orders</span>
-                                            <span class="text-gray-400 fw-bold mt-2 fs-6">{{count($complete)}}
+                                            <span class="text-gray-900 fw-bold mt-2 fs-6">{{count($complete)}}
                                                 Order(s)</span>
                                         </h3>
                                         <!--end::Heading-->
@@ -1269,7 +1278,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$done->order_no}}
+                                                                        class="text-gray-900 mb-1">{{$done->order_no}}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1278,11 +1287,11 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ps-3">
                                                                     <a href="#"
-                                                                        class="text-gray-400 mb-1">{{$done->topic}}
+                                                                        class="text-gray-900 mb-1">{{$done->topic}}
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            {{-- <span class="text-gray-400 fw-bold">
+                                                            {{-- <span class="text-gray-900 fw-bold">
                                                                 Darknight transparency 36 Icons Pack</span> --}}
                                                         </td>
                                                         <td>
@@ -1290,7 +1299,7 @@
 
                                                                 @if ($done->status=='Complete')
                                                                 <span
-                                                                    wire:class="text-gray-400 me-2 fw-boldest mb-2">100%</span>
+                                                                    wire:class="text-gray-900 me-2 fw-boldest mb-2">100%</span>
                                                                 <div class="progress bg-light-info w-100 h-5px">
                                                                     <div class="progress-bar bg-success"
                                                                         role="progressbar" style="width: 100%"></div>

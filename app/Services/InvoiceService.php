@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\InvoiceSentEvent;
+use App\Models\GeneralNotification;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderBilling;
@@ -66,6 +67,11 @@ class InvoiceService {
 
             Order::where('id',  $order->id)
                     ->update(['status' => 'In progress']);
+            GeneralNotification::create([
+                'title'=>'Invoice Confirmed',
+                'description'=> $notification->order_no,
+                'user_group'=>'Admin_Editor',
+            ]);
             $success = true;
             if ($success) {
                 DB::commit();
@@ -78,15 +84,20 @@ class InvoiceService {
         }
 
     }
-    public function rejetcInvoice($notification_id)
+    public function rejetcInvoice($notification)
     {
         $success = false; //flag
         DB::beginTransaction();
         try {
 
             Notification::
-                where('id', $notification_id)
+                where('id', $notification->id)
                 ->update(['status' => 'rejected']);
+            GeneralNotification::create([
+                'title'=>'Invoice Rejected',
+                'description'=> $notification->order_no,
+                'user_group'=>'Admin_Editor',
+            ]);
             $success = true;
             if ($success) {
                 DB::commit();

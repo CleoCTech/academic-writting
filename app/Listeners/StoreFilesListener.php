@@ -10,6 +10,7 @@ use App\Models\GeneralNotification;
 use App\Models\TemporaryFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class StoreFilesListener
@@ -17,7 +18,8 @@ class StoreFilesListener
     public function handle($event)
     {
         if (session()->has('files')) {
-            foreach (session('files') as $i => $values) {
+            Log::info(session()->get('files'));
+            foreach (session()->get('files') as $i => $values) {
 
                 if (auth()->user()!=null) {
                     $from = 'company';
@@ -34,11 +36,10 @@ class StoreFilesListener
                             rmdir(storage_path('app/public/clients/tmp/' .$values['folder'] ));
                             $temporaryFile->delete();
                     }
-                    session()->forget('files');
-                    //send notification
-                    event( new OrderSubmittedEvent($event->order->order_no));
-                    return redirect('admin/dashboard');
-                }elseif(session()->get('LoggedClient')){
+                    //session()->forget('files');
+
+
+                } elseif(session()->get('LoggedClient')){
                     $from = 'client';
                     $file = ClientFile::Create([
                         'client_id' => $event->client_id,
@@ -56,7 +57,7 @@ class StoreFilesListener
                             $temporaryFile->delete();
                     }
 
-                    session()->forget('files');
+                    // session()->forget('files');
                     //send notification
                     // GeneralNotification::create([
                     //     'title'=>'Bid Created',
@@ -64,7 +65,7 @@ class StoreFilesListener
                     //     'user_group'=>'Admin_Editor',
                     // ]);
                     // event( new Orde)
-                    return redirect('client/dashboard');
+
                 }else{
                     $from = 'client';
                     $file = ClientFile::Create([
@@ -83,11 +84,22 @@ class StoreFilesListener
                             $temporaryFile->delete();
                     }
 
-                    session()->forget('files');
+
                     //send notification
                 }
 
             }
+            session()->forget('files');
+            if (auth()->user()!=null) {
+                //send notification
+                event( new OrderSubmittedEvent($event->order->order_no));
+                return redirect('admin/dashboard');
+            } elseif(session()->get('LoggedClient')){
+                return redirect('client/dashboard');
+            } else{
+                session()->forget('files');
+            }
+
 
         }
 

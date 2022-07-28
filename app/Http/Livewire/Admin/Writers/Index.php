@@ -30,7 +30,10 @@ class Index extends Component
         'isSelect' => true,
     ];
 
-    public $email, $email_verified_at, $firstname, $lastname, $about_short, $degree, $status, $created_at, $updated_at;
+    protected $listeners = [
+        'update_W_list_varView' =>'updateVarView'
+    ];
+    public $writer_id, $email, $email_verified_at, $firstname, $lastname, $about_short, $degree, $status, $created_at, $updated_at;
     public $online = false;
 
     public function mount(){
@@ -92,11 +95,10 @@ class Index extends Component
     }
     public function view($id)
     {
-        session()->put('viewId', $id);
-        session()->put('varView', 'application-details');
-        $this->emit('varView', 'application-details');
-        redirect()->route('applications');
+        $this->writer_id = $id;
+        $this->varView = 'writer-details';
     }
+
     public function chatbox($id)
     {
         $model = "App\Models\Writer";
@@ -108,5 +110,9 @@ class Index extends Component
             return redirect()->route('admin-chat');
         }
 
+    }
+    public function updateVarView($value)
+    {
+        $this->varView = $value;
     }
 }
