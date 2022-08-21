@@ -478,8 +478,7 @@
                             <div class="flex-stack mb-9">
                                 <div class=" align-items-center">
                                     <div class=" flex-column mb-4">
-                                        <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-3">Attache
-                                            Files</a>
+                                        <a class="text-gray-600 text-hover-primary fw-bolder fs-6 mb-3">Attached Files</a>
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -533,19 +532,19 @@
                                                 </div>
                                                 <script type="text/javascript">
                                                     const inputElement = document.querySelector('input[id="test"]');
-                                                                    const pond = FilePond.create( inputElement );
-                                                                    FilePond.setOptions({
-                                                                        server:{
-                                                                            url: '/upload',
-                                                                            headers: {
-                                                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                                            }
-                                                                        }
-                                                                    });
-                                                                    function resetPond(){
-                                                                    var pond = document.getElementById("test");
-                                                                    pond.removeFiles();
-                                                                    }
+                                                    const pond = FilePond.create( inputElement );
+                                                    FilePond.setOptions({
+                                                        server:{
+                                                            url: '/upload',
+                                                            headers: {
+                                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                            }
+                                                        }
+                                                    });
+                                                    function resetPond(){
+                                                        var pond = document.getElementById("test");
+                                                        pond.removeFiles();
+                                                    }
                                                 </script>
                                             </div>
                                             <div class="justify-around">
@@ -554,13 +553,15 @@
 
                                                     <button onclick="resetPond()" type="button"
                                                         class="btn-primary inline-flex items-center px-6 py-3 text-white leading-6 font-medium rounded-lg  focus:border-purple-300 transition ease-in-out duration-150"
-                                                        wire:click='store'>
+                                                        wire:click='store' wire.target='store'>
 
-                                                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                                        <svg wire.loading wire.target="back" wire:loading.class.remove="hidden" class=" hidden animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" x-data="{show: false}" x-show="show"
+                                                            viewBox="0 0 24 24"
+                                                            {{-- x-data="{show: false}" x-show="show"
                                                             x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false;}, 2000) })"
-                                                            style="display: none;">
+                                                            style="display: none; --}}
+                                                            ">
                                                             <circle class="opacity-25" cx="12" cy="12" r="10"
                                                                 stroke="currentColor" stroke-width="4"></circle>
                                                             <path class="opacity-75" fill="currentColor"
@@ -916,6 +917,11 @@
         </div>
     </div>
     <style>
+        [type=button], button {
+            -webkit-appearance: button;
+            background-color: #00A3FF;
+            background-image: none;
+        }
         .link-download:hover {
             text-decoration: underline !important;
             cursor: pointer;

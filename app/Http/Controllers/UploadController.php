@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TemporaryFile;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 class UploadController extends Controller
@@ -14,7 +15,6 @@ class UploadController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('paperFile')) {
-            // dd('yes');
             $files= $request->file('paperFile');
             foreach ($files as $key => $file) {
                 $filename = $file->getClientOriginalName();
@@ -26,6 +26,9 @@ class UploadController extends Controller
                     'filename' => $filename
                 ]);
 
+                if (!$tempFile) {
+                    Log::info("Could not create temporary file: " .$filename);
+                }
                 if(session('files') == null){
                     $xfiles = [];
                 }else{
